@@ -82,6 +82,7 @@ syntax match rpgleKeyword "z-add"
 syntax match rpgleKeyword "z-sub"
 
 syntax region rpgleString start="\v'" skip="\v\\." end="\v'"
+syntax match rpgleProcedure /\w\+\s*(/me=e-1
 
 syntax match rpgleComment "\v//.*$"
 syntax region rpgleComment start=/\v\/\*/ skip=/\v\\./ end=/\v\*\//
@@ -91,7 +92,8 @@ hi link rpgleConditional Conditional
 hi link rpgleRepeat Repeat
 hi link rpgleLabel Label
 hi link rpgleKeyword Keyword
-hi link rpgleFunction Function
+hi link rpgleBIF Function
+hi link rpgleProcedure Function
 hi link rpgleIdentifier Identifier
 hi link rpgleConstants Constant
 hi link rpgleString String
@@ -101,7 +103,7 @@ hi link rpgleComment Comment
 " Shared
 
 setlocal iskeyword+=%
-syntax keyword rpgleFunction %abs %addr %alloc %bitand %bitnot %bitor %bitxor %char %check %checkr %date %days
+syntax keyword rpgleBIF %abs %addr %alloc %bitand %bitnot %bitor %bitxor %char %check %checkr %date %days
 	\ %dec %dech %decpos %diff %div %editc %editflt %editw %elem %eof %equal %error %fields %float %found %graph
 	\ %hours %int %inth %kds %len %lookup %minutes %months %mseconds %nullind %occur %open %paddr %paddr %parms
 	\ %realloc %rem %replace %scan %seconds %shtdn %size %sqrt %status %str %str %str %subdt %this %time
