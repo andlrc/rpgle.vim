@@ -14,7 +14,7 @@ syntax match rpgleDSpecSize "\v[ 0-9]{14}" nextgroup=rpgleDSpecType contained
 syntax match rpgleDSpecType "\v." nextgroup=rpgleDSpecDecPrec contained
 syntax match rpgleDSpecDecPrec "\v [ 0-9] ?" nextgroup=rpgleDSpecKeyword contained
 syntax match rpgleDSpecKeyword "\v.{0,37}" nextgroup=rpgleDSpecComment contained
-syntax match rpgleDSpecComment "\v.*$" contained
+syntax match rpgleDSpecComment "\v.*$" contains=rpgleTodo contained
 
 syntax match rpgleDSpecNameLong "\v *[^ ]+\.\.\." contained
 
@@ -34,7 +34,7 @@ syntax match rpglePSpecHead "\v^P" nextgroup=rpglePSpecName,rpglePSpecNameLong
 syntax match rpglePSpecName "\v.{15}" nextgroup=rpglePSpecB contained
 syntax match rpglePSpecB "\v[ ]{2}B" nextgroup=rpglePSpecKeyword contained
 syntax match rpglePSpecKeyword "\v[ ]{19}.{0,37}" nextgroup=rpglePSpecComment contained
-syntax match rpglePSpecComment "\v.*$" contained
+syntax match rpglePSpecComment "\v.*$" contains=rpgleTodo contained
 
 syntax match rpglePSpecNameLong "\v *[^ ]+\.\.\." contained
 
@@ -47,7 +47,7 @@ hi link rpglePSpecComment Comment
 hi link rpglePSpecNameLong Identifier
 
 " Fixed Format Comments
-syntax match rpgleComment "\v^[HDFICOP]\*.*$"
+syntax match rpgleComment "\v^[HDFICOP]\*.*$" contains=rpgleTodo
 
 " Free Format
 syntax match rpgleOperator "\v\+"
@@ -84,8 +84,8 @@ syntax match rpgleKeyword "z-sub"
 syntax region rpgleString start="\v'" skip="\v\\." end="\v'"
 syntax match rpgleProcedure /\w\+\s*(/me=e-1
 
-syntax match rpgleComment "\v//.*$"
-syntax region rpgleComment start=/\v\/\*/ skip=/\v\\./ end=/\v\*\//
+syntax match rpgleComment "\v//.*$" contains=rpgleTodo
+syntax region rpgleComment start=/\v\/\*/ skip=/\v\\./ end=/\v\*\// contains=rpgleTodo
 
 hi link rpgleOperator Operator
 hi link rpgleConditional Conditional
@@ -99,6 +99,7 @@ hi link rpgleConstants Constant
 hi link rpgleString String
 hi link rpgleInclude Include
 hi link rpgleComment Comment
+hi link rpgleTodo Todo
 
 " Shared
 
@@ -131,3 +132,5 @@ syntax match rpgleConstants "\v\*ZEROS"
 syntax match rpgleConstants "\v\*HIVAL"
 syntax match rpgleConstants "\v\*LOVAL"
 syntax match rpgleConstants "\v\*NULL"
+
+syntax match rpgleTodo "\v(TODO|FIXME)"
