@@ -51,6 +51,7 @@ syntax match rpgleComment "\v^[HDFICOP]\*.*$"
 
 " Free Format
 syntax match rpgleOperator "\v\+"
+syntax match rpgleOperator "\v\."
 syntax match rpgleOperator "\v\-"
 syntax match rpgleOperator "\v\*"
 syntax match rpgleOperator "\v\/"
