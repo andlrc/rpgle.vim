@@ -83,6 +83,48 @@ syntax match rpgleKeyword "z-sub"
 
 syntax match rpgleNumber "\v\d"
 
+" Exec sql
+syntax match rpgleExecSqlHead "\vexec[ \n\t]+sql[\n\t ]+" nextgroup=rpgleExecSqlRegion
+syntax region rpgleExecSqlRegion start="" skip="\v\\." end=";" contains=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlFill "\v[^ \n\t;]+[ \n\t]*" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(ADD|AFTER|ALL|ALLOCATE|ALLOW|ALTER|AND|ANY|AS|ASENSITIVE|ASSOCIATE|ASUTIME|AT|AUDIT|AUX|AUXILIARY|BEFORE)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(BEGIN|BETWEEN|BUFFERPOOL|BY|CALL|CAPTURE|CASCADED|CASE|CAST|CCSID|CHAR|CHARACTER|CHECK|CLONE|CLOSE|CLUSTER)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(COLLECTION|COLLID|COLUMN|COMMENT|COMMIT|CONCAT|CONDITION|CONNECT|CONNECTION|CONSTRAINT|CONTAINS|CONTENT)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(CONTINUE|CREATE|CURRENT|CURRENT_DATE|CURRENT_LC_CTYPE|CURRENT_PATH|CURRENT_SCHEMA|CURRENT_TIME)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(CURRENT_TIMESTAMP|CURSOR|DATA|DATABASE|DAY|DAYS|DBINFO|DECLARE|DEFAULT|DELETE|DESCRIPTOR|DETERMINISTIC)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(DISABLE|DISALLOW|DISTINCT|DO|DOCUMENT|DOUBLE|DROP|DSSIZE|DYNAMIC|EDITPROC|ELSE|ELSEIF|ENCODING|ENCRYPTION)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(END|ENDING|END-EXEC2|ERASE|ESCAPE|EXCEPT|EXCEPTION|EXECUTE|EXISTS|EXIT|EXPLAIN|EXTERNAL|FENCED|FETCH)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(FIELDPROC|FINAL|FOR|FREE|FROM|FULL|FUNCTION|GENERATED|GET|GLOBAL|GO|GOTO|GRANT|GROUP|HANDLER|HAVING|HOLD)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(HOUR|HOURS|IF|IMMEDIATE|IN|INCLUSIVE|INDEX|INHERIT|INNER|INOUT|INSENSITIVE|INSERT|INTERSECT|INTO|IS|ISOBID)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(ITERATE|JAR|JOIN|KEEP|KEY|LABEL|LANGUAGE|LC_CTYPE|LEAVE|LEFT|LIKE|LOCAL|LOCALE|LOCATOR|LOCATORS|LOCK)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(LOCKMAX|LOCKSIZE|LONG|LOOP|MAINTAINED|MATERIALIZED|MICROSECOND|MICROSECONDS|MINUTE|MINUTES|MODIFIES|MONTH)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(MONTHS|NEXTVAL|NO|NONE|NOT|NULL|NULLS|NUMPARTS|OBID|OF|ON|OPEN|OPTIMIZATION|OPTIMIZE|OR|ORDER|OUT|OUTER)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(PACKAGE|PARAMETER|PART|PADDED|PARTITION|PARTITIONED|PARTITIONING|PATH|PIECESIZE|PLAN|PRECISION|PREPARE)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(PREVVAL|PRIQTY|PRIVILEGES|PROCEDURE|PROGRAM|PSID|PUBLIC|QUERY|QUERYNO|READS|REFERENCES|REFRESH|RESIGNAL)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(RELEASE|RENAME|REPEAT|RESTRICT|RESULT|RESULT_SET_LOCATOR|RETURN|RETURNS|REVOKE|RIGHT|ROLE|ROLLBACK)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(ROUND_CEILING|ROUND_DOWN|ROUND_FLOOR|ROUND_HALF_DOWN|ROUND_HALF_EVEN|ROUND_HALF_UP|ROUND_UP|ROW|ROWSET)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(RUN|SAVEPOINT|SCHEMA|SCRATCHPAD|SECOND|SECONDS|SECQTY|SECURITY|SEQUENCE|SELECT|SENSITIVE|SESSION_USER|SET)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(SIGNAL|SIMPLE|SOME|SOURCE|SPECIFIC|STANDARD|STATIC|STATEMENT|STAY|STOGROUP|STORES|STYLE|SUMMARY|SYNONYM)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(TABLE|TABLESPACE|THEN|TO|TRIGGER|TRUNCATE|TYPE|UNDO|UNION|UNIQUE|UNTIL|UPDATE|USER|USING|VALIDPROC|VALUE)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(VALUES|VARIABLE|VARIANT|VCAT|VIEW|VOLATILE|VOLUMES|WHEN|WHENEVER|WHERE|WHILE|WITH|WLM|XMLEXISTS)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlKeyword "\v<(XMLNAMESPACES|XMLCAST|YEAR|YEARS)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlInfo "\v\:" nextgroup=rpgleExecSqlIdentifier contained
+syntax match rpgleExecSqlIdentifier "\v[\n\t ]*\w+" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlUDTF /\w\+\s*(/me=e-1 nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax region rpgleExecSqlString start="\v'" skip="\v\\." end="\v'" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax region rpgleExecSqlColumnName start="\v\"" skip="\v\\." end="\v\"" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+
+hi link rpgleExecSqlRegion Include
+hi link rpgleExecSqlHead Keyword
+hi link rpgleExecSqlKeyword Keyword
+hi link rpgleExecSqlInto Operator
+hi link rpgleExecSqlIntoSep Operator
+hi link rpgleExecSqlIdentifier Identifier
+hi link rpgleExecSqlUDTF Function
+hi link rpgleExecSqlString String
+hi link rpgleExecSqlColumnName Constant
+
+" String, etc...
 syntax region rpgleString start="\v'" skip="\v\\." end="\v'"
 syntax match rpgleProcedure /\w\+\s*(/me=e-1
 
