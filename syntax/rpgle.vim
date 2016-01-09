@@ -81,6 +81,8 @@ syntax keyword rpgleKeyword not acq add adddur alloc and bitoff biton cab call c
 syntax match rpgleKeyword "z-add"
 syntax match rpgleKeyword "z-sub"
 
+syntax match rpgleNumber "\v\d"
+
 syntax region rpgleString start="\v'" skip="\v\\." end="\v'"
 syntax match rpgleProcedure /\w\+\s*(/me=e-1
 
@@ -92,6 +94,7 @@ hi link rpgleConditional Conditional
 hi link rpgleRepeat Repeat
 hi link rpgleLabel Label
 hi link rpgleKeyword Keyword
+hi link rpgleNumber Number
 hi link rpgleBIF Function
 hi link rpgleProcedure Function
 hi link rpgleIdentifier Identifier
