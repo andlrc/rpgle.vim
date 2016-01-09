@@ -67,7 +67,7 @@ syntax match rpgleOperator "\v\bAND\b"
 syntax match rpgleOperator "\v\bOR\b"
 
 syntax keyword rpgleConditional if else elseif endif
-syntax keyword rpgleRepeat for do dow dou enddo
+syntax keyword rpgleRepeat do dow dou enddo for to endfor
 syntax keyword rpgleLabel select when other endsl
 syntax keyword rpgleLabel begsr endsr exsr
 
