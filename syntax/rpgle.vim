@@ -204,6 +204,9 @@ syntax match rpgleIdentifier "\v\*INLR>"
 syntax match rpgleIdentifier "\v\*INU[1-8]>"
 syntax match rpgleIdentifier "\v\*INRT>"
 
+syntax match rpgleIdentifier "\v<sqlcode>"
+syntax match rpgleIdentifier "\v<SQLWARN0>"
+
 syntax match rpgleConstants "\v\*ON>"
 syntax match rpgleConstants "\v\*OFF>"
 syntax match rpgleConstants "\v\*ENTRY>"
