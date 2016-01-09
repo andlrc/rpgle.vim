@@ -5,7 +5,44 @@ endif
 syn case ignore
 let b:current_syntax = "rpgle"
 
+" Fixed Format FSpec
+" FFilename++IPEASFRlen+LKlen+AIDevice+.Keywords+++++++++++++++++++++++++++++Comments++++++++++++
+syntax match rpgleFSpecHead "\v^F" nextgroup=rpgleFSpecName
+syntax match rpgleFSpecName "\v.{10}" nextgroup=rpgleFSpecType contained
+syntax match rpgleFSpecType "\v[IOUC]" nextgroup=rpgleFSpecDesignation contained
+syntax match rpgleFSpecDesignation "\v[ PSRTF]" nextgroup=rpgleFSpecEOF contained
+syntax match rpgleFSpecEOF "\v[E ]" nextgroup=rpgleFSpecAddition contained
+syntax match rpgleFSpecAddition "\v[ A]" nextgroup=rpgleFSpecSequence contained
+syntax match rpgleFSpecSequence "\v[A D]" nextgroup=rpgleFSpecFormat contained
+syntax match rpgleFSpecFormat "\v[FE]" nextgroup=rpgleFSpecRecordLength contained
+syntax match rpgleFSpecRecordLength "\v[0-9 ]{5}" nextgroup=rpgleFSpecLimitProcessing contained
+syntax match rpgleFSpecLimitProcessing "\v[L ]" nextgroup=rpgleFSpecKeyLength contained
+syntax match rpgleFSpecKeyLength "\v[ 0-9]{5}" nextgroup=rpgleFSpecRecordAddrType contained
+syntax match rpgleFSpecRecordAddrType "\v[ APGKDTZF]" nextgroup=rpgleFSpecOrganization contained
+syntax match rpgleFSpecOrganization "\v[ IT]" nextgroup=rpgleFSpecDevice contained
+syntax match rpgleFSpecDevice "\v.{0,7} " nextgroup=rpgleFSpecKeyword contained
+syntax match rpgleFSpecKeyword "\v.{0,37}" nextgroup=rpgleFSpecComment contained
+syntax match rpgleFSpecComment "\v.*$" contained
+
+hi link rpgleFSpecHead Constant
+hi link rpgleFSpecName Identifier
+hi link rpgleFSpecType SpecialChar
+hi link rpgleFSpecDesignation Type
+hi link rpgleFSpecEOF SpecialChar
+hi link rpgleFSpecAddition Type
+hi link rpgleFSpecSequence SpecialChar
+hi link rpgleFSpecFormat Type
+hi link rpgleFSpecRecordLength Number
+hi link rpgleFSpecLimitProcessing SpecialChar
+hi link rpgleFSpecKeyLength Number
+hi link rpgleFSpecRecordAddrType SpecialChar
+hi link rpgleFSpecOrganization Type
+"hi link rpgleFSpecDevice
+hi link rpgleFSpecKeyword Statement
+hi link rpgleFSpecComment Comment
+
 " Fixed Format DSpec
+" DName+++++++++++ETDsFrom+++To/L+++IDc.Keywords+++++++++++++++++++++++++++++Comments++++++++++++
 syntax match rpgleDSpecHead "\v^D" nextgroup=rpgleDSpecName,rpgleDSpecNameLong
 
 syntax match rpgleDSpecName "\v.{15}" nextgroup=rpgleDSpecETDS contained
@@ -30,6 +67,7 @@ hi link rpgleDSpecComment Comment
 hi link rpgleDSpecNameLong Identifier
 
 " Fixed Format PSpec
+" PName+++++++++++..B...................Keywords+++++++++++++++++++++++++++++Comments++++++++++++
 syntax match rpglePSpecHead "\v^P" nextgroup=rpglePSpecName,rpglePSpecNameLong
 syntax match rpglePSpecName "\v.{15}" nextgroup=rpglePSpecB contained
 syntax match rpglePSpecB "\v[ ]{2}B" nextgroup=rpglePSpecKeyword contained
