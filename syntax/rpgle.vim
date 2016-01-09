@@ -119,7 +119,7 @@ syntax keyword rpgleKeyword not acq add adddur alloc and bitoff biton cab call c
 syntax match rpgleKeyword "z-add"
 syntax match rpgleKeyword "z-sub"
 
-syntax match rpgleNumber "\v\d"
+syntax match rpgleNumber "\v<[0-9]+>"
 
 " Exec sql
 syntax match rpgleExecSqlHead "\vexec[ \n\t]+sql[\n\t ]+" nextgroup=rpgleExecSqlRegion
