@@ -147,7 +147,7 @@ syntax match rpgleExecSqlKeyword "\v<(TABLE|TABLESPACE|THEN|TO|TRIGGER|TRUNCATE|
 syntax match rpgleExecSqlKeyword "\v<(VALUES|VARIABLE|VARIANT|VCAT|VIEW|VOLATILE|VOLUMES|WHEN|WHENEVER|WHERE|WHILE|WITH|WLM|XMLEXISTS)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
 syntax match rpgleExecSqlKeyword "\v<(XMLNAMESPACES|XMLCAST|YEAR|YEARS)>" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
 syntax match rpgleExecSqlInfo "\v\:" nextgroup=rpgleExecSqlIdentifier contained
-syntax match rpgleExecSqlIdentifier "\v[\n\t ]*\w+" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
+syntax match rpgleExecSqlIdentifier "\v[\n\t ]*[^ \n\t\,; ]+" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
 syntax match rpgleExecSqlUDTF /\w\+\s*(/me=e-1 nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
 syntax region rpgleExecSqlString start="\v'" skip="\v\\." end="\v'" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
 syntax region rpgleExecSqlColumnName start="\v\"" skip="\v\\." end="\v\"" nextgroup=rpgleExecSqlFill,rpgleExecSqlKeyword,rpgleExecSqlInfo,rpgleExecSqlUDTF,rpgleExecSqlString,rpgleExecSqlColumnName contained
