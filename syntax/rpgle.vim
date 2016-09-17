@@ -30,8 +30,8 @@ syntax region rpgleOther       contained matchgroup=rpgleSwitch      start=/\v<o
 
 syntax region rpgleSub                   matchgroup=rpgleLabel       start=/\v<begsr>/        end=/\v<endsr>/                             contains=@rpgleNest extend fold
 
-syntax region rpgleDclProc               matchgroup=rpgleLabel       start=/\v<dcl-proc>/      end=/\v<end-proc>/                          contains=@rpgleNest,rpgleDclPi extend fold
-syntax region rpgleDclPi                 matchgroup=rpgleLabel       start=/\v<dcl-pi>/      end=/\v<end-pi>/                              contains=@rpgleNest extend fold
+syntax region rpgleDclProc               matchgroup=rpgleLabel       start=/\v<dcl-proc>/     end=/\v<end-proc>/                          contains=@rpgleNest,rpgleDclPi extend fold
+syntax region rpgleDclPi                 matchgroup=rpgleLabel       start=/\v<dcl-pi>/       end=/\v<end-pi>/                            contains=@rpgleNest extend fold
 
 " All the groups than can be nested, eg. doesn't need to be on the outer most layer
 syntax cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,rpgleProcedure,rpgleComment,rpgleIf,rpgleElseIf,rpgleElse,rpgleDo,rpgleFor,rpgleSelect
