@@ -13,7 +13,7 @@ syntax match  rpgleNumber                /\v<[0-9]+>/
 syntax region rpgleString                start=/'/hs=s+1 skip=/''/ end=/'/he=e-1
 syntax match  rpgleOperator              /\v[-.*/=><]|\*\*|\<\>|\>\=|\<\=|<NOT>|<AND>|<OR>/
 syntax match  rpgleProcedure             /\v\a+\s*\ze\(/
-syntax match  rpgleComment               "\v//.*$" contains=rpgleTodo
+syntax match  rpgleComment               /\v\/\/.*/ contains=rpgleTodo
 syntax region rpgleComment               start=/\v\/\*/ end=/\v\*\// contains=rpgleTodo
 syntax match  rpgleTodo        contained "\v(TODO|FIXME)"
 
