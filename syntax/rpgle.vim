@@ -14,7 +14,7 @@ syn case ignore
 let b:current_syntax = "rpgle"
 setlocal iskeyword+=%,-
 
-sy region rpgleInclude   start=/\v^\/(include|copy)/ end=/\v\n(^\/(include|copy))@!/ extend fold
+sy region rpgleInclude   start=/\v^\/(include|copy)/ end=/\v\ze\n(^\/(include|copy))@!/ extend fold
 sy match  rpgleNumber    /\v<[0-9]+>/
 sy region rpgleString    start=/'/hs=s+1  skip=/''/  end=/'/he=e-1
 sy match  rpgleOperator  /\v(\*\*|\<\>|\>\=|\<\=|<NOT>|<AND>|<OR>|[-.*=><])/
@@ -46,7 +46,7 @@ sy region rpgleSub     matchgroup=rpgleLabel start=/\v<begsr>/    end=/\v<endsr>
 
 " dcl-*
 " TODO Figure out why the below break dcl-proc ... end-proc fold
-" sy region rpgleDclList start=/\vdcl-(s|ds|pr|c)>/ end=/\v\n(.*dcl-(s|ds|pr|c)>)@!/ extend fold
+sy region rpgleDclList start=/\vdcl-(s|ds|pr|c)>/ end=/\v\ze\n(.*dcl-(s|ds|pr|c)>)@!/ extend fold
 
 sy match  rpgleBIF /\v\%(ABS|ADDR|ALLOC|CHAR|CHECK|CHECKR|DATE|DAYS|DEC|DECH|DECPOS|DIFF|DIV|EDITC|EDITFLT|EDITW|ELEM|EOF|EQUAL|ERROR|FLOAT|FOUND|GRAPH|HOURS|INT|INTH|LEN|LOOKUPxx|MINUTES|MONTHS|MSECONDS|NULLIND|OCCUR|OPEN|PADDR|PARMS|REALLOC|REM|REPLACE|SCAN|SECONDS|SHTDN|SIZE|SQRT|STATUS|STR|SUBDT|SUBST|THIS|TIME|TIMESTAMP|TLOOKUPxx|TRIM|TRIML|TRIMR|UCS2|UNS|UNSH|XFOOT|XLATE|YEARS)/
 
