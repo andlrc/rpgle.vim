@@ -6,8 +6,8 @@ Screenshot
 
 ![Demo view](/demo.png)
 
-RPGLE bundle for vim, this bundle provides syntax highlighting, syntax folds and
-more match words.
+RPGLE bundle for vim, this bundle provides syntax highlighting, syntax folds,
+auto indent and more match words.
 
 Installation
 ------------
