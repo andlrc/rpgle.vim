@@ -28,9 +28,8 @@ sy match  rpgleConstant  /\v\*(ON|OFF|ENTRY|ALL|BLANKS|BLANK|ZEROS|ZERO|HIVAL|LO
 sy match  rpgleKeywords  /\v<ctl-opt>/
 
 " if -> elseif -> else -> endif
-sy region rpgleIf     matchgroup=rpgleConditional start=/\v<if>/     end=/\v(\ze\n\s*(<elseif>|<else>)|<endif>)/ contains=@rpgleNest extend fold
-sy region rpgleElseIf matchgroup=rpgleConditional start=/\v<elseif>/ end=/\v(\ze\n\s*(<elseif>|<else>)|<endif>)/ contains=@rpgleNest extend fold
-sy region rpgleElse   matchgroup=rpgleConditional start=/\v<else>/   end=/\v<endif>/                             contains=@rpgleNest extend fold
+sy region rpgleIf   matchgroup=rpgleConditional start=/\v<if>/ end=/\v<endif>/ contains=@rpgleNest extend fold
+sy match  rpgleElse /\v<else>|<elseif>/
 
 " do[uw] ... endd and for ... endfor
 sy region rpgleDo  matchgroup=rpgleRepeat start=/\v<do[wu]>/ end=/\v<enddo>/  contains=@rpgleNest extend fold
@@ -67,6 +66,7 @@ hi link rpgleComment     Comment
 hi link rpgleTodo        Todo
 hi link rpgleConstant    Constant
 
+hi link rpgleElse        rpgleConditional
 hi link rpgleConditional Conditional
 hi link rpgleRepeat      Repeat
 hi link rpgleSwitch      Label
