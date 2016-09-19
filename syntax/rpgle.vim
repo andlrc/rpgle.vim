@@ -2,7 +2,7 @@
 " Language:             Free RPGLE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Sep 19, 2016
-" Version:              23
+" Version:              24
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 " quit when a syntax file was already loaded {{{1
@@ -44,19 +44,31 @@ sy region rpgleOther  matchgroup=rpgleSwitch start=/\v<other>/  end=/\v\ze\n\s*<
 sy region rpgleSql matchgroup=rpgleLabel start=/\v<exec\_s+sql>/ end=/\v;/ contains=@rpgleSql
 
 " dlc-proc, dcl-pi, begsr
-sy region rpgleDclProc matchgroup=rpgleLabel start=/\v<dcl-proc>/ end=/\v<end-proc>/ contains=@rpgleNest,rpgleDclPi,rpgleSub,rpgleDclList extend fold
-sy region rpgleDclPi   matchgroup=rpgleLabel start=/\v<dcl-pi>/   end=/\v<end-pi>/   contains=@rpgleNest extend fold
+sy region rpgleDclProc matchgroup=rpgleLabel start=/\v<dcl-proc>/ end=/\v<end-proc>/ contains=@rpgleNest,rpgleSub,rpgleDclList extend fold
 sy region rpgleSub     matchgroup=rpgleLabel start=/\v<begsr>/    end=/\v<endsr>/    contains=@rpgleNest extend fold
 
 " dcl-*
-sy region rpgleDclList start=/\vdcl-(s|ds|pr|c)>/ end=/\v\ze\n(.*dcl-(s|ds|pr|c)>)@!/ extend fold
+sy region  rpgleDclList     matchgroup=rpgleDclKeywords start=/\v<dcl-(s|c)>/ end=/\v\ze\n(.*dcl-(s|c)>)@!/      contains=@rpgleDclProps extend fold
+sy region  rpgleDclList     matchgroup=rpgleDclKeywords start=/\v<dcl-pi>/    end=/\v<end-pi>/                   contains=@rpgleDclProps extend fold
+sy region  rpgleDclList     matchgroup=rpgleDclKeywords start=/\v<dcl-pr>/    end=/\v<end-pr>/                   contains=@rpgleDclProps extend fold
+sy region  rpgleDclList     matchgroup=rpgleDclKeywords start=/\v<dcl-ds>/    end=/\v(<end-ds>|\ze\n(.*dcl-)@=)/ contains=@rpgleDclProps,rpgleDclTypeDs extend fold
 
+sy match   rpgleDclKeywords /\v(<dcl-(s|c|pr|ds)>|<end-(pr|cs)>)/                                                extend contained
+sy match   rpgleDclTypes    /\v<(like|likeds|char|varchar|ucs2|varucs2|graph|vargraph|packed|zoned|bindec|int|uns|float|date|time|pointer|object|const)>\s*\ze\(/ extend contained
+sy match   rpgleDclTypes    /\v<(ind|date|time|timestamp|pointer)/ extend contained
+
+sy match   rpgleDclTypeDs   /\v<(likerec|len|extName|based)>\s*\ze\(/ extend contained
+sy match   rpgleDclTypeDs   /\v<qualified>/                           extend contained
+
+sy cluster rpgleDclProps    contains=rpgleDclKeywords,rpgleDclTypes,rpgleNumber,rpgleString
+
+" Build In Functions
 sy match  rpgleBIF /\v\%(ABS|ADDR|ALLOC|CHAR|CHECK|CHECKR|DATE|DAYS|DEC|DECH|DECPOS|DIFF|DIV|EDITC|EDITFLT|EDITW|ELEM|EOF|EQUAL|ERROR|FLOAT|FOUND|GRAPH|HOURS|INT|INTH|LEN|LOOKUPxx|MINUTES|MONTHS|MSECONDS|NULLIND|OCCUR|OPEN|PADDR|PARMS|REALLOC|REM|REPLACE|SCAN|SECONDS|SHTDN|SIZE|SQRT|STATUS|STR|SUBDT|SUBST|THIS|TIME|TIMESTAMP|TLOOKUPxx|TRIM|TRIML|TRIMR|UCS2|UNS|UNSH|XFOOT|XLATE|YEARS)/
 
 " All the groups than can be nested, eg. doesn't need to be on the outer most layer
 sy cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,rpgleProcedure,rpgleComment,rpgleIf,rpgleElseIf,rpgleElse,rpgleDo,rpgleFor,rpgleSelect,rpgleKeywords,rpgleConstant,rpgleBIF,rpgleSql
 
-hi link rpgleInclude     Include
+hi link rpgleInclude      Include
 
 hi link rpgleNumber      Number
 hi link rpgleString      String
@@ -72,6 +84,10 @@ hi link rpgleRepeat      Repeat
 hi link rpgleSwitch      Label
 
 hi link rpgleKeywords    Label
+
+hi link rpgleDclKeywords Label
+hi link rpgleDclTypes    Function
+hi link rpgleDclTypeDs   Function
 
 hi link rpgleLabel       Label
 hi link rpgleBIF         Function
