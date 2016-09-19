@@ -1,6 +1,11 @@
 rpgle.vim
 =========
 
+Screenshot
+----------
+
+![Demo view](/demo.png)
+
 RPGLE bundle for vim, this bundle provides syntax highlighting, syntax folds and
 more match words.
 
