@@ -24,7 +24,7 @@ sy match  rpgleProcedure /\v(\%)@<!<\w+\s*\ze\(/
 sy match  rpgleComment   /\v\/\/.*/                                                  contains=rpgleTodo
 sy region rpgleComment   start=/\v\/\*/              end=/\v\*\//                    contains=rpgleTodo
 sy match  rpgleTodo      /\v(TODO|FIXME)/                                            contained
-sy match  rpgleConstant  /\v\*(ON|OFF|ENTRY|ALL|BLANKS|BLANK|ZEROS|ZERO|HIVAL|LOVAL|NULL)/
+sy match  rpgleConstant  /\v\*(ON|OFF|ENTRY|ALL|BLANKS|BLANK|ZEROS|ZERO|HIVAL|LOVAL|NULL)>/
 sy match  rpgleKeywords  /\v<(ctl-opt|exsr|return)>/
 
 " if -> elseif -> else -> endif
@@ -61,7 +61,7 @@ sy region  rpgleDclList       matchgroup=rpgleDclKeywords start=/\v<dcl-ds>/    
 sy match   rpgleDclTypes      /\v<(dim|like|likeds|char|varchar|ucs2|varucs2|graph|vargraph|packed|zoned|bindec|int|uns|float|date|time|pointer|object|const)>\s*\ze\(/ extend contained
 sy match   rpgleDclTypes      /\v<(ind|date|time|timestamp|pointer)/        extend contained
 sy match   rpgleDclKeywords   /\v<(dcl-(s|c|pr|ds)|end-(pr|cs)|inz)>/       extend contained
-sy cluster rpgleDclProps      contains=rpgleDclTypes,rpgleDclKeywords,rpgleNumber,rpgleString
+sy cluster rpgleDclProps      contains=rpgleDclTypes,rpgleDclKeywords,rpgleNumber,rpgleString,rpgleConstant
 
 sy match   rpgleDclPiType     /\v<(extproc|options)>\s*\ze\(/               extend contained
 sy match   rpgleDclPiKeywords /\v<(options)>\s*\ze\(/                       extend contained
