@@ -16,16 +16,17 @@ syn case ignore
 let b:current_syntax = "rpgle"
 setlocal iskeyword+=-
 
-sy region rpgleInclude   start=/\v^\/(include|copy)/ end=/\v\ze\n(^\/(include|copy))@!/ extend fold
-sy match  rpgleNumber    /\v<[0-9]+>/
-sy region rpgleString    start=/'/hs=s+1  skip=/''/  end=/'/he=e-1
-sy match  rpgleOperator  /\v(\*\*|\<\>|\>\=|\<\=|<NOT>|<AND>|<OR>|[-.*=><])/
-sy match  rpgleProcedure /\v(\%)@<!<\w+\s*\ze\(/
-sy match  rpgleComment   /\v\/\/.*/                                                  contains=rpgleTodo
-sy region rpgleComment   start=/\v\/\*/              end=/\v\*\//                    contains=rpgleTodo
-sy match  rpgleTodo      /\v(TODO|FIXME)/                                            contained
-sy match  rpgleConstant  /\v\*(ON|OFF|ENTRY|ALL|BLANKS|BLANK|ZEROS|ZERO|HIVAL|LOVAL|NULL)>/
-sy match  rpgleKeywords  /\v<(ctl-opt|exsr|return)>/
+sy region rpgleInclude    start=/\v^\/(include|copy)/ end=/\v\ze\n(^\/(include|copy))@!/ extend fold
+sy match  rpgleNumber     /\v<[0-9]+>/
+sy region rpgleString     start=/'/hs=s+1  skip=/''/  end=/'/he=e-1
+sy match  rpgleOperator   /\v(\*\*|\<\>|\>\=|\<\=|<NOT>|<AND>|<OR>|[-.*=><])/
+sy match  rpgleProcedure  /\v(\%)@<!<\w+\s*\ze\(/
+sy match  rpgleComment    /\v\/\/.*/                                                  contains=rpgleTodo
+sy region rpgleComment    start=/\v\/\*/              end=/\v\*\//                    contains=rpgleTodo
+sy match  rpgleTodo       /\v(TODO|FIXME)/                                            contained
+sy match  rpgleConstant   /\v\*(ON|OFF|ENTRY|ALL|BLANKS|BLANK|ZEROS|ZERO|HIVAL|LOVAL|NULL)>/
+sy match  rpgleIdentifier /\v\*(IN0[1-9]|IN[1-9][0-9]|INH[1-9]|INL[1-9]|INLR|INU[1-8]|INRT)>/
+sy match  rpgleKeywords   /\v<(ctl-opt|exsr|return)>/
 
 " if -> elseif -> else -> endif
 sy region rpgleIf   matchgroup=rpgleConditional start=/\v<if>/ end=/\v<endif>/ contains=@rpgleNest extend fold
@@ -95,6 +96,7 @@ hi link rpgleProcedure     Function
 hi link rpgleComment       Comment
 hi link rpgleTodo          Todo
 hi link rpgleConstant      Constant
+hi link rpgleIdentifier    Identifier
 
 hi link rpgleElse          rpgleConditional
 hi link rpgleConditional   Conditional
