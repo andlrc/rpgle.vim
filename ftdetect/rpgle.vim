@@ -12,4 +12,4 @@ endif
 
 let b:did_ftdetect = 1
 
-au BufNewFile,BufRead *.rpgle setlocal filetype=rpgle
+au BufNewFile,BufRead *.rpgle,*.sqlrpgle setlocal filetype=rpgle
