@@ -95,8 +95,8 @@ hi link rpgleSwitch      Label
 hi link rpgleKeywords    Label
 
 hi link rpgleDclKeywords Label
-hi link rpgleDclTypes    Function
-hi link rpgleDclTypeDs   Function
+hi link rpgleDclTypes    Type
+hi link rpgleDclTypeDs   Type
 
 hi link rpgleLabel       Label
 hi link rpgleBIF         Function
