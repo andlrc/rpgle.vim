@@ -14,6 +14,7 @@ let b:did_ftplugin = 1
 
 let b:match_words = '\<select\>:\<when\>:\<endsl\>,'
       \ . '\<if\>:\<elseif\>:\<else\>:\<endif\>,'
+      \ . '\<do[uw]\>:\<iter\>:\<leave\>:\<enddo\>,'
       \ . '\<begsr\>:\<endsr\>,'
       \ . '\<dcl-proc\>:\<return\>:\<end-proc\>,'
       \ . '\<dcl-pi\>:\<end-pi\>,'
