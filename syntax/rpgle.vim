@@ -27,6 +27,7 @@ sy match  rpgleTodo       /\v(TODO|FIXME)/                                      
 sy match  rpgleConstant   /\v\*(ON|OFF|ENTRY|ALL|BLANKS|BLANK|ZEROS|ZERO|HIVAL|LOVAL|NULL)>/
 sy match  rpgleIdentifier /\v\*(IN0[1-9]|IN[1-9][0-9]|INH[1-9]|INL[1-9]|INLR|INU[1-8]|INRT)>/
 sy match  rpgleKeywords   /\v<(ctl-opt|exsr|return)>/
+sy region rpgleHSpec      matchgroup=rpgleKeywords start="^\s*\<ctl-opt\>" end="\ze\n\%(^\s*\<ctl-opt\>\)\@!" extend fold contains=@rpgleNest
 
 " if -> elseif -> else -> endif
 sy region rpgleIf   matchgroup=rpgleConditional start=/\v<if>/ end=/\v<endif>/ contains=@rpgleNest extend fold
