@@ -16,8 +16,8 @@ syn case ignore
 let b:current_syntax = "rpgle"
 setlocal iskeyword+=-
 
-sy region rpgleInclude    start=/\v^\/(include|copy)/ end=/\v\ze\n(^\/(include|copy))@!/ extend fold
-sy match  rpgleNumber     /\v<[0-9]+>/
+sy region rpgleInclude    start="^/\%(include\|copy\)" end="\ze\n\%(^/\%(include\|copy\)\)\@!" extend fold
+sy match  rpgleNumber     "\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>"
 sy region rpgleString     start=/'/hs=s+1  skip=/''/  end=/'/he=e-1
 sy match  rpgleOperator   /\v(\*\*|\<\>|\>\=|\<\=|<NOT>|<AND>|<OR>|[-.*=><])/
 sy match  rpgleProcedure  /\v(\%)@<!<\w+\s*\ze\(/
