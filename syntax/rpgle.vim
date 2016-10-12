@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPGLE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 28, 2016
-" Version:              28
+" Last Change:          Oct 12, 2016
+" Version:              29
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -166,7 +166,7 @@ RpgleFoldBegsr   sy region rpgleSub     matchgroup=rpgleLabel start=/\v<begsr>/ 
 RpgleFoldDclS  sy region  rpgleDclList       matchgroup=rpgleDclKeywords start=/\v<dcl-(s|c)>/ end=/\v\ze\n(.*dcl-(s|c)>)@!/      contains=@rpgleDclProps extend
 RpgleFoldDclPi sy region  rpgleDclList       matchgroup=rpgleDclKeywords start=/\v<dcl-pi>/    end=/\v<end-pi>/                   contains=@rpgleDclPiProps extend
 RpgleFoldDclPr sy region  rpgleDclList       matchgroup=rpgleDclKeywords start=/\v<dcl-pr>/    end=/\v<end-pr>/                   contains=@rpgleDclPrProps extend
-RpgleFoldDclDs sy region  rpgleDclList       matchgroup=rpgleDclKeywords start=/\v<dcl-ds>/    end=/\v(<end-ds>|\ze\n(.*dcl-)@=)/ contains=@rpgleDclDsProps extend
+RpgleFoldDclDs sy region  rpgleDclList       matchgroup=rpgleDclKeywords start=/\v<dcl-ds>/    end=/\v(<end-ds>|<likeds>|\ze\n(.*dcl-)@=)/ contains=@rpgleDclDsProps extend
 
 sy match   rpgleDclTypes      /\v<(dim|like|likeds|char|varchar|ucs2|varucs2|graph|vargraph|packed|zoned|bindec|int|uns|float|date|time|pointer|object|const)>\s*\ze\(/ extend contained
 sy match   rpgleDclTypes      /\v<(ind|date|time|timestamp|pointer)/        extend contained
