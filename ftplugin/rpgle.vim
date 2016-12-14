@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPGLE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 13, 2016
-" Version:              2
+" Last Change:          Dec 14, 2016
+" Version:              3
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 " quit when a syntax file was already loaded {{{1
@@ -24,9 +24,9 @@ let b:match_words = '\<select\>:\<when\>:\<endsl\>,'
 
 function! s:NextSection(type, backwards)
   if a:type == 1
-    let pattern = '^\s*dcl-proc'
+    let pattern = '\v^\s*dcl-proc'
   elseif a:type == 2
-    let pattern = '^\s*end-proc'
+    let pattern = '\v^\s*end-proc'
   endif
 
   if a:backwards
@@ -35,20 +35,24 @@ function! s:NextSection(type, backwards)
     let dir = '/'
   endif
 
-  execute 'silent :keepp normal! ' . dir . pattern . dir . 'e' . "\r"
+  " Todo shouldn't /pattern/W disable wrapscan?
+  let ws = &wrapscan
+  let pos = getpos('.')
+  setlocal nowrapscan
+  execute 'silent! :keepp normal! ' . dir . pattern . dir . 'e' . "\r"
+  let &wrapscan = ws
+
+  if pos == getpos('.')
+    if a:backwards
+      normal! gg
+    else
+      normal! G
+    endif
+  endif
 
 endfunction
 
-function! s:GoDefinition()
-  let word = expand('<cword>')
-  call s:NextSection(1, 1)
-
-  " TODO: There is no search highlight
-  call setreg('/', '\<' . word . '\>', 'c')
-  normal n
-endfunction
-
-noremap <script> <buffer> <silent> gd :call <SID>GoDefinition()<CR>
+noremap <script> <buffer> <silent> gd :execute 'keepj normal [[/\<<C-r><C-w>\>/' . "\r"<CR>
 
 noremap <script> <buffer> <silent> ]] :call <SID>NextSection(1, 0)<CR>
 noremap <script> <buffer> <silent> ][ :call <SID>NextSection(2, 0)<CR>
