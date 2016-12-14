@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPGLE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Nov 01, 2016
-" Version:              31
+" Last Change:          Dec 14, 2016
+" Version:              32
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -125,7 +125,7 @@ let b:current_syntax = "rpgle"
 setlocal iskeyword+=-
 
 sy match  rpgleNumber     "\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>"
-sy match  rpgleString     /'\(.\{-}\(-\_$\n*\)\{0,1}\)*'/
+sy match  rpgleString     /'\(.\{-}\([+-]\_$\n*\)\{0,1}\)*'/
 sy match  rpgleOperator   /\v(\*\*|\<\>|\>\=|\<\=|<NOT>|<AND>|<OR>|[-.*=><])/
 sy match  rpgleProcedure  /\v(\%)@<!<\w+\s*\ze\(/
 sy match  rpgleComment    /\v\/\/.*/                                                  contains=rpgleTodo
