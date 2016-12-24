@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPGLE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 15, 2016
-" Version:              2
+" Last Change:          Dec 25, 2016
+" Version:              3
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -58,13 +58,13 @@ function! GetRpgleIndent()
 
   " Assume that if there is a comment above, said indent can be used instead of
   " dedenting any
-  elseif pline !~ '^\s*//' && cline =~ '^\s*\<\%(else\|elseif\|endif\|enddo\|endfor\|endmon\|when\|other\|end-pi\|end-proc\|endsr\|end-pr\|end-ds\)\>'
+  elseif pline !~ '^\s*//' && cline =~ '^\s*\<\%(else\|elseif\|endif\|enddo\|endfor\|on-error\|endmon\|when\|other\|end-pi\|end-proc\|endsr\|end-pr\|end-ds\)\>'
     let ind -= shiftwidth()
 
   " Lastly add indent for opening keywords, but only if there isn't an end
   " keyword on the same line:
-  elseif pline =~ '^\s*\%(if\|else\|elseif\|dou\|dow\|for\|monitor\|on-error\|select\|when\|other\|dcl-proc\|begsr\|dcl-pi\|dcl-pr\|dcl-ds\)\>'
-    if pline !~ '\<\%(endif\|enddo\|endfor\|endmon\|end-pi\|end-pr\|end-proc\|endsr\|end-ds\)\>;\%(\s*//.*\)\=$'
+  elseif pline =~ '^\s*\%(if\|else\|elseif\|dou\|dow\|for\|monitor\|on-error\|on-error\|select\|when\|other\|dcl-proc\|begsr\|dcl-pi\|dcl-pr\|dcl-ds\)\>'
+    if pline !~ '\%(\<\%(endif\|enddo\|endfor\|endmon\|end-pi\|end-pr\|end-proc\|endsr\|end-ds\)\>;\%(\s*//.*\)\=$\|\<likeds\>\)'
       let ind += shiftwidth()
     endif
   endif

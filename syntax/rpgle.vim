@@ -1,122 +1,13 @@
 " Vim syntax file
 " Language:             Free RPGLE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 14, 2016
-" Version:              32
+" Last Change:          Dec 25, 2016
+" Version:              33
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
   finish
 endif
-
-if exists('g:rpgle_fold_enabled') " {{{
-
-  if &fdm == 'manual'
-    " Give that g:rpgle_fold_enabled is on and foldmethod is default it should be
-    " safe to asume the user wants syntax folding
-    set fdm=syntax
-  endif
-
-  if exists('g:rpgle_fold')
-    let s:rpgle_fold = g:rpgle_fold
-  else
-    " Enable all folds by default
-    let s:rpgle_fold = 4096 * 2 - 1
-  endif
-
-  let s:rpgle_fold_include = and(s:rpgle_fold, 1)
-  let s:rpgle_fold_ctlOpt  = and(s:rpgle_fold, 2)
-  let s:rpgle_fold_if      = and(s:rpgle_fold, 4)
-  let s:rpgle_fold_do      = and(s:rpgle_fold, 8)
-  let s:rpgle_fold_for     = and(s:rpgle_fold, 16)
-  let s:rpgle_fold_monitor = and(s:rpgle_fold, 32)
-  let s:rpgle_fold_select  = and(s:rpgle_fold, 64)
-  let s:rpgle_fold_dclProc = and(s:rpgle_fold, 128)
-  let s:rpgle_fold_begsr   = and(s:rpgle_fold, 256)
-  let s:rpgle_fold_dclS    = and(s:rpgle_fold, 512)
-  let s:rpgle_fold_dclPi   = and(s:rpgle_fold, 1024)
-  let s:rpgle_fold_dclPr   = and(s:rpgle_fold, 2048)
-  let s:rpgle_fold_dclDs   = and(s:rpgle_fold, 4096)
-endif " }}}
-
-if exists('s:rpgle_fold_include') && s:rpgle_fold_include > 0 " {{{
-  com! -nargs=* RpgleFoldInclude <args> fold
-else
-  com! -nargs=* RpgleFoldInclude <args>
-endif
-
-if exists('s:rpgle_fold_ctlOpt') && s:rpgle_fold_ctlOpt > 0
-  com! -nargs=* RpgleFoldCtlOpt <args> fold
-else
-  com! -nargs=* RpgleFoldCtlOpt <args>
-endif
-
-if exists('s:rpgle_fold_if') && s:rpgle_fold_if > 0
-  com! -nargs=* RpgleFoldIf <args> fold
-else
-  com! -nargs=* RpgleFoldIf <args>
-endif
-
-if exists('s:rpgle_fold_do') && s:rpgle_fold_do > 0
-  com! -nargs=* RpgleFoldDo <args> fold
-else
-  com! -nargs=* RpgleFoldDo <args>
-endif
-
-if exists('s:rpgle_fold_for') && s:rpgle_fold_for > 0
-  com! -nargs=* RpgleFoldFor <args> fold
-else
-  com! -nargs=* RpgleFoldFor <args>
-endif
-
-if exists('s:rpgle_fold_monitor') && s:rpgle_fold_monitor > 0
-  com! -nargs=* RpgleFoldMonitor <args> fold
-else
-  com! -nargs=* RpgleFoldMonitor <args>
-endif
-
-if exists('s:rpgle_fold_select') && s:rpgle_fold_select > 0
-  com! -nargs=* RpgleFoldSelect <args> fold
-else
-  com! -nargs=* RpgleFoldSelect <args>
-endif
-
-if exists('s:rpgle_fold_dclProc') && s:rpgle_fold_dclProc > 0
-  com! -nargs=* RpgleFoldDclProc <args> fold
-else
-  com! -nargs=* RpgleFoldDclProc <args>
-endif
-
-if exists('s:rpgle_fold_begsr') && s:rpgle_fold_begsr > 0
-  com! -nargs=* RpgleFoldBegsr <args> fold
-else
-  com! -nargs=* RpgleFoldBegsr <args>
-endif
-
-if exists('s:rpgle_fold_dclS') && s:rpgle_fold_dclS > 0
-  com! -nargs=* RpgleFoldDclS <args> fold
-else
-  com! -nargs=* RpgleFoldDclS <args>
-endif
-
-if exists('s:rpgle_fold_dclPi') && s:rpgle_fold_dclPi > 0
-  com! -nargs=* RpgleFoldDclPi <args> fold
-else
-  com! -nargs=* RpgleFoldDclPi <args>
-endif
-
-if exists('s:rpgle_fold_dclPr') && s:rpgle_fold_dclPr > 0
-  com! -nargs=* RpgleFoldDclPr <args> fold
-else
-  com! -nargs=* RpgleFoldDclPr <args>
-endif
-
-if exists('s:rpgle_fold_dclDs') && s:rpgle_fold_dclDs > 0
-  com! -nargs=* RpgleFoldDclDs <args> fold
-else
-  com! -nargs=* RpgleFoldDclDs <args>
-endif " }}}
-
 
 syn include @rpgleSql syntax/sqlanywhere.vim
 
@@ -124,49 +15,48 @@ syn case ignore
 let b:current_syntax = "rpgle"
 setlocal iskeyword+=-
 
-sy match  rpgleNumber     "\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>"
-sy match  rpgleString     /'\(.\{-}\([+-]\_$\n*\)\{0,1}\)*'/
-sy match  rpgleOperator   /\v(\*\*|\<\>|\>\=|\<\=|<NOT>|<AND>|<OR>|[-.*=><])/
-sy match  rpgleProcedure  /\v(\%)@<!<\w+\s*\ze\(/
-sy match  rpgleComment    /\v\/\/.*/                                                  contains=rpgleTodo
-sy region rpgleComment    start=/\v\/\*/              end=/\v\*\//                    contains=rpgleTodo
-sy match  rpgleTodo       /\v(TODO|FIXME)/                                            contained
-sy match  rpgleConstant   /\v\*(ON|OFF|ENTRY|ALL|BLANKS|BLANK|ZEROS|ZERO|HIVAL|LOVAL|NULL)>/
-sy match  rpgleIdentifier /\v\*(IN0[1-9]|IN[1-9][0-9]|INH[1-9]|INL[1-9]|INLR|INU[1-8]|INRT)>/
-sy match  rpgleKeywords   /\v<(ctl-opt|exsr|return)>/
-RpgleFoldInclude sy region rpgleInclude    start="^/\%(include\|copy\)" end="\ze\n\%(^/\%(include\|copy\)\)\@!" extend
-RpgleFoldCtlOpt  sy region rpgleHSpec      matchgroup=rpgleKeywords start="^\s*\<ctl-opt\>" end="\ze\n\%(^\s*\<ctl-opt\>\)\@!" extend contains=@rpgleNest
+sy match  rpgleNumber     '\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>'
+sy region rpgleString     start=/'/ skip=/''/ end=/'/
+sy match  rpgleOperator   /\%(\*\*\|<>\|>=\|<=\|<NOT>\|<AND>\|<OR>\|[-.*=><]\)/
+sy match  rpgleComment    '//.*' contains=rpgleTodo
+sy region rpgleComment    start='/\*' end='*\/' contains=rpgleTodo
+sy match  rpgleTodo       /\%(TODO\|FIXME\)/ contained
+sy match  rpgleConstant   /\*\%(ON\|OFF\|ENTRY\|ALL\|BLANKS\|BLANK\|ZEROS\|ZERO\|HIVAL\|LOVAL\|NULL\)\>/
+sy match  rpgleIdentifier /\*\%(IN0[1-9]\|IN[1-9][0-9]\|INH[1-9]\|INL[1-9]\|INLR\|INU[1-8]\|INRT\)\>/
+sy match  rpgleKeywords   /^\s*\zs\%(ctl-opt\|exsr\|return\)\>/
+sy match  rpgleInclude    '^/\%(include\|copy\)'
+sy match  rpgleProcedure  '\%([^%]\|^\)\zs\<\w\+\>\ze('
 
 " if -> elseif -> else -> endif
-RpgleFoldIf sy region rpgleIf   matchgroup=rpgleConditional start=/\v<if>/ end=/\v<endif>/ contains=@rpgleNest extend
-            sy match  rpgleElse /\v<else>|<elseif>/
+sy region rpgleIf   matchgroup=rpgleConditional start=/\<if\>/ end=/\<endif\>/ contains=@rpgleNest extend fold
+sy match  rpgleElse /\<else\>|\<elseif\>/
 
 " do[uw] ... endd and for ... endfor
-RpgleFoldDo  sy region rpgleDo  matchgroup=rpgleRepeat start=/\v<do[wu]>/ end=/\v<enddo>/  contains=@rpgleNest extend
-RpgleFoldFor sy region rpgleFor matchgroup=rpgleRepeat start=/\v<for>/    end=/\v<endfor>/ contains=@rpgleNest extend
+sy region rpgleDo  matchgroup=rpgleRepeat start=/\<do[wu]\>/ end=/\<enddo\>/  contains=@rpgleNest extend fold
+sy region rpgleFor matchgroup=rpgleRepeat start=/\<for\>/    end=/\<endfor\>/ contains=@rpgleNest extend fold
 
 " Monitor -> on-error -> endmon
-RpgleFoldMonitor sy region rpgleMonitor matchgroup=rpgleConditional start=/\v<monitor>/ end=/\v<endmon>/ contains=@rpgleNest,rpgleOnError extend
-                 sy match  rpgleOnError /\v<on-error>/
+sy region rpgleMonitor matchgroup=rpgleConditional start=/\<monitor\>/ end=/\<endmon\>/ contains=@rpgleNest,rpgleOnError extend fold
+sy match  rpgleOnError /\<on-error\>/
 
 
 " select -> when -> other -> endsl
-RpgleFoldSelect sy region rpgleSelect matchgroup=rpgleSwitch start=/\v<select>/ end=/\v<endsl>/                          contains=rpgleWhen,rpgleOther extend
-RpgleFoldSelect sy region rpgleWhen   matchgroup=rpgleSwitch start=/\v<when>/   end=/\v\ze\n\s*(<when>|<other>|<endsl>)/ contains=@rpgleNest extend contained
-RpgleFoldSelect sy region rpgleOther  matchgroup=rpgleSwitch start=/\v<other>/  end=/\v\ze\n\s*<endsl>/                  contains=@rpgleNest extend contained
+sy region rpgleSelect matchgroup=rpgleSwitch start=/\<select\>/ end=/\<endsl\>/                           contains=rpgleWhen,rpgleOther extend fold
+sy region rpgleWhen   matchgroup=rpgleSwitch start=/\<when\>/   end=/\ze\n\s*\<\%(when\|other\|endsl\)\>/ contains=@rpgleNest extend contained
+sy region rpgleOther  matchgroup=rpgleSwitch start=/\<other\>/  end=/\ze\n\s*\<endsl\>/                   contains=@rpgleNest extend contained
 
 " Exec SQL
-sy region rpgleSql matchgroup=rpgleLabel start=/\v<exec\_s+sql>/ end=/\v;/ contains=@rpgleSql
+sy region rpgleSql matchgroup=rpgleLabel start=/\<exec\_s+sql\>/ end=/;/ contains=@rpgleSql
 
 " dlc-proc, begsr
-RpgleFoldDclProc sy region rpgleDclProc matchgroup=rpgleLabel start=/\v<dcl-proc>/ end=/\v<end-proc>/ contains=@rpgleNest,rpgleSub,rpgleDclList extend
-RpgleFoldBegsr   sy region rpgleSub     matchgroup=rpgleLabel start=/\v<begsr>/    end=/\v<endsr>/    contains=@rpgleNest extend
+sy region rpgleDclProc matchgroup=rpgleLabel start=/\<dcl-proc\>/ end=/\<end-proc\>/ contains=@rpgleNest,rpgleSub,rpgleDclList extend
+sy region rpgleSub     matchgroup=rpgleLabel start=/\<begsr\>/    end=/\<endsr\>/    contains=@rpgleNest extend
 
 " dcl-*
-RpgleFoldDclS  sy region  rpgleDclList       matchgroup=rpgleDclKeywords start=/\v<dcl-(s|c)>/ end=/\v\ze\n(.*dcl-(s|c)>)@!/      contains=@rpgleDclProps extend
-RpgleFoldDclPi sy region  rpgleDclList       matchgroup=rpgleDclKeywords start=/\v<dcl-pi>/    end=/\v<end-pi>/                   contains=@rpgleDclPiProps extend
-RpgleFoldDclPr sy region  rpgleDclList       matchgroup=rpgleDclKeywords start=/\v<dcl-pr>/    end=/\v<end-pr>/                   contains=@rpgleDclPrProps extend
-RpgleFoldDclDs sy region  rpgleDclList       matchgroup=rpgleDclKeywords start=/\v<dcl-ds>/    end=/\v(<end-ds>|<likeds>|\ze\n(.*dcl-)@=)/ contains=@rpgleDclDsProps extend
+sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-[sc]\>/  end=/$/                       contains=@rpgleDclProps extend
+sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-pi\>/    end=/\<end-pi\>/              contains=@rpgleDclPiProps extend
+sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-pr\>/    end=/\<end-pr\>/              contains=@rpgleDclPrProps extend
+sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-ds\>/    end=/\<\%(end-ds\|likeds\)\>/ contains=@rpgleDclDsProps extend
 
 sy match   rpgleDclTypes      /\v<(dim|like|likeds|char|varchar|ucs2|varucs2|graph|vargraph|packed|zoned|bindec|int|uns|float|date|time|pointer|object|const)>\s*\ze\(/ extend contained
 sy match   rpgleDclTypes      /\v<(ind|date|time|timestamp|pointer)/        extend contained
