@@ -52,6 +52,10 @@ function! GetRpgleIndent()
   elseif cline =~ '^\s*\<endsl\>'
     let ind -= shiftwidth() * 2
 
+  " A prodecure interface with no parametes should not dedent end-pi;
+  elseif pline =~ '^\s*\<dcl-pi\>' &&cline =~ '^\s*\<end-pi\>'
+    let ind = ind;
+
   " Assume that if there is a comment above, said indent can be used instead of
   " dedenting any
   elseif pline !~ '^\s*//' && cline =~ '^\s*\<\%(else\|elseif\|endif\|enddo\|endfor\|endmon\|when\|other\|endsl\|end-pi\|end-pr\|end-ds\)\>'
