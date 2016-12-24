@@ -58,13 +58,13 @@ function! GetRpgleIndent()
 
   " Assume that if there is a comment above, said indent can be used instead of
   " dedenting any
-  elseif pline !~ '^\s*//' && cline =~ '^\s*\<\%(else\|elseif\|endif\|enddo\|endfor\|endmon\|when\|other\|endsl\|end-pi\|end-pr\|end-ds\)\>'
+  elseif pline !~ '^\s*//' && cline =~ '^\s*\<\%(else\|elseif\|endif\|enddo\|endfor\|endmon\|when\|other\|end-pi\|end-proc\|endsr\|end-pr\|end-ds\)\>'
     let ind -= shiftwidth()
 
   " Lastly add indent for opening keywords, but only if there isn't an end
   " keyword on the same line:
-  elseif pline =~ '^\s*\%(if\|else\|elseif\|dou\|dow\|for\|monitor\|on-error\|select\|when\|other\|dcl-proc\|dcl-pi\|dcl-pr\|dcl-ds\)\>'
-    if pline !~ '\<\%(endif\|enddo\|endfor\|endmon\|endsl\|end-pi\|end-pr\|end-ds\)\>;\%(\s*//.*\)\=$'
+  elseif pline =~ '^\s*\%(if\|else\|elseif\|dou\|dow\|for\|monitor\|on-error\|select\|when\|other\|dcl-proc\|begsr\|dcl-pi\|dcl-pr\|dcl-ds\)\>'
+    if pline !~ '\<\%(endif\|enddo\|endfor\|endmon\|end-pi\|end-pr\|end-proc\|endsr\|end-ds\)\>;\%(\s*//.*\)\=$'
       let ind += shiftwidth()
     endif
   endif
