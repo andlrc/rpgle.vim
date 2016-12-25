@@ -54,7 +54,9 @@ dow a < 4;
 enddo;
 
 exec SQL declare parents cursor for pParent;
-exec sql select abs(abc), def from qwer;
+exec sql
+  select abs(abc), def
+  from qwer;
 
 dcl-proc b;
   dcl-pi *n;

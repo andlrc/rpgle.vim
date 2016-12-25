@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 25, 2016
-" Version:              4
+" Version:              5
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -45,7 +45,7 @@ function! GetRpgleIndent()
 
   " There is a special case for when, as the first one following a select should
   " indent, while the rest should actually de indent:
-  if pline =~ '^\s*\<select\>' && cline =~ '^\s*\<when\>'
+  if pline =~ '^\s*\<select\>;' && cline =~ '^\s*\<when\>'
     let ind += shiftwidth()
 
   " 'endsl' have to de indent two levels:
@@ -61,7 +61,7 @@ function! GetRpgleIndent()
 
   " Add indent for opening keywords, but only if there isn't an end keyword on
   " the same line:
-  elseif pline =~ '^\s*\%(if\|else\|elseif\|dou\|dow\|for\|monitor\|on-error\|on-error\|select\|when\|other\|dcl-proc\|begsr\|dcl-pi\|dcl-pr\|dcl-ds\)\>'
+  elseif pline =~ '^\s*\<select\>;' || pline =~ '^\s*\%(if\|else\|elseif\|dou\|dow\|for\|monitor\|on-error\|on-error\|when\|other\|dcl-proc\|begsr\|dcl-pi\|dcl-pr\|dcl-ds\)\>'
     if pline !~ '\%(\<\%(endif\|enddo\|endfor\|endmon\|end-pi\|end-pr\|end-proc\|endsr\|end-ds\)\>;\%(\s*//.*\)\=$\|\<likeds\>\)'
       let ind += shiftwidth()
     endif
