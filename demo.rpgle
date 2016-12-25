@@ -52,7 +52,7 @@ enddo;
 exec SQL declare parents cursor for pParent;
 exec sql select abs(abc), def from qwer;
 
-dcl-proc a;
+dcl-proc b;
   dcl-pi *n;
     a varchar(32);
   end-pi;
@@ -61,7 +61,7 @@ dcl-proc a;
 
 end-proc;
 
-dcl-proc a;
+dcl-proc c;
   dcl-pi *n;
   end-pi;
 
