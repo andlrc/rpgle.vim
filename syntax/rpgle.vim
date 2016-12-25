@@ -2,7 +2,7 @@
 " Language:             Free RPGLE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 25, 2016
-" Version:              36
+" Version:              37
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -49,8 +49,8 @@ sy region rpgleOther  matchgroup=rpgleSwitch start=/\<other\>/  end=/\ze\n\s*\<e
 sy region rpgleSql matchgroup=rpgleLabel start=/\<exec\_s\+sql\>/ end=/;/ contains=@rpgleSql
 
 " dlc-proc, begsr
-sy region rpgleDclProc matchgroup=rpgleLabel start=/\<dcl-proc\>/ end=/\<end-proc\>/ contains=@rpgleNest,rpgleSub,rpgleDclList extend
-sy region rpgleSub     matchgroup=rpgleLabel start=/\<begsr\>/    end=/\<endsr\>/    contains=@rpgleNest extend
+sy region rpgleDclProc matchgroup=rpgleLabel start=/\<dcl-proc\>/ end=/\<end-proc\>/ contains=@rpgleNest,rpgleSub,rpgleDclList extend fold
+sy region rpgleSub     matchgroup=rpgleLabel start=/\<begsr\>/    end=/\<endsr\>/    contains=@rpgleNest extend fold
 
 " dcl-*
 sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-[sc]\>/  end=/$/                       contains=@rpgleDclProps extend
