@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPGLE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 14, 2016
-" Version:              3
+" Last Change:          Dec 25, 2016
+" Version:              4
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 " quit when a syntax file was already loaded {{{1
@@ -22,42 +22,34 @@ let b:match_words = '\<select\>:\<when\>:\<endsl\>,'
 
 " Proper section jumping {{{
 
-function! s:NextSection(type, backwards)
-  if a:type == 1
-    let pattern = '\v^\s*dcl-proc'
-  elseif a:type == 2
-    let pattern = '\v^\s*end-proc'
-  endif
+function! <SID>NextSection(pattern, flags) range
 
-  if a:backwards
-    let dir = '?'
-  else
-    let dir = '/'
-  endif
-
-  " Todo shouldn't /pattern/W disable wrapscan?
-  let ws = &wrapscan
+  let cnt = v:count1
   let pos = getpos('.')
-  setlocal nowrapscan
-  execute 'silent! :keepp normal! ' . dir . pattern . dir . 'e' . "\r"
-  let &wrapscan = ws
 
-  if pos == getpos('.')
-    if a:backwards
-      normal! gg
-    else
-      normal! G
+  normal! 0
+  mark '
+
+  while cnt > 0
+    call search(a:pattern, a:flags . 'W')
+    normal! ^
+
+    if pos == getpos('.')
+      execute 'norm! ' a:flags =~# 'b' ? 'gg' : 'G'
+      break
     endif
-  endif
+
+    let cnt = cnt - 1
+  endwhile
 
 endfunction
 
 noremap <script> <buffer> <silent> gd :execute 'keepj normal [[/\<<C-r><C-w>\>/' . "\r"<CR>
 
-noremap <script> <buffer> <silent> ]] :call <SID>NextSection(1, 0)<CR>
-noremap <script> <buffer> <silent> ][ :call <SID>NextSection(2, 0)<CR>
-noremap <script> <buffer> <silent> [[ :call <SID>NextSection(1, 1)<CR>
-noremap <script> <buffer> <silent> [] :call <SID>NextSection(2, 1)<CR>
+noremap <script> <buffer> <silent> ]] :call <SID>NextSection('^\s*dcl-proc', '')<CR>
+noremap <script> <buffer> <silent> ][ :call <SID>NextSection('^\s*end-proc', '')<CR>
+noremap <script> <buffer> <silent> [[ :call <SID>NextSection('^\s*dcl-proc', 'b')<CR>
+noremap <script> <buffer> <silent> [] :call <SID>NextSection('^\s*end-proc', 'b')<CR>
 
 " }}}
 
