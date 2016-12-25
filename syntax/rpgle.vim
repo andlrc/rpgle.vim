@@ -2,7 +2,7 @@
 " Language:             Free RPGLE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 25, 2016
-" Version:              37
+" Version:              38
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -25,7 +25,7 @@ sy match  rpgleConstant   /\*\%(ON\|OFF\|ENTRY\|ALL\|BLANKS\|BLANK\|ZEROS\|ZERO\
 sy match  rpgleIdentifier /\*\%(IN0[1-9]\|IN[1-9][0-9]\|INH[1-9]\|INL[1-9]\|INLR\|INU[1-8]\|INRT\)\>/
 sy match  rpgleKeywords   /^\s*\zs\%(ctl-opt\|exsr\|return\)\>/
 sy match  rpgleInclude    '^/\%(include\|copy\)'
-sy match  rpgleProcedure  '\%([^%]\|^\)\zs\<\w\+\>\ze('
+sy match  rpgleProcedure  '%\@1<!\zs\<\w\+\>\ze('
 
 " if -> elseif -> else -> endif
 sy region rpgleIf   matchgroup=rpgleConditional start=/\<if\>/ end=/\<endif\>/ contains=@rpgleNest extend fold

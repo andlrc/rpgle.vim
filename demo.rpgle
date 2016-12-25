@@ -4,6 +4,10 @@
 dcl-ds abc likeds(def);
 dcl-s a varchar(32);
 
+a = %char(a, b);
+b = %not_found(a);
+c = found(hello);
+
 dcl-proc a;
   dcl-pi *n int(1);
     qwerty likeds(hello);
