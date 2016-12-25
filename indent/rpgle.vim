@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 25, 2016
-" Version:              5
+" Version:              6
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -56,7 +56,7 @@ function! GetRpgleIndent()
   elseif pline =~ '^\s*\<dcl-pi\>' && cline =~ '^\s*\<end-pi\>'
     let ind = ind;
 
-  elseif cline =~ '^\s*\<\%(endif\|enddo\|endfor\|endmon\|end-pi\|end-proc\|endsr\|end-pr\|end-ds\)\>'
+  elseif cline =~ '^\s*\<\%(endif\|enddo\|endfor\|endmon\|when\|other\|else\|elseif\|on-error\|end-pi\|end-proc\|endsr\|end-pr\|end-ds\)\>'
     let ind -= shiftwidth()
 
   " Add indent for opening keywords, but only if there isn't an end keyword on
@@ -66,26 +66,6 @@ function! GetRpgleIndent()
       let ind += shiftwidth()
     endif
 
-  " All comments present just before 'when' and 'other', 'else' and 'elseif',
-  " and 'on-error' should be indented the same as those.
-  elseif cline =~ '^\s*\<\%(when\|other\|else\|elseif\|on-error\)\>'
-    if pline !~ '^\s*//'
-      let ind -= shiftwidth()
-    endif
-
-  " Format comments, this will only happen with ={motion}
-  elseif cline =~ '^\s*//'
-    let nnum = nextnonblank(cnum + 1)
-    let nline = getline(nnum)
-
-    while nnum > 0 && nline =~ '^\s*//'
-      let nnum = nnum + 1
-      let nline = getline(nnum)
-    endwhile
-
-    if nline =~ '^\s*\%(when\|other\|else\|elseif\|on-error\)\>'
-      let ind -= shiftwidth()
-    endif
   endif
 
   return ind
