@@ -2,7 +2,7 @@
 " Language:             Free RPGLE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 25, 2016
-" Version:              35
+" Version:              36
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -81,7 +81,9 @@ sy cluster rpgleDclDsProps    contains=@rpgleDclProps,rpgleDclDsType,rpgleDclDsK
 
 
 " Build In Functions
-sy match  rpgleBIF /\v\%(ABS|ADDR|ALLOC|CHAR|CHECK|CHECKR|DATE|DAYS|DEC|DECH|DECPOS|DIFF|DIV|EDITC|EDITFLT|EDITW|ELEM|EOF|EQUAL|ERROR|FLOAT|FOUND|GRAPH|HOURS|INT|INTH|LEN|LOOKUPxx|MINUTES|MONTHS|MSECONDS|NULLIND|OCCUR|OPEN|PADDR|PARMS|REALLOC|REM|REPLACE|SCAN|SECONDS|SHTDN|SIZE|SQRT|STATUS|STR|SUBDT|SUBST|THIS|TIME|TIMESTAMP|TLOOKUPxx|TRIM|TRIML|TRIMR|UCS2|UNS|UNSH|XFOOT|XLATE|YEARS)/
+sy match  rpgleBIF /%\%(YEARS\|XLATE\|XFOOT\|UNSH\|UNS\|UCS2\|TRIMR\|TRIML\|TRIM\|TLOOKUP\|TIMESTAMP\|TIME\|THIS\|SUBST\|SUBDT\|STR\|STATUS\|SQRT\|SIZE\|SHTDN\)/
+sy match  rpgleBIF /%\%(SECONDS\|SCAN\|REPLACE\|REM\|REALLOC\|PARMS\|PADDR\|OPEN\|OCCUR\|NULLIND\|MSECONDS\|MONTHS\|MINUTES\|LOOKUP\|LEN\|INTH\|INT\|HOURS\|GRAPH FOUND\)/
+sy match  rpgleBIF /%\%(FLOAT\|ERROR\|EQUAL\|EOF\|ELEM\|EDITW\|EDITFLT\|EDITC\|DIV\|DIFF\|DECPOS\|DECH\|DEC\|DAYS\|DATE\|CHECKR\|CHECK\|CHAR\|ALLOC\|ADDR\|ABS\)/
 
 " All the groups than can be nested, eg. doesn't need to be on the outer most layer
 sy cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,rpgleProcedure,rpgleComment,rpgleIf,rpgleElseIf,rpgleElse,rpgleDo,rpgleFor,rpgleMonitor,rpgleSelect,rpgleKeywords,rpgleConstant,rpgleBIF,rpgleSql
