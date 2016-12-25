@@ -1,8 +1,8 @@
-" Vim syntax file
+" Vim indent file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 25, 2016
-" Version:              6
+" Version:              7
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")

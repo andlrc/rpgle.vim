@@ -1,8 +1,8 @@
-" Vim syntax file
-" Language:             Free RPGLE based on IBMi 7.1
+" Vim ftdetect file
+" Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 25, 2016
-" Version:              2
+" Version:              3
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 " quit when a syntax file was already loaded {{{1
