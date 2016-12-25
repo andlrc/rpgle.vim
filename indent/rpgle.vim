@@ -1,8 +1,8 @@
 " Vim syntax file
-" Language:             Free RPGLE based on IBMi 7.1
+" Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 25, 2016
-" Version:              3
+" Version:              4
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -44,28 +44,47 @@ function! GetRpgleIndent()
   let cline = getline(cnum)
 
   " There is a special case for when, as the first one following a select should
-  " indent, while the rest should actually dedent:
+  " indent, while the rest should actually de indent:
   if pline =~ '^\s*\<select\>' && cline =~ '^\s*\<when\>'
     let ind += shiftwidth()
 
-  " endsl have to dedent two levels:
+  " 'endsl' have to de indent two levels:
   elseif cline =~ '^\s*\<endsl\>'
     let ind -= shiftwidth() * 2
 
-  " A prodecure interface with no parametes should not dedent end-pi;
-  elseif pline =~ '^\s*\<dcl-pi\>' &&cline =~ '^\s*\<end-pi\>'
+  " A procedure interface with no parameters should not de indent end-pi;
+  elseif pline =~ '^\s*\<dcl-pi\>' && cline =~ '^\s*\<end-pi\>'
     let ind = ind;
 
-  " Assume that if there is a comment above, said indent can be used instead of
-  " dedenting any
-  elseif pline !~ '^\s*//' && cline =~ '^\s*\<\%(else\|elseif\|endif\|enddo\|endfor\|on-error\|endmon\|when\|other\|end-pi\|end-proc\|endsr\|end-pr\|end-ds\)\>'
+  elseif cline =~ '^\s*\<\%(endif\|enddo\|endfor\|endmon\|end-pi\|end-proc\|endsr\|end-pr\|end-ds\)\>'
     let ind -= shiftwidth()
 
-  " Lastly add indent for opening keywords, but only if there isn't an end
-  " keyword on the same line:
+  " Add indent for opening keywords, but only if there isn't an end keyword on
+  " the same line:
   elseif pline =~ '^\s*\%(if\|else\|elseif\|dou\|dow\|for\|monitor\|on-error\|on-error\|select\|when\|other\|dcl-proc\|begsr\|dcl-pi\|dcl-pr\|dcl-ds\)\>'
     if pline !~ '\%(\<\%(endif\|enddo\|endfor\|endmon\|end-pi\|end-pr\|end-proc\|endsr\|end-ds\)\>;\%(\s*//.*\)\=$\|\<likeds\>\)'
       let ind += shiftwidth()
+    endif
+
+  " All comments present just before 'when' and 'other', 'else' and 'elseif',
+  " and 'on-error' should be indented the same as those.
+  elseif cline =~ '^\s*\<\%(when\|other\|else\|elseif\|on-error\)\>'
+    if pline !~ '^\s*//'
+      let ind -= shiftwidth()
+    endif
+
+  " Format comments, this will only happen with ={motion}
+  elseif cline =~ '^\s*//'
+    let nnum = nextnonblank(cnum + 1)
+    let nline = getline(nnum)
+
+    while nnum > 0 && nline =~ '^\s*//'
+      let nnum = nnum + 1
+      let nline = getline(nnum)
+    endwhile
+
+    if nline =~ '^\s*\%(when\|other\|else\|elseif\|on-error\)\>'
+      let ind -= shiftwidth()
     endif
   endif
 
