@@ -25,7 +25,7 @@ And install it:
 
 To enable folds you need to add this to your `~/.vimrc`:
 
-    let g:rpgle_fold_enabled = 1
+    set foldmethod=syntax
 
 Contributing
 ------------
