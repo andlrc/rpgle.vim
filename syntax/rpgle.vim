@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 29, 2016
-" Version:              42
+" Version:              43
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -28,8 +28,8 @@ sy match  rpgleInclude    '^/\%(include\|copy\)'
 sy match  rpgleProcedure  '%\@1<!\<\w\+\>\ze('
 
 " if -> elseif -> else -> endif
-sy region rpgleIf   matchgroup=rpgleConditional start=/\<if\>/ end=/\<endif\>/ contains=@rpgleNest extend fold
-sy match  rpgleElse /\<else\>\|\<elseif\>/
+sy region rpgleIf   matchgroup=rpgleConditional start=/\<if\>/ end=/\<endif\>/ contains=@rpgleNest,rpgleElse extend fold
+sy match  rpgleElse /\<else\>\|\<elseif\>/ contained
 
 " do[uw] ... endd and for ... endfor
 sy region rpgleDo  matchgroup=rpgleRepeat start=/\<do[wu]\>/ end=/\<enddo\>/  contains=@rpgleNest extend fold
@@ -37,8 +37,7 @@ sy region rpgleFor matchgroup=rpgleRepeat start=/\<for\>/    end=/\<endfor\>/ co
 
 " Monitor -> on-error -> endmon
 sy region rpgleMonitor matchgroup=rpgleConditional start=/\<monitor\>/ end=/\<endmon\>/ contains=@rpgleNest,rpgleOnError extend fold
-sy match  rpgleOnError /\<on-error\>/
-
+sy match  rpgleOnError /\<on-error\>/ contained
 
 " select -> when -> other -> endsl
 sy region rpgleSelect matchgroup=rpgleSwitch start=/\<select\>/ end=/\<endsl\>/                           contains=rpgleWhen,rpgleOther extend fold
