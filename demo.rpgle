@@ -10,19 +10,21 @@ c = found(hello);
 
 dcl-proc a;
   dcl-pi *n int(1);
-    qwerty likeds(hello);
+    qwerty const inz(1234) likeds(hello);
   end-pi;
 
   return *OFF;
 end-proc;
 
 dcl-pr hello;
-  world ind;
+  world ind options(*nopass);
 end-pr;
 
 dcl-ds a;
   a varchar(1);
 end-ds;
+
+dcl-ds likerec('hello');
 
 a = *INRT;
 
