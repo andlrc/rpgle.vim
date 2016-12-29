@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 29, 2016
-" Version:              40
+" Version:              41
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -19,7 +19,7 @@ sy match  rpgleNumber     '\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>'
 sy region rpgleString     start=/'/ skip=/''/ end=/'/
 sy match  rpgleOperator   /\%(\*\*\|<>\|>=\|<=\|<NOT>\|<AND>\|<OR>\|[-.*=><]\)/
 sy match  rpgleComment    '//.*' contains=rpgleTodo
-sy region rpgleComment    start='/\*' end='*\/' contains=rpgleTodo
+sy region rpgleComment    start='/\*' end='\*/' contains=rpgleTodo
 sy match  rpgleTodo       /\%(TODO\|FIXME\)/ contained
 sy match  rpgleConstant   /\*\%(ON\|OFF\|ENTRY\|ALL\|BLANKS\|BLANK\|ZEROS\|ZERO\|HIVAL\|LOVAL\|NULL\)\>/
 sy match  rpgleIdentifier /\*\%(IN0[1-9]\|IN[1-9][0-9]\|INH[1-9]\|INL[1-9]\|INLR\|INU[1-8]\|INRT\)\>/
