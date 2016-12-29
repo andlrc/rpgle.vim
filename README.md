@@ -19,7 +19,7 @@ enter after `dcl-proc`. When typing `end-proc;` the indentation will be
 decreased.
 
 With procedure interfaces indentation will only happen if the procedure takes
-any argument:
+an argument:
 
     dcl-pi myProc;
         _
@@ -95,7 +95,7 @@ The following match words is supported:
     - dcl-pi   -> end-pi
     - monitor  -> on-error -> endmon
 
-And it can be enabled by running: `runtime macro/matchit.vim`
+And it can be enabled by running: `runtime macros/matchit.vim`
 
 ### Movements
 
