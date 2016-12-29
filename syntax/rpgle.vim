@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 29, 2016
-" Version:              41
+" Version:              42
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -25,7 +25,7 @@ sy match  rpgleConstant   /\*\%(ON\|OFF\|ENTRY\|ALL\|BLANKS\|BLANK\|ZEROS\|ZERO\
 sy match  rpgleIdentifier /\*\%(IN0[1-9]\|IN[1-9][0-9]\|INH[1-9]\|INL[1-9]\|INLR\|INU[1-8]\|INRT\)\>/
 sy match  rpgleKeywords   /^\s*\zs\%(ctl-opt\|exsr\|return\)\>/
 sy match  rpgleInclude    '^/\%(include\|copy\)'
-sy match  rpgleProcedure  '%\@1<!\zs\<\w\+\>\ze('
+sy match  rpgleProcedure  '%\@1<!\<\w\+\>\ze('
 
 " if -> elseif -> else -> endif
 sy region rpgleIf   matchgroup=rpgleConditional start=/\<if\>/ end=/\<endif\>/ contains=@rpgleNest extend fold
@@ -58,27 +58,34 @@ sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-pi\>/    end=/\
 sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-pr\>/    end=/\<end-pr\>/              contains=@rpgleDclPrProps extend
 sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-ds\>/    end=/\<\%(end-ds\|likeds\)\>/ contains=@rpgleDclDsProps extend
 
-sy match   rpgleDclTypes      /\v<(dim|like|likeds|char|varchar|ucs2|varucs2|graph|vargraph|packed|zoned|bindec|int|uns|float|date|time|pointer|object|const)>\s*\ze\(/ extend contained
-sy match   rpgleDclTypes      /\v<(ind|date|timestamp|time|pointer)/        extend contained
-sy match   rpgleDclKeywords   /\v<(dcl-(s|c|pr|ds)|end-(pr|cs)|inz)>/       extend contained
-sy cluster rpgleDclProps      contains=rpgleDclTypes,rpgleDclKeywords,rpgleNumber,rpgleString,rpgleConstant
+" Shared dcl properties
+sy match   rpgleDclTypes    /\<\%(bindec\|int\|uns\|float\|date\|time\|pointer\|object\|const\|dim\|like\)\>\ze\s*(/ extend contained
+sy match   rpgleDclTypes    /\<\%(likeds\|char\|varchar\|ucs2\|varucs2\|graph\|vargraph\|packed\|zoned\)\>\ze\s*(/   extend contained
+sy match   rpgleDclTypes    /\<\%(ind\|date\|timestamp\|time\|pointer\)\>/                                           extend contained
+sy match   rpgleDclKeywords /\<\(dcl-\([sc]\|pr\|ds\)\|end-\(pr\|cs\)\|inz\)\>/                                      extend contained
 
-sy match   rpgleDclPiType     /\v<(extproc|options)>\s*\ze\(/               extend contained
-sy match   rpgleDclPiKeywords /\v<(options)>\s*\ze\(/                       extend contained
-sy match   rpgleDclPiKeywords /\v<(value|const)>/                           extend contained
-sy match   rpgleDclPiConstant /\v\*<(nopass|omit|varsize|string|rightadj)>/ extend contained
-sy cluster rpgleDclPiProps    contains=@rpgleDclProps,rpgleDclPrKeywords,rpgleDclPrConstant
+sy cluster rpgleDclProps contains=rpgleDclTypes,rpgleDclKeywords,rpgleNumber,rpgleString,rpgleConstant
 
-sy match   rpgleDclPrType     /\v<(extproc)>\s*\ze\(/                       extend contained
-sy match   rpgleDclPrKeywords /\v<(options)>\s*\ze\(/                       extend contained
-sy match   rpgleDclPrKeywords /\v<(value|const)>/                           extend contained
-sy match   rpgleDclPrConstant /\v\*<(nopass|omit|varsize|string|rightadj)>/ extend contained
-sy cluster rpgleDclPrProps    contains=@rpgleDclProps,rpgleDclPrType,rpgleDclPrKeywords,rpgleDclPrConstant
+" dcl-pi properties
+sy match   rpgleDclPiType     /\<\%(extproc\|options\)\>\ze\s*(/                   extend contained
+sy match   rpgleDclPiKeywords /\<options\>\ze\s*(/                                 extend contained
+sy match   rpgleDclPiKeywords /\<\%(value\|const\)\>/                              extend contained
+sy match   rpgleDclPiConstant /\*\<\%(nopass\|omit\|varsize\|string\|rightadj\)\>/ extend contained
 
-sy match   rpgleDclDsType     /\v<(likerec|len|extName|based)>\s*\ze\(/     extend contained
-sy match   rpgleDclDsKeywords /\v<qualified>/                               extend contained
-sy cluster rpgleDclDsProps    contains=@rpgleDclProps,rpgleDclDsType,rpgleDclDsKeywords
+" dcl-pr properties
+sy match   rpgleDclPrType     /\<extproc\>\ze\s*(/                                 extend contained
+sy match   rpgleDclPrKeywords /\<options\>\ze\s*(/                                 extend contained
+sy match   rpgleDclPrKeywords /\<\%(value\|const\)\>/                              extend contained
+sy match   rpgleDclPrConstant /\*\<\%(nopass\|omit\|varsize\|string\|rightadj\)\>/ extend contained
 
+" dcl-ds properties
+sy match   rpgleDclDsType     /\<\%(likerec\|len\|extName\|based\)\>\ze\s*(/ extend contained
+sy match   rpgleDclDsKeywords /\<qualified\>/                                extend contained
+
+" dcl clusters:
+sy cluster rpgleDclPiProps contains=@rpgleDclProps,rpgleDclPrKeywords,rpgleDclPrConstant
+sy cluster rpgleDclPrProps contains=@rpgleDclProps,rpgleDclPrType,rpgleDclPrKeywords,rpgleDclPrConstant
+sy cluster rpgleDclDsProps contains=@rpgleDclProps,rpgleDclDsType,rpgleDclDsKeywords
 
 " Build In Functions
 sy match  rpgleBIF /%\%(YEARS\|XLATE\|XFOOT\|UNSH\|UNS\|UCS2\|TRIMR\|TRIML\|TRIM\|TLOOKUP\|TIMESTAMP\|TIME\|THIS\|SUBST\|SUBDT\|STR\|STATUS\|SQRT\|SIZE\|SHTDN\)/
@@ -126,3 +133,5 @@ hi link rpgleDclDsKeywords Keyword
 
 hi link rpgleLabel         Label
 hi link rpgleBIF           Function
+
+" vim: textwidth=170
