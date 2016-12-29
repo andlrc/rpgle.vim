@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 29, 2016
-" Version:              43
+" Version:              44
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -52,10 +52,10 @@ sy region rpgleDclProc matchgroup=rpgleLabel start=/\<dcl-proc\>/ end=/\<end-pro
 sy region rpgleSub     matchgroup=rpgleLabel start=/\<begsr\>/    end=/\<endsr\>/    contains=@rpgleNest extend fold
 
 " dcl-*
-sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-[sc]\>/  end=/$/                       contains=@rpgleDclProps extend
-sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-pi\>/    end=/\<end-pi\>/              contains=@rpgleDclPiProps extend
-sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-pr\>/    end=/\<end-pr\>/              contains=@rpgleDclPrProps extend
-sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-ds\>/    end=/\<\%(end-ds\|likeds\)\>/ contains=@rpgleDclDsProps extend
+sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-[sc]\>/  end=/$/                                contains=@rpgleDclProps extend
+sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-pi\>/    end=/\<end-pi\>/                       contains=@rpgleDclPiProps extend
+sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-pr\>/    end=/\<end-pr\>/                       contains=@rpgleDclPrProps extend
+sy region  rpgleDclList matchgroup=rpgleDclKeywords start=/\<dcl-ds\>/    end=/\<\%(end-ds\|likeds\|likerec\)\>/ contains=@rpgleDclDsProps extend
 
 " Shared dcl properties
 sy match   rpgleDclTypes    /\<\%(bindec\|int\|uns\|float\|date\|time\|pointer\|object\|const\|dim\|like\)\>\ze\s*(/ extend contained
