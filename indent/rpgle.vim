@@ -1,8 +1,8 @@
 " Vim indent file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 25, 2016
-" Version:              7
+" Last Change:          Dec 29, 2016
+" Version:              8
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -62,7 +62,7 @@ function! GetRpgleIndent()
   " Add indent for opening keywords, but only if there isn't an end keyword on
   " the same line:
   elseif pline =~ '^\s*\<select\>;' || pline =~ '^\s*\%(if\|else\|elseif\|dou\|dow\|for\|monitor\|on-error\|on-error\|when\|other\|dcl-proc\|begsr\|dcl-pi\|dcl-pr\|dcl-ds\)\>'
-    if pline !~ '\%(\<\%(endif\|enddo\|endfor\|endmon\|end-pi\|end-pr\|end-proc\|endsr\|end-ds\)\>;\%(\s*//.*\)\=$\|\<likeds\>\)'
+    if pline !~ '\%(\<\%(endif\|enddo\|endfor\|endmon\|end-pi\|end-pr\|end-proc\|endsr\|end-ds\)\>;\%(\s*//.*\)\=$\|\<likeds\>\|\<likerec\>\)'
       let ind += shiftwidth()
     endif
 
