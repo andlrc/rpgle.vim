@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 31, 2016
-" Version:              45
+" Last Change:          Jan 01, 2017
+" Version:              46
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -90,6 +90,7 @@ sy cluster rpgleDclDsProps contains=@rpgleDclProps,rpgleDclDsType,rpgleDclDsKeyw
 sy match  rpgleBIF /%\%(YEARS\|XLATE\|XFOOT\|UNSH\|UNS\|UCS2\|TRIMR\|TRIML\|TRIM\|TLOOKUP\|TIMESTAMP\|TIME\|THIS\|SUBST\|SUBDT\|STR\|STATUS\|SQRT\|SIZE\|SHTDN\)/
 sy match  rpgleBIF /%\%(SECONDS\|SCAN\|REPLACE\|REM\|REALLOC\|PARMS\|PADDR\|OPEN\|OCCUR\|NULLIND\|MSECONDS\|MONTHS\|MINUTES\|LOOKUP\|LEN\|INTH\|INT\|HOURS\|GRAPH FOUND\)/
 sy match  rpgleBIF /%\%(FLOAT\|ERROR\|EQUAL\|EOF\|ELEM\|EDITW\|EDITFLT\|EDITC\|DIV\|DIFF\|DECPOS\|DECH\|DEC\|DAYS\|DATE\|CHECKR\|CHECK\|CHAR\|ALLOC\|ADDR\|ABS\)/
+sy match  rpgleBIF /%\%(BITAND\|BITNOT\|BITOR\|BITXOR\)/
 
 " All the groups than can be nested, eg. doesn't need to be on the outer most layer
 sy cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,rpgleProcedure,rpgleComment,rpgleIf,rpgleElseIf,rpgleElse,rpgleDo,rpgleFor,rpgleMonitor,rpgleSelect,rpgleKeywords,rpgleConstant,rpgleBIF,rpgleSql
