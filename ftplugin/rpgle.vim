@@ -1,8 +1,8 @@
 " Vim ftplugin file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 25, 2016
-" Version:              5
+" Last Change:          Jan 07, 2017
+" Version:              6
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 " quit when a syntax file was already loaded {{{1
@@ -25,19 +25,21 @@ let b:match_words = '\<select\>:\<when\>:\<endsl\>,'
 function! <SID>NextSection(pattern, flags) range
 
   let cnt = v:count1
-  let pos = getpos('.')
 
-  normal! 0
   mark '
+  let pos = getpos('.')
+  normal! ^
 
   while cnt > 0
     call search(a:pattern, a:flags . 'W')
     normal! ^
 
-    if pos == getpos('.')
+    let new_pos = getpos('.')
+    if pos == new_pos
       execute 'norm! ' a:flags =~# 'b' ? 'gg' : 'G'
       break
     endif
+    let pos = new_pos
 
     let cnt = cnt - 1
   endwhile
