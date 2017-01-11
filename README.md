@@ -9,6 +9,8 @@ auto indent, more match words as well as mapping a few sensible keys.
 
 ### Indent
 
+Add `let g:rpgle_indentStart = 0` to your `~/.vimrc~ to avoid 7 leading spaces.
+
 There is support for automatic indentation. An example is:
 
     dcl-proc myProc;

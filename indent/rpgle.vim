@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Jan 11, 2017
-" Version:              9
+" Version:              10
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -38,9 +38,10 @@ function! GetRpgleIndent()
   let cnum = v:lnum
   let pnum = prevnonblank(cnum - 1)
 
-  " There is no lines to determinate indent, so start at indent = 0
+  " There is no lines to determinate indent, so use what is set in
+  " 'g:rpgle_indentStart' or default to '7'
   if pnum == 0
-    return 0
+    return exists('g:rpgle_indentStart') ? g:rpgle_indentStart : 7
   endif
 
   let pind = indent(pnum)
