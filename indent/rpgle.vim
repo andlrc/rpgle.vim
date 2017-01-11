@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Jan 11, 2017
-" Version:              10
+" Version:              11
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -61,7 +61,6 @@ function! GetRpgleIndent()
   if pline =~ '^\s*\<dcl-pi\>' && cline =~ '^\s*\<end-pi\>'
   \ || pline =~ '^\s*\<dcl-pr\>' && cline =~ '^\s*\<end-pr\>'
   \ || pline =~ '^\s*\<dcl-ds\>' && cline =~ '^\s*\<end-ds\>'
-    echom 'dcl-xx'
     return pind
   endif
 
