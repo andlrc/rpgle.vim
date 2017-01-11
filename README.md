@@ -111,6 +111,10 @@ jump to the previous or next `end-proc`.
 
 See `:help [[` and `:help gd` for more information.
 
+### Demo
+
+![Demo](demo.gif)
+
 Installation
 ------------
 
