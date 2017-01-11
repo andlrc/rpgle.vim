@@ -1,8 +1,8 @@
 " Vim ftplugin file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Jan 07, 2017
-" Version:              6
+" Last Change:          Jan 11, 2017
+" Version:              7
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 " quit when a syntax file was already loaded {{{1
@@ -12,7 +12,7 @@ endif
 
 let b:did_ftplugin = 1
 
-let b:match_words = '\<select\>:\<when\>:\<endsl\>,'
+let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,'
       \ . '\<if\>:\<elseif\>:\<else\>:\<endif\>,'
       \ . '\<do[uw]\>:\<iter\>:\<leave\>:\<enddo\>,'
       \ . '\<begsr\>:\<endsr\>,'
