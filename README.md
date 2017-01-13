@@ -9,6 +9,8 @@ auto indent, more match words as well as mapping a few sensible keys.
 
 ### Indent
 
+Enable by running adding `filetype indent on` to your `~/.vimrc`.
+
 Add `let g:rpgle_indentStart = 0` to your `~/.vimrc` to avoid 7 leading spaces.
 
 There is support for automatic indentation. An example is:
@@ -66,11 +68,15 @@ Currently proper SQL indentation is missing:
 
 ### Syntax
 
+Enable by running adding `filetype syntax on` to your `~/.vimrc`.
+
 There is partial support for context aware syntax highlighting, and mistyped
 keywords will be *not* be highlighted. The same will happen for keywords outside
 it's proper context, such as `elseif` and `else` with no preceding `if`.
 
 ### Syntax Folds
+
+Enable by running adding `set foldmethod=syntax` to your `~/.vimrc`.
 
 The following folds is supported:
 
@@ -82,9 +88,9 @@ The following folds is supported:
     - dcl-proc -> end-proc
     - begsr    -> endsr
 
-And it can be enabled by running: `setlocal foldmethod=syntax`.
-
 ### Match Words
+
+Enable by running adding `runtime macros/matchit.vim` to your `~/.vimrc`.
 
 The following match words is supported:
 
@@ -97,9 +103,9 @@ The following match words is supported:
     - dcl-pi   -> end-pi
     - monitor  -> on-error -> endmon
 
-And it can be enabled by running: `runtime macros/matchit.vim`
-
 ### Movements
+
+Enable by running adding `filetype on` to your `~/.vimrc`.
 
 rpgle.vim takes the liberty to bind `[[`, `]]`, `[]`, `][` and `gd` and tried to
 make them useful in RPG/ILE:
@@ -109,11 +115,9 @@ jump to the previous or next `end-proc`.
 
 `gd` will search for the word under the cursor from the previous `dcl-proc`.
 
-See `:help [[` and `:help gd` for more information.
+See `:help [[` and `:help gd` and the GIF below:
 
-### Demo
-
-![Demo](demo.gif)
+![Movement](movement.gif)
 
 Installation
 ------------
