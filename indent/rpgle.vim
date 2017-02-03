@@ -1,8 +1,8 @@
 " Vim indent file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Jan 11, 2017
-" Version:              11
+" Last Change:          Feb 04, 2017
+" Version:              12
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -66,7 +66,7 @@ function! GetRpgleIndent()
 
   " 'dcl-ds' with 'likeds' on the same line doesn't take a definition and should
   " not do any indent:
-  if pline =~ '^\s*\<dcl-ds\>' && pline =~ '\<likeds\>';
+  if pline =~ '^\s*\<dcl-ds\>' && pline =~ '\<likeds\>'
     return pind
   endif
 
