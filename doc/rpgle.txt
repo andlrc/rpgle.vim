@@ -10,6 +10,8 @@ match words as well as mapping a few sensible keys.
 
 
 VARIABLES                                       *rpgle-variables*
+
+                                                *g:rpgle_indentStart*
 `g:rpgle_indentStart`     Set the number of leading spaces that should be used
                         when no previous line is to be accounted for.
 
@@ -54,18 +56,21 @@ The following match words is supported:
     `dcl-pi`   -> `end-pi`
     `monitor`  -> `on-error` -> `endmon`
 
-MOVEMENTS                                       *rpgle-match-words*
+MOVEMENTS                                       *rpgle-movements*
 
 Enable by adding the following to your |vimrc|
 
 `filetype on`
 
-                                                *[[*
-
+                                                *rpgle-[[*
 [[                      Jump to previous `dcl-proc`
+                                                *rpgle-]]*
 ]]                      Jump to next `dcl-proc`
+                                                *rpgle-[]*
 []                      Jump to previous `end-proc`
+                                                *rpgle-][*
 ][                      Jump to next `end-proc`
+                                                *rpgle-gd*
 gd                      Goto local Declaration.  When the cursor is on a local
                         variable, this command will jump to its declaration.
                         Use |gD| to goto global declaration.
