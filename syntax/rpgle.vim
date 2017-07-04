@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Jan 01, 2017
-" Version:              46
+" Last Change:          Jul 04, 2017
+" Version:              47
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -63,7 +63,7 @@ sy match   rpgleDclTypes    /\<\%(likeds\|char\|varchar\|ucs2\|varucs2\|graph\|v
 sy match   rpgleDclTypes    /\<\%(ind\|date\|timestamp\|time\|pointer\)\>/                                           extend contained
 sy match   rpgleDclKeywords /\<\(dcl-\([sc]\|pr\|ds\)\|end-\(pr\|cs\)\|inz\)\>/                                      extend contained
 
-sy cluster rpgleDclProps contains=rpgleDclTypes,rpgleDclKeywords,rpgleNumber,rpgleString,rpgleConstant
+sy cluster rpgleDclProps contains=rpgleComment,rpgleDclTypes,rpgleDclKeywords,rpgleNumber,rpgleString,rpgleConstant
 
 " dcl-pi properties
 sy match   rpgleDclPiType     /\<\%(extproc\|options\)\>\ze\s*(/                   extend contained
