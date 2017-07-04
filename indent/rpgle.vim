@@ -1,8 +1,8 @@
 " Vim indent file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Feb 04, 2017
-" Version:              12
+" Last Change:          Jul 04, 2017
+" Version:              13
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -13,6 +13,7 @@ let b:did_indent = 1
 
 setlocal indentexpr=GetRpgleIndent()
 setlocal indentkeys=o,O
+setlocal indentkeys+=0*
 setlocal indentkeys+=0=if,0=elseif,0=else,0=endif
 setlocal indentkeys+=0=dou,0=dow,0=enddo
 setlocal indentkeys+=0=for,0=endfor
@@ -48,6 +49,16 @@ function! GetRpgleIndent()
 
   let pline = getline(pnum)
   let cline = getline(cnum)
+
+  " Continues comments should indent the ``*'' one space
+  if cline =~ '^\s*\*' && pline =~ '^\s*/\*' && pline !~ '\*/'
+    return pind + 1
+  endif
+
+  " Continues comments should de indent one space when ended
+  if pline =~ '^\s*\*.*\*/' || cline =~ '^\s*\\\*.*\*/'
+    return pind - 1
+  endif
 
   " A 'when' which follows a 'select' should be indented:
   " All other 'when' should be de indented
