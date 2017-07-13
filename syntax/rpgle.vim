@@ -32,8 +32,9 @@ sy region rpgleIf   matchgroup=rpgleConditional start=/\<if\>/ end=/\<endif\>/ c
 sy match  rpgleElse /\<\%(else\|elseif\|or\|and\)\>/ contained
 
 " do[uw] ... endd and for ... endfor
-sy region rpgleDo  matchgroup=rpgleRepeat start=/\<do[wu]\>/ end=/\<enddo\>/  contains=@rpgleNest extend fold
-sy region rpgleFor matchgroup=rpgleRepeat start=/\<for\>/    end=/\<endfor\>/ contains=@rpgleNest extend fold
+sy region rpgleDo     matchgroup=rpgleRepeat start=/\<do[wu]\>/ end=/\<enddo\>/  contains=@rpgleNest extend fold
+sy region rpgleFor    matchgroup=rpgleRepeat start=/\<for\>/    end=/\<endfor\>/ contains=@rpgleNest extend fold
+sy match  rpgleRepeat /\<\%(iter\|leave\|or\|and\)\>/ contained
 
 " Monitor -> on-error -> endmon
 sy region rpgleMonitor matchgroup=rpgleConditional start=/\<monitor\>/ end=/\<endmon\>/ contains=@rpgleNest,rpgleOnError extend fold
@@ -93,7 +94,7 @@ sy match  rpgleBIF /%\%(FLOAT\|ERROR\|EQUAL\|EOF\|ELEM\|EDITW\|EDITFLT\|EDITC\|D
 sy match  rpgleBIF /%\%(BITAND\|BITNOT\|BITOR\|BITXOR\)/
 
 " All the groups than can be nested, eg. doesn't need to be on the outer most layer
-sy cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,rpgleProcedure,rpgleComment,rpgleIf,rpgleElseIf,rpgleElse,rpgleDo,rpgleFor,rpgleMonitor,rpgleSelect,rpgleKeywords,rpgleConstant,rpgleBIF,rpgleSql
+sy cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,rpgleProcedure,rpgleComment,rpgleIf,rpgleDo,rpgleFor,rpgleRepeat,rpgleMonitor,rpgleSelect,rpgleKeywords,rpgleConstant,rpgleBIF,rpgleSql
 
 hi link rpgleInclude       Include
 
