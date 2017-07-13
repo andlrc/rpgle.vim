@@ -115,9 +115,7 @@ jump to the previous or next `end-proc`.
 
 `gd` will search for the word under the cursor from the previous `dcl-proc`.
 
-See `:help [[` and `:help gd` and the GIF below:
-
-![Movement](movement.gif)
+See `:help [[` and `:help gd`.
 
 Installation
 ------------
