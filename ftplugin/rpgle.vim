@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Jul 23, 2017
-" Version:              10
+" Version:              11
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_ftplugin")
@@ -14,6 +14,7 @@ let b:did_ftplugin = 1
 let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
                   \ '\<if\>:\<elseif\>:\<else\>:\<endif\>,' .
                   \ '\<do[uw]\>:\<iter\>:\<leave\>:\<enddo\>,' .
+                  \ '\<for\>:\<iter\>:\<leave\>:\<endfor\>,' .
                   \ '\<begsr\>:\<endsr\>,' .
                   \ '\<dcl-proc\>:\<return\>:\<end-proc\>,' .
                   \ '\<dcl-pi\>:\<end-pi\>,' .
