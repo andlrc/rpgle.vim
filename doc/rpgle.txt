@@ -3,7 +3,7 @@
 Author:  Andreas Louv <andreas@louv.dk>
 License: Same terms as Vim itself (see |license|)
 
-INTRODUCTION                                    *rpgle*
+INTRODUCTION                                    *rpgle* *ft-rpgle*
 
 This bundle provides syntax highlighting, syntax folds, auto indent, more
 match words as well as mapping a few sensible keys.
