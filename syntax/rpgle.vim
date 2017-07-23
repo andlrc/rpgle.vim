@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Jul 06, 2017
-" Version:              48
+" Last Change:          Jul 23, 2017
+" Version:              49
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -13,7 +13,7 @@ syn include @rpgleSql syntax/sqlanywhere.vim
 
 syn case ignore
 let b:current_syntax = "rpgle"
-setlocal iskeyword+=-
+setlocal iskeyword+=-,%
 
 sy match  rpgleNumber     '\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>'
 sy region rpgleString     start=/'/ skip=/''/ end=/'/
