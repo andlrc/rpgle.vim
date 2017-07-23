@@ -107,15 +107,19 @@ The following match words is supported:
 
 Enable by running adding `filetype on` to your `~/.vimrc`.
 
-rpgle.vim takes the liberty to bind `[[`, `]]`, `[]`, `][` and `gd` and tried to
-make them useful in RPG/ILE:
+rpgle.vim takes the liberty to bind `[[`, `]]`, `[]`, `][`, `gd`, `[{` and `]}`
+and tried to make them useful in RPG/ILE:
 
-`[[` and `]]` will jump the previous or next `dcl-proc` while `][` and `[]` will
-jump to the previous or next `end-proc`.
+`[[` and `]]` will jump to the previous or next `dcl-proc` while `][` and `[]`
+will jump to the previous or next `end-proc`.
 
 `gd` will search for the word under the cursor from the previous `dcl-proc`.
 
-See `:help [[` and `:help gd`.
+`[{` and `]}` will jump to the associated block opener, i.e. standing inside an
+`if` statement and pressing `[{` will bring you to the `if`, pressing `]}` will
+bring you to the `endif`.
+
+See `:help rpgle-[[`, `:help rpgle-gd` and `:help rpgle-[{`
 
 Installation
 ------------

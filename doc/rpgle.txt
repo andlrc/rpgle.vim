@@ -74,5 +74,13 @@ Enable by adding the following to your |vimrc|
 gd                      Goto local Declaration.  When the cursor is on a local
                         variable, this command will jump to its declaration.
                         Use |gD| to goto global declaration.
+                                                *rpgle-[{*
+[{                      Jump  to the associated block opener, i.e. pressing
+                        |[{| inside an if statement will move the cursor to
+                        the if.
+                                                *rpgle-]}*
+]}                      Jump  to the associated block close, i.e. pressing
+                        |[{| inside an if statement will move the cursor to
+                        the endif.
 
  vim:tw=78:ts=8:ft=help:norl:

@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Jul 23, 2017
-" Version:              9
+" Version:              10
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_ftplugin")
@@ -27,6 +27,12 @@ noremap <script> <buffer> <silent> ]] :call rpgle#NextSection('^\s*dcl-proc', ''
 noremap <script> <buffer> <silent> ][ :call rpgle#NextSection('^\s*end-proc', '')<CR>
 noremap <script> <buffer> <silent> [[ :call rpgle#NextSection('^\s*dcl-proc', 'b')<CR>
 noremap <script> <buffer> <silent> [] :call rpgle#NextSection('^\s*end-proc', 'b')<CR>
+
+" }}}
+" Proper nest jumping {{{
+
+nnoremap <script> <buffer> <silent> [{ :call rpgle#NextNest('b')<CR>
+nnoremap <script> <buffer> <silent> ]} :call rpgle#NextNest('')<CR>
 
 " }}}
 
