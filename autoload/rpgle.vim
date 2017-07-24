@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Jul 24, 2017
-" Version:              3
+" Version:              4
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 function! rpgle#NextSection(pattern, flags) range
@@ -51,8 +51,12 @@ endfunction
 function! s:nextNestSearch(kw, flags)
 
   if a:kw[0] =~ 'if'
-    return searchpair(a:kw[0], '\<\(else\|elseif\)\>', a:kw[-1], a:flags . 'nW')
+    let middle = '\<\(else\|elseif\)\>'
   else
-    return searchpair(a:kw[0], '', a:kw[-1], a:flags . 'nW')
+    let middle = ''
   endif
+
+  " Find a pair which isn't inside a string nor comment
+  return searchpair(a:kw[0], middle, a:kw[-1], a:flags . 'nW',
+  \ 'synIDattr(synID(line("."), col("."), 1), "name") =~? "string\\|comment"')
 endfunction
