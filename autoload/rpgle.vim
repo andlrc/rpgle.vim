@@ -1,8 +1,8 @@
 " Vim autoload file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Jul 23, 2017
-" Version:              2
+" Last Change:          Jul 24, 2017
+" Version:              3
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 function! rpgle#NextSection(pattern, flags) range
@@ -43,7 +43,9 @@ function! rpgle#NextNest(flags)
 
   let new_pos = call(fn, [poss])
 
-  execute 'normal! ' . new_pos . 'G^'
+  if new_pos > 0
+    execute 'normal! ' . new_pos . 'G^'
+  endif
 endfunction
 
 function! s:nextNestSearch(kw, flags)
