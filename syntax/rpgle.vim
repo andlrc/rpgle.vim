@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Jul 23, 2017
-" Version:              49
+" Last Change:          Jul 28, 2017
+" Version:              50
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -16,10 +16,10 @@ let b:current_syntax = "rpgle"
 setlocal iskeyword+=-,%
 
 sy match  rpgleNumber     '\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>'
-sy region rpgleString     start=/'/ skip=/''/ end=/'/
+sy region rpgleString     start=/'/ skip=/''/ end=/'/ contains=@Spell
 sy match  rpgleOperator   /\%(\*\*\|<>\|>=\|<=\|<NOT>\|<AND>\|<OR>\|[-.*=><]\)/
-sy match  rpgleComment    '//.*' contains=rpgleTodo
-sy region rpgleComment    start='/\*' end='\*/' contains=rpgleTodo
+sy match  rpgleComment    '//.*' contains=rpgleTodo,@Spell
+sy region rpgleComment    start='/\*' end='\*/' contains=rpgleTodo,@Spell
 sy match  rpgleTodo       /\%(TODO\|FIXME\)/ contained
 sy match  rpgleConstant   /\*\%(ON\|OFF\|ENTRY\|ALL\|BLANKS\|BLANK\|ZEROS\|ZERO\|HIVAL\|LOVAL\|NULL\)\>/
 sy match  rpgleIdentifier /\*\%(IN0[1-9]\|IN[1-9][0-9]\|INH[1-9]\|INL[1-9]\|INLR\|INU[1-8]\|INRT\)\>/
