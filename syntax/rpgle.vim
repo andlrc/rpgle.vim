@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Jul 28, 2017
-" Version:              50
+" Version:              51
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -95,6 +95,8 @@ sy match  rpgleBIF /%\%(BITAND\|BITNOT\|BITOR\|BITXOR\)/
 
 " All the groups than can be nested, eg. doesn't need to be on the outer most layer
 sy cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,rpgleProcedure,rpgleComment,rpgleIf,rpgleDo,rpgleFor,rpgleRepeat,rpgleMonitor,rpgleSelect,rpgleKeywords,rpgleConstant,rpgleBIF,rpgleSql
+
+syn sync fromstart
 
 hi link rpgleInclude       Include
 
