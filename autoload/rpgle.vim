@@ -1,32 +1,32 @@
 " Vim autoload file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Jul 24, 2017
-" Version:              4
+" Last Change:          Aug 19, 2017
+" Version:              5
 " URL:                  https://github.com/andlrc/rpgle.vim
 
-function! rpgle#NextSection(pattern, flags) range
+function! rpgle#NextSection(motion, flags, mode) range
 
   let cnt = v:count1
+  let old_pos = getpos('.')
+
+  if a:mode == 'x'
+    normal! gv
+  endif
+
+  normal! 0
 
   mark '
-  let pos = getpos('.')
-  normal! ^
-
   while cnt > 0
-    call search(a:pattern, a:flags . 'W')
-    normal! ^
-
-    let new_pos = getpos('.')
-    if pos == new_pos
-      execute 'norm! ' a:flags =~# 'b' ? 'gg' : 'G'
-      break
+    call search(a:motion, a:flags . 'W')
+    if old_pos == getpos('.')
+      execute 'norm!' a:flags =~# 'b' ? 'gg' : 'G'
     endif
-    let pos = new_pos
-
+    let old_pos = getpos('.')
     let cnt = cnt - 1
   endwhile
 
+  normal! ^
 endfunction
 
 function! rpgle#NextNest(flags)
@@ -49,7 +49,6 @@ function! rpgle#NextNest(flags)
 endfunction
 
 function! s:nextNestSearch(kw, flags)
-
   if a:kw[0] =~ 'if'
     let middle = '\<\(else\|elseif\)\>'
   else

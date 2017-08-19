@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 19, 2017
-" Version:              12
+" Version:              13
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_ftplugin")
@@ -25,11 +25,24 @@ let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
 
 " Proper section jumping {{{
 
-noremap <script> <buffer> <silent> gd :execute 'keepj normal [[/\<<C-r><C-w>\>/' . "\r"<CR>
-noremap <script> <buffer> <silent> ]] :call rpgle#NextSection('^\s*dcl-proc', '')<CR>
-noremap <script> <buffer> <silent> ][ :call rpgle#NextSection('^\s*end-proc', '')<CR>
-noremap <script> <buffer> <silent> [[ :call rpgle#NextSection('^\s*dcl-proc', 'b')<CR>
-noremap <script> <buffer> <silent> [] :call rpgle#NextSection('^\s*end-proc', 'b')<CR>
+nnoremap <script> <buffer> <silent> gd
+       \ :<C-U>execute 'keepj normal [[/\<<C-r><C-w>\>/' . "\r"<CR>
+nnoremap <script> <buffer> <silent> ]]
+       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', '', '')<CR>
+nnoremap <script> <buffer> <silent> ][
+       \ :<C-U>call rpgle#NextSection('^\s*end-proc', '', '')<CR>
+nnoremap <script> <buffer> <silent> [[
+       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', 'b', '')<CR>
+nnoremap <script> <buffer> <silent> []
+       \ :<C-U>call rpgle#NextSection('^\s*end-proc', 'b', '')<CR>
+xnoremap <script> <buffer> <silent> ]]
+       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', '', 'x')<CR>
+xnoremap <script> <buffer> <silent> ][
+       \ :<C-U>call rpgle#NextSection('^\s*end-proc', '', 'x')<CR>
+xnoremap <script> <buffer> <silent> [[
+       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', 'b', 'x')<CR>
+xnoremap <script> <buffer> <silent> []
+       \ :<C-U>call rpgle#NextSection('^\s*end-proc', 'b', 'x')<CR>
 
 " }}}
 " Proper nest jumping {{{
