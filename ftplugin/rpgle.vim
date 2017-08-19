@@ -1,8 +1,8 @@
 " Vim ftplugin file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Jul 23, 2017
-" Version:              11
+" Last Change:          Aug 19, 2017
+" Version:              12
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_ftplugin")
@@ -10,6 +10,8 @@ if exists("b:did_ftplugin")
 endif
 
 let b:did_ftplugin = 1
+
+setlocal iskeyword+=-,%
 
 let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
                   \ '\<if\>:\<elseif\>:\<else\>:\<endif\>,' .
