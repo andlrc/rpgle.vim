@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 19, 2017
-" Version:              54
+" Version:              55
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -24,7 +24,7 @@ syn keyword rpgleTodo    contained TODO FIXME
 " }}}
 " Compiler directive {{{
 
-syn match rpgleInclude '^/\s*\zs\%(include\|copy\)'
+syn match rpgleInclude '^/\_s*\zs\%(include\|copy\)'
 
 " }}}
 " Header Specs {{{
@@ -37,15 +37,16 @@ syn region rpgleCtlSpec matchgroup=rpgleKeywords
 
 " Header Keywords
 syn keyword rpgleCtlKeywords ALLOC ACTGRP ALTSEQ ALWNULL AUT BNDDIR CCSID
-                           \ CCSIDCVT COPYNEST COPYRIGHT CURSYM CVTOPT DATEDIT
-                           \ DATFMT DCLOPT DEBUG DECEDIT DECPREC DFTACTGRP
-                           \ DFTNAME ENBPFRCOL EXPROPTS EXTBININT FIXNBR
-                           \ FLYDIV FORMSALIGN FTRANS GENLVL INDENT INTPREC
-                           \ LANGID MAIN NOMAIN OPENOPT OPTIMIZE OPTION PGMINFO
-                           \ PRFDTA SRTSEQ STGMDL TEXT THREAD TIMFMT TRUNCNBR
-                           \ USERPRF VALIDATE
+                           \ CCSIDCVT COPYNEST COPYRIGHT CURSYM CVTOPT
+                           \ DATEDIT DATFMT DCLOPT DEBUG DECEDIT DECPREC
+                           \ DFTACTGRP DFTNAME ENBPFRCOL EXPROPTS EXTBININT
+                           \ FIXNBR FLYDIV FORMSALIGN FTRANS GENLVL INDENT
+                           \ INTPREC LANGID MAIN NOMAIN OPENOPT OPTIMIZE
+                           \ OPTION PGMINFO PRFDTA SRTSEQ STGMDL TEXT THREAD
+                           \ TIMFMT TRUNCNBR USERPRF VALIDATE
 
-syn cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,rpgleString,rpgleConstant
+syn cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,rpgleString,
+                                  \rpgleConstant
 
 " }}}
 " Declaration Specs {{{
@@ -69,7 +70,7 @@ syn match   rpgleIdentifier /\*INU[1-8]/
 syn keyword rpgleIdentifier *INLR *INRT
 
 " Operators
-syn match   rpgleOperator /\*\*\|<>\|>=\|<=\|[-.*=><]/
+syn match   rpgleOperator /\*\*\|<>\|>=\|<=\|[.*=><+-]/
 
 " Standalone, Constant
 syn region  rpgleDclSpec matchgroup=rpgleDclKeywords
@@ -103,20 +104,22 @@ syn keyword rpgleDclTypes contained BINDEC CHAR DATE DATE FLOAT GRAPH IND INT
 
 " Declaration Keywords
 syn keyword rpgleDclKeywords contained ALIAS ALIGN ALT ALTSEQ ASCEND BASED
-                                     \ CCSID CLASS CONST CTDATA DATFMT DESCEND
-                                     \ DIM DTAARA EXPORT EXT EXTFLD EXTFMT
-                                     \ EXTNAME EXTPGM EXTPROC FROMFILE IMPORT
-                                     \ INZ LEN LIKE LIKEDS LIKEFILE LIKEREC
-                                     \ NOOPT NULLIND OCCURS OPDESC OPTIONS
-                                     \ OVERLAY PACKEVEN PERRCD POS PREFIX
-                                     \ PSDS QUALIFIED RTNPARM STATIC TEMPLATE
-                                     \ TIMFMT TOFILE VALUE
+                                     \ CCSID CLASS CONST CTDATA DATFMT
+                                     \ DESCEND DIM DTAARA EXPORT EXT EXTFLD
+                                     \ EXTFMT EXTNAME EXTPGM EXTPROC FROMFILE
+                                     \ IMPORT INZ LEN LIKE LIKEDS LIKEFILE
+                                     \ LIKEREC NOOPT NULLIND OCCURS OPDESC
+                                     \ OPTIONS OVERLAY PACKEVEN PERRCD POS
+                                     \ PREFIX PSDS QUALIFIED RTNPARM STATIC
+                                     \ TEMPLATE TIMFMT TOFILE VALUE
 
 " Declaration Constaints
 syn keyword rpgleDclConstants contained *NOPASS *OMIT *VARSIZE *STRING
                                       \ *RIGHTADJ
 
-syn cluster rpgleDclProps contains=rpgleComment,rpgleDclTypes,rpgleDclKeywords,rpgleDclConstants,rpgleNumber,rpgleString,rpgleConstant
+syn cluster rpgleDclProps contains=rpgleComment,rpgleDclTypes,
+                                  \rpgleDclKeywords,rpgleDclConstants,
+                                  \rpgleNumber,rpgleString,rpgleConstant
 
 " }}}
 " Calculation Specs {{{
@@ -165,12 +168,12 @@ syn region rpgleSelect matchgroup=rpgleSwitch
                      \ fold
 syn region rpgleWhen   matchgroup=rpgleSwitch
                      \ start=/\<when\>/
-                     \ end=/\ze\n\s*\<\%(when\|other\|endsl\)\>/
+                     \ end=/\ze\n\_s*\<\%(when\|other\|endsl\)\>/
                      \ contains=@rpgleNest
                      \ contained
 syn region rpgleOther  matchgroup=rpgleSwitch
                      \ start=/\<other\>/
-                     \ end=/\ze\n\s*\<endsl\>/
+                     \ end=/\ze\n\_s*\<endsl\>/
                      \ contains=@rpgleNest
                      \ contained
 
@@ -217,7 +220,10 @@ syn region rpgleDclProc matchgroup=rpgleLabel
 " }}}
 
 " All nestable groups, i.e. mostly Calculation Spec keywords:
-syn cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,rpgleProcedure,rpgleComment,rpgleIf,rpgleDo,rpgleFor,rpgleRepeat,rpgleMonitor,rpgleSelect,rpgleKeywords,rpgleConstant,rpgleBIF,rpgleSql
+syn cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,
+                              \rpgleProcedure,rpgleComment,rpgleIf,rpgleDo,
+                              \rpgleFor,rpgleRepeat,rpgleMonitor,rpgleSelect,
+                              \rpgleKeywords,rpgleConstant,rpgleBIF,rpgleSql
 
 syn sync fromstart
 
