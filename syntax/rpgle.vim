@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 19, 2017
-" Version:              52
+" Version:              53
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -62,44 +62,45 @@ syn region  rpgleDclList matchgroup=rpgleDclKeywords
                        \ contains=@rpgleDclProps
 
 " Procedure Interface
-syn region  rpgleDclList       matchgroup=rpgleDclKeywords
-                             \ start=/\<dcl-pi\>/
-                             \ end=/\<end-pi\>/
-                             \ contains=@rpgleDclPiProps
-                             \ fold
-syn keyword rpgleDclPiKeywords contained EXTPROC OPTIONS VALUE CONST
-syn keyword rpgleDclPiConstant contained *NOPASS *OMIT *VARSIZE *STRING
-                                       \ *RIGHTADJ
-syn cluster rpgleDclPiProps    contains=@rpgleDclProps,rpgleDclPrKeywords,rpgleDclPrConstant
+syn region  rpgleDclList matchgroup=rpgleDclKeywords
+                       \ start=/\<dcl-pi\>/
+                       \ end=/\<end-pi\>/
+                       \ contains=@rpgleDclProps
+                       \ fold
 
 " Prototype
-syn region  rpgleDclList       matchgroup=rpgleDclKeywords
-                             \ start=/\<dcl-pr\>/
-                             \ end=/\<end-pr\>/
-                             \ contains=@rpgleDclPrProps
-syn keyword rpgleDclPrKeywords contained EXTPROC OPTIONS VALUE CONST
-syn keyword rpgleDclPrConstant contained *NOPASS *OMIT *VARSIZE *STRING
-                                       \ *RIGHTADJ
-syn cluster rpgleDclPrProps    contains=@rpgleDclProps,rpgleDclPrKeywords,rpgleDclPrConstant
+syn region  rpgleDclList matchgroup=rpgleDclKeywords
+                       \ start=/\<dcl-pr\>/
+                       \ end=/\<end-pr\>/
+                       \ contains=@rpgleDclProps
 
 " Data Structure
-syn region  rpgleDclList       matchgroup=rpgleDclKeywords
-                             \ start=/\<dcl-ds\>/
-                             \ end=/\<\%(end-ds\|likeds\|likerec\)\>/
-                             \ contains=@rpgleDclDsProps
-syn keyword rpgleDclDsKeywords contained LIKEREC LEN EXTNAME BASED QUALIFIED
-syn cluster rpgleDclDsProps    contains=@rpgleDclProps,rpgleDclDsKeywords
+syn region  rpgleDclList matchgroup=rpgleDclKeywords
+                       \ start=/\<dcl-ds\>/
+                       \ end=/\<\%(end-ds\|likeds\|likerec\)\>/
+                       \ contains=@rpgleDclProps
 
 " Declaration Types
-syn keyword rpgleDclTypes contained BINDEC INT UNS FLOAT DATE TIME POINTER
-                                  \ OBJECT CONST DIM LIKE LIKEDS CHAR
-                                  \ VARCHAR UCS2 VARUCS2 GRAPH VARGRAPH
-                                  \ PACKED ZONED IND DATE TIMESTAMP TIME
-                                  \ POINTER
-" INZ Keyword
-syn keyword rpgleDclKeywords contained INZ
+syn keyword rpgleDclTypes contained BINDEC CHAR DATE DATE FLOAT GRAPH IND INT
+                                  \ OBJECT PACKED POINTER TIMESTAMP TIME UCS2
+                                  \ UCS2 UNS VARCHAR VARGRAPH VARUCS2 ZONED
 
-syn cluster rpgleDclProps    contains=rpgleComment,rpgleDclTypes,rpgleDclKeywords,rpgleNumber,rpgleString,rpgleConstant
+" Declaration Keywords
+syn keyword rpgleDclKeywords contained ALIAS ALIGN ALT ALTSEQ ASCEND BASED
+                                     \ CCSID CLASS CONST CTDATA DATFMT DESCEND
+                                     \ DIM DTAARA EXPORT EXT EXTFLD EXTFMT
+                                     \ EXTNAME EXTPGM EXTPROC FROMFILE IMPORT
+                                     \ INZ LEN LIKE LIKEDS LIKEFILE LIKEREC
+                                     \ NOOPT NULLIND OCCURS OPDESC OPTIONS
+                                     \ OVERLAY PACKEVEN PERRCD POS PREFIX
+                                     \ PSDS QUALIFIED RTNPARM STATIC TEMPLATE
+                                     \ TIMFMT TOFILE VALUE
+
+" Declaration Constaints
+syn keyword rpgleDclConstants contained *NOPASS *OMIT *VARSIZE *STRING
+                                      \ *RIGHTADJ
+
+syn cluster rpgleDclProps contains=rpgleComment,rpgleDclTypes,rpgleDclKeywords,rpgleDclConstants,rpgleNumber,rpgleString,rpgleConstant
 
 " }}}
 " Calculation Specs {{{
@@ -158,15 +159,16 @@ syn region rpgleOther  matchgroup=rpgleSwitch
                      \ contained
 
 " Build In Functions
-syn keyword rpgleBIF %YEARS %XLATE %XFOOT %UNSH %UNS %UCS2 %TRIMR %TRIML %TRIM
-                   \ %TLOOKUP %TIMESTAMP %TIME %THIS %SUBST %SUBDT %STR %STATUS
-                   \ %SQRT %SIZE %SHTDN %ECONDS %SCANRPL %SCANR %SCAN %REPLACE
-                   \ %REM %REALLOC %PARMS %PADDR %OPEN %OCCUR %NULLIND
-                   \ %MSECONDS %MONTHS %MINUTES %LOOKUP %LEN %INTH %INT %HOURS
-                   \ %GRAPH %FOUND %LOAT %ERROR %EQUAL %EOF %ELEM %EDITW
-                   \ %EDITFLT %EDITC %DIV %DIFF %DECPOS %DECH %DEC %DAYS %DATE
-                   \ %CHECKR %CHECK %CHAR %ALLOC %ADDR %ABS %ITAND %BITNOT
-                   \ %BITOR %BITXOR
+syn keyword rpgleBIF %ABS %ADDR %ALLOC %BITAND %BITNOT %BITOR %BITXOR %CHAR
+                   \ %CHECK %CHECKR %DATE %DAYS %DEC %DECH %DECPOS %DIFF %DIV
+                   \ %EDITC %EDITFLT %EDITW %ELEM %EOF %EQUAL %ERROR %FIELDS
+                   \ %FLOAT %FOUND %GRAPH %HANDLER %HOURS %INT %INTH %KDS
+                   \ %LEN %LOOKUPxx %MAX %MIN %MINUTES %MONTHS %MSECONDS
+                   \ %NULLIND %OCCUR %OPEN %PADDR %PARMNUM %PARMS %REALLOC
+                   \ %REM %REPLACE %SCAN %SCANR %SCANRPL %SECONDS %SHTDN
+                   \ %SIZE %SQRT %STATUS %STR %SUBARR %SUBDT %SUBST %THIS
+                   \ %TIME %TIMESTAMP %TLOOKUPxx %TRIM %TRIML %TRIMR %UCS2
+                   \ %UNS %UNSH %XFOOT %XLATE %XML %YEARS
 
 " Exec SQL
 syn region rpgleSql matchgroup=rpgleLabel
@@ -227,14 +229,6 @@ hi link rpgleKeywords      Keyword
 
 hi link rpgleDclTypes      Type
 hi link rpgleDclKeywords   Keyword
-
-hi link rpgleDclPiKeywords Keyword
-hi link rpgleDclPiConstant Constant
-
-hi link rpgleDclPrKeywords Keyword
-hi link rpgleDclPrConstant Constant
-
-hi link rpgleDclDsKeywords Keyword
 
 hi link rpgleLabel         Label
 hi link rpgleBIF           Function
