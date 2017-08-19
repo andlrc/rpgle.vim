@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 19, 2017
-" Version:              53
+" Version:              54
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -29,7 +29,23 @@ syn match rpgleInclude '^/\s*\zs\%(include\|copy\)'
 " }}}
 " Header Specs {{{
 
-syn keyword rpgleKeywords CTL-OPT
+" CTL-OPT ... ;
+syn region rpgleCtlSpec matchgroup=rpgleKeywords
+                      \ start=/\<ctl-opt\>/
+                      \ end=/;/
+                      \ contains=@rpgleCtlProps
+
+" Header Keywords
+syn keyword rpgleCtlKeywords ALLOC ACTGRP ALTSEQ ALWNULL AUT BNDDIR CCSID
+                           \ CCSIDCVT COPYNEST COPYRIGHT CURSYM CVTOPT DATEDIT
+                           \ DATFMT DCLOPT DEBUG DECEDIT DECPREC DFTACTGRP
+                           \ DFTNAME ENBPFRCOL EXPROPTS EXTBININT FIXNBR
+                           \ FLYDIV FORMSALIGN FTRANS GENLVL INDENT INTPREC
+                           \ LANGID MAIN NOMAIN OPENOPT OPTIMIZE OPTION PGMINFO
+                           \ PRFDTA SRTSEQ STGMDL TEXT THREAD TIMFMT TRUNCNBR
+                           \ USERPRF VALIDATE
+
+syn cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,rpgleString,rpgleConstant
 
 " }}}
 " Declaration Specs {{{
@@ -56,33 +72,33 @@ syn keyword rpgleIdentifier *INLR *INRT
 syn match   rpgleOperator /\*\*\|<>\|>=\|<=\|[-.*=><]/
 
 " Standalone, Constant
-syn region  rpgleDclList matchgroup=rpgleDclKeywords
+syn region  rpgleDclSpec matchgroup=rpgleDclKeywords
                        \ start=/\<dcl-[sc]\>/
                        \ end=/$/
                        \ contains=@rpgleDclProps
 
 " Procedure Interface
-syn region  rpgleDclList matchgroup=rpgleDclKeywords
+syn region  rpgleDclSpec matchgroup=rpgleDclKeywords
                        \ start=/\<dcl-pi\>/
                        \ end=/\<end-pi\>/
                        \ contains=@rpgleDclProps
                        \ fold
 
 " Prototype
-syn region  rpgleDclList matchgroup=rpgleDclKeywords
+syn region  rpgleDclSpec matchgroup=rpgleDclKeywords
                        \ start=/\<dcl-pr\>/
                        \ end=/\<end-pr\>/
                        \ contains=@rpgleDclProps
 
 " Data Structure
-syn region  rpgleDclList matchgroup=rpgleDclKeywords
+syn region  rpgleDclSpec matchgroup=rpgleDclKeywords
                        \ start=/\<dcl-ds\>/
                        \ end=/\<\%(end-ds\|likeds\|likerec\)\>/
                        \ contains=@rpgleDclProps
 
 " Declaration Types
 syn keyword rpgleDclTypes contained BINDEC CHAR DATE DATE FLOAT GRAPH IND INT
-                                  \ OBJECT PACKED POINTER TIMESTAMP TIME UCS2
+                                  \ OBJECT PACKED POINTER TIME TIMESTAMP UCS2
                                   \ UCS2 UNS VARCHAR VARGRAPH VARUCS2 ZONED
 
 " Declaration Keywords
@@ -133,7 +149,7 @@ syn region  rpgleFor matchgroup=rpgleRepeat
 " ITER, LEAVE
 syn keyword rpgleRepeat contained ITER LEAVE
 
-" Monitor -> on-error -> endmon
+" MONITOR -> ON-ERROR -> ENDMON
 syn region  rpgleMonitor matchgroup=rpgleConditional
                        \ start=/\<monitor\>/
                        \ end=/\<endmon\>/
@@ -141,7 +157,7 @@ syn region  rpgleMonitor matchgroup=rpgleConditional
                        \ fold
 syn keyword rpgleOnError contained ON-ERROR
 
-" select -> when -> other -> endsl
+" SELECT -> WHEN -> OTHER -> ENDSL
 syn region rpgleSelect matchgroup=rpgleSwitch
                      \ start=/\<select\>/
                      \ end=/\<endsl\>/
@@ -195,7 +211,7 @@ syn keyword rpgleKeywords EXSR
 
 syn region rpgleDclProc matchgroup=rpgleLabel
                       \ start=/\<dcl-proc\>/ end=/\<end-proc\>/
-                      \ contains=@rpgleNest,rpgleSub,rpgleDclList
+                      \ contains=@rpgleNest,rpgleSub,rpgleDclSpec
                       \ fold
 
 " }}}
@@ -216,6 +232,11 @@ hi link rpgleTodo          Todo
 hi link rpgleConstant      Constant
 hi link rpgleIdentifier    Identifier
 
+hi link rpgleCtlKeywords   Keyword
+
+hi link rpgleDclTypes      Type
+hi link rpgleDclKeywords   Keyword
+
 hi link rpgleElse          rpgleConditional
 hi link rpgleConditional   Conditional
 
@@ -226,9 +247,6 @@ hi link rpgleOnError       Label
 hi link rpgleSwitch        Label
 
 hi link rpgleKeywords      Keyword
-
-hi link rpgleDclTypes      Type
-hi link rpgleDclKeywords   Keyword
 
 hi link rpgleLabel         Label
 hi link rpgleBIF           Function
