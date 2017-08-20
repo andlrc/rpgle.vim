@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 20, 2017
-" Version:              60
+" Version:              61
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -57,7 +57,8 @@ syntax cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,
 " Declaration Specs {{{
 
 " Numbers and Strings
-syntax match   rpgleNumber '\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>'
+
+syntax match   rpgleNumber /\d\+\.\d\+\|\.\d\+\|\d\+\./
 syntax region  rpgleString start=/[xz]\='/
                          \ skip=/''\|[+-]$/
                          \ end=/'\|$/
