@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 20, 2017
-" Version:              58
+" Version:              59
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -14,7 +14,7 @@ let b:current_syntax = "rpgle"
 syntax include @rpgleSql syntax/sqlanywhere.vim
 
 syntax case ignore
-syntax iskeyword @,48-57,192-255,-,%,*
+syntax iskeyword @,48-57,192-255,-,%,*,/
 
 " Comments {{{
 
@@ -25,10 +25,9 @@ syntax keyword rpgleTodo    contained TODO FIXME
 " }}}
 " Compiler directive {{{
 
-syntax match rpgleInclude '^\_s*\zs/\%(INCLUDE\|COPY\)'
-                        \ nextgroup=rpgleIncludeFile,rpgleString
-
-syntax match rpgleIncludeFile /\w\+\|\w\+\.\w\+/ contained
+syntax keyword rpglePreProc /COPY /DEFINE /EJECT /ELSE /ELSEIF /END-FREE
+                          \ /ENDIF /EOF /FREE /IF /INCLUDE /RESTORE /SET
+                          \ /SPACE /TITLE /UNDEFINE /SET
 
 " }}}
 " Header Specs {{{
@@ -59,24 +58,24 @@ syntax cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,
 
 " Numbers and Strings
 syntax match   rpgleNumber '\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>'
-syntax region  rpgleString start=/'/
+syntax region  rpgleString start=/[xz]\='/
                          \ skip=/''\|[+-]$/
                          \ end=/'\|$/
                          \ contains=@Spell
 
 " Constants
-syntax keyword rpgleConstant *ON *OFF *ENTRY *ALL *BLANKS *BLANK *ZEROS *ZERO
-                           \ *HIVAL *LOVAL *NULL
+syntax keyword rpgleConstant *ALL *BLANK *BLANKS *ENTRY *HIVAL *LOVAL *NULL
+                           \ *OFF *ON *ZERO *ZEROS
 
 " *IN01 .. *IN99, *INH1 .. *INH9, *INL1 .. *INL9, *INLR, *INRT
-syntax match   rpgleIdentifier /\%(\*IN0[1-9]\|\*IN[1-9][0-9]\)/
-syntax match   rpgleIdentifier /\*INH[1-9]/
-syntax match   rpgleIdentifier /\*INL[1-9]/
-syntax match   rpgleIdentifier /\*INU[1-8]/
-syntax keyword rpgleIdentifier *INLR *INRT
+syntax match   rpgleSpecialKey /\%(\*IN0[1-9]\|\*IN[1-9][0-9]\)/
+syntax match   rpgleSpecialKey /\*INH[1-9]/
+syntax match   rpgleSpecialKey /\*INL[1-9]/
+syntax match   rpgleSpecialKey /\*INU[1-8]/
+syntax keyword rpgleSpecialKey *INLR *INRT
 
 " Operators
-syntax match   rpgleOperator /\*\*\|<>\|>=\|<=\|[.*=><+-]/
+syntax match   rpgleOperator /\*\|<>\|>=\|<=\|[*=><+-]/
 
 " Standalone, Constant
 syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
@@ -121,11 +120,11 @@ syntax keyword rpgleDclKeywords contained
                               \ TOFILE VALUE
 
 " Declaration Constaints
-syntax keyword rpgleDclConstants contained
+syntax keyword rpgleDclSpecialKeys contained
                                \ *NOPASS *OMIT *VARSIZE *STRING *RIGHTADJ
 
 syntax cluster rpgleDclProps contains=rpgleComment,rpgleDclTypes,
-                                     \rpgleDclKeywords,rpgleDclConstants,
+                                     \rpgleDclKeywords,rpgleDclSpecialKeys,
                                      \rpgleNumber,rpgleString,rpgleConstant
 
 " }}}
@@ -206,8 +205,17 @@ syntax region rpgleSql matchgroup=rpgleKeywords
                      \ contains=@rpgleSql
 
 " Procedures
-syntax match   rpgleProcedure '%\@1<!\<\w\+\>\ze('
-syntax keyword rpgleKeywords  RETURN
+syntax region  rpgleProcCall matchgroup=rpgleProc
+                           \ start=/%\@1<!\<\w\+(/
+                           \ end=/)/
+                           \ contains=@rpgleProcArgs
+
+syntax cluster rpgleProcArgs contains=rpgleBIF,rpgleComment,rpgleConstant,
+                                     \rpgleNumber,rpglePreProc,rpgleProcCall,
+                                     \rpgleProcOmit,rpgleSpecialKey,
+                                     \rpgleString
+syntax keyword rpgleProcOmit contained *OMIT
+syntax keyword rpgleKeywords RETURN
 
 " BEGSR .. ENDSR
 syntax region rpgleSub matchgroup=rpgleKeywords
@@ -231,31 +239,36 @@ syntax region rpgleDclProc matchgroup=rpgleKeywords
 " }}}
 
 " All nestable groups, i.e. mostly Calculation Spec keywords:
-syntax cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,
-                              \rpgleProcedure,rpgleComment,rpgleIf,rpgleDo,
-                              \rpgleFor,rpgleRepeat,rpgleMonitor,rpgleSelect,
-                              \rpgleKeywords,rpgleConstant,rpgleBIF,rpgleSql
+syntax cluster rpgleNest contains=rpgleBIF,rpgleComment,rpgleConditional,
+                                 \rpgleConstant,rpgleDo,rpgleFor,rpgleIf,
+                                 \rpgleKeywords,rpgleMonitor,rpgleNumber,
+                                 \rpgleOperator,rpglePreProc,rpgleProcCall,
+                                 \rpgleRepeat,rpgleSelect,rpgleSpecialKey,
+                                 \rpgleSql,rpgleString
 
 syntax sync fromstart
 
-highlight link rpgleInclude     Include
-highlight link rpgleIncludeFile String
-highlight link rpgleNumber      Number
-highlight link rpgleString      String
-highlight link rpgleOperator    Operator
-highlight link rpgleProcedure   Function
-highlight link rpgleComment     Comment
-highlight link rpgleTodo        Todo
-highlight link rpgleConstant    Constant
-highlight link rpgleIdentifier  Identifier
-highlight link rpgleCtlKeywords rpgleKeywords
-highlight link rpgleDclTypes    Type
-highlight link rpgleDclKeywords rpgleKeywords
-highlight link rpgleElse        rpgleConditional
-highlight link rpgleOnError     rpgleKeywords
-highlight link rpgleConditional Conditional
-highlight link rpgleRepeat      Repeat
-highlight link rpgleKeywords    Keyword
-highlight link rpgleBIF         Function
+highlight link rpglePreProc        PreProc
+highlight link rpgleSpecialKey     SpecialKey
+highlight link rpgleNumber         Number
+highlight link rpgleString         String
+highlight link rpgleOperator       Operator
+highlight link rpgleComment        Comment
+highlight link rpgleTodo           Todo
+highlight link rpgleConstant       Constant
+highlight link rpgleConditional    Conditional
+highlight link rpgleRepeat         Repeat
+highlight link rpgleKeywords       Keyword
+highlight link rpgleSpecial        Special
+highlight link rpgleTypes          Type
+
+highlight link rpgleProcOmit       rpgleSpecialKey
+highlight link rpgleCtlKeywords    rpgleKeywords
+highlight link rpgleDclTypes       rpgleTypes
+highlight link rpgleDclKeywords    rpgleKeywords
+highlight link rpgleDclSpecialKeys rpgleSpecialKey
+highlight link rpgleElse           rpgleConditional
+highlight link rpgleOnError        rpgleKeywords
+highlight link rpgleBIF            rpgleSpecial
 
 " vim: foldmethod=marker
