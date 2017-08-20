@@ -1,260 +1,257 @@
 " Vim syntax file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Aug 19, 2017
-" Version:              55
+" Last Change:          Aug 20, 2017
+" Version:              56
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
   finish
 endif
 
-syn include @rpgleSql syntax/sqlanywhere.vim
-
-syn case ignore
 let b:current_syntax = "rpgle"
-syn iskeyword @,48-57,192-255,-,%,*
+
+syntax include @rpgleSql syntax/sqlanywhere.vim
+
+syntax case ignore
+syntax iskeyword @,48-57,192-255,-,%,*
 
 " Comments {{{
 
-syn match   rpgleComment '//.*' contains=rpgleTodo,@Spell
-syn region  rpgleComment start='/\*' end='\*/' contains=rpgleTodo,@Spell
-syn keyword rpgleTodo    contained TODO FIXME
+syntax match   rpgleComment '//.*' contains=rpgleTodo,@Spell
+syntax region  rpgleComment start='/\*' end='\*/' contains=rpgleTodo,@Spell
+syntax keyword rpgleTodo    contained TODO FIXME
 
 " }}}
 " Compiler directive {{{
 
-syn match rpgleInclude '^/\_s*\zs\%(include\|copy\)'
+syntax match rpgleInclude '^/\_s*\zs\%(INCLUDE\|COPY\)'
 
 " }}}
 " Header Specs {{{
 
 " CTL-OPT ... ;
-syn region rpgleCtlSpec matchgroup=rpgleKeywords
-                      \ start=/\<ctl-opt\>/
-                      \ end=/;/
-                      \ contains=@rpgleCtlProps
+syntax region rpgleCtlSpec matchgroup=rpgleKeywords
+                         \ start=/\<CTL-OPT\>/
+                         \ end=/;/
+                         \ contains=@rpgleCtlProps
 
 " Header Keywords
-syn keyword rpgleCtlKeywords ALLOC ACTGRP ALTSEQ ALWNULL AUT BNDDIR CCSID
-                           \ CCSIDCVT COPYNEST COPYRIGHT CURSYM CVTOPT
-                           \ DATEDIT DATFMT DCLOPT DEBUG DECEDIT DECPREC
-                           \ DFTACTGRP DFTNAME ENBPFRCOL EXPROPTS EXTBININT
-                           \ FIXNBR FLYDIV FORMSALIGN FTRANS GENLVL INDENT
-                           \ INTPREC LANGID MAIN NOMAIN OPENOPT OPTIMIZE
-                           \ OPTION PGMINFO PRFDTA SRTSEQ STGMDL TEXT THREAD
-                           \ TIMFMT TRUNCNBR USERPRF VALIDATE
+syntax keyword rpgleCtlKeywords ALLOC ACTGRP ALTSEQ ALWNULL AUT BNDDIR CCSID
+                              \ CCSIDCVT COPYNEST COPYRIGHT CURSYM CVTOPT
+                              \ DATEDIT DATFMT DCLOPT DEBUG DECEDIT DECPREC
+                              \ DFTACTGRP DFTNAME ENBPFRCOL EXPROPTS
+                              \ EXTBININT  FIXNBR FLYDIV FORMSALIGN FTRANS
+                              \ GENLVL INDENT  INTPREC LANGID MAIN NOMAIN
+                              \ OPENOPT OPTIMIZE  OPTION PGMINFO PRFDTA
+                              \ SRTSEQ STGMDL TEXT THREAD  TIMFMT TRUNCNBR
+                              \ USERPRF VALIDATE
 
-syn cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,rpgleString,
-                                  \rpgleConstant
+syntax cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,
+                                     \rpgleString,rpgleConstant
 
 " }}}
 " Declaration Specs {{{
 
 " Numbers and Strings
-syn match   rpgleNumber '\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>'
-syn region  rpgleString start=/'/
-                      \ skip=/''\|[+-]$/
-                      \ end=/'\|$/
-                      \ contains=@Spell
+syntax match   rpgleNumber '\<[[:digit:]]\{1,}\%(\.[[:digit:]]*\)\=\>'
+syntax region  rpgleString start=/'/
+                         \ skip=/''\|[+-]$/
+                         \ end=/'\|$/
+                         \ contains=@Spell
 
 " Constants
-syn keyword rpgleConstant *ON *OFF *ENTRY *ALL *BLANKS *BLANK
-                        \ *ZEROS *ZERO *HIVAL *LOVAL *NULL
+syntax keyword rpgleConstant *ON *OFF *ENTRY *ALL *BLANKS *BLANK
+                           \ *ZEROS *ZERO *HIVAL *LOVAL *NULL
 
 " *IN01 .. *IN99, *INH1 .. *INH9, *INL1 .. *INL9, *INLR, *INRT
-syn match   rpgleIdentifier /\%(\*IN0[1-9]\|\*IN[1-9][0-9]\)/
-syn match   rpgleIdentifier /\*INH[1-9]/
-syn match   rpgleIdentifier /\*INL[1-9]/
-syn match   rpgleIdentifier /\*INU[1-8]/
-syn keyword rpgleIdentifier *INLR *INRT
+syntax match   rpgleIdentifier /\%(\*IN0[1-9]\|\*IN[1-9][0-9]\)/
+syntax match   rpgleIdentifier /\*INH[1-9]/
+syntax match   rpgleIdentifier /\*INL[1-9]/
+syntax match   rpgleIdentifier /\*INU[1-8]/
+syntax keyword rpgleIdentifier *INLR *INRT
 
 " Operators
-syn match   rpgleOperator /\*\*\|<>\|>=\|<=\|[.*=><+-]/
+syntax match   rpgleOperator /\*\*\|<>\|>=\|<=\|[.*=><+-]/
 
 " Standalone, Constant
-syn region  rpgleDclSpec matchgroup=rpgleDclKeywords
-                       \ start=/\<dcl-[sc]\>/
-                       \ end=/$/
-                       \ contains=@rpgleDclProps
+syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
+                          \ start=/\<DCL-[SC]\>/
+                          \ end=/$/
+                          \ contains=@rpgleDclProps
 
 " Procedure Interface
-syn region  rpgleDclSpec matchgroup=rpgleDclKeywords
-                       \ start=/\<dcl-pi\>/
-                       \ end=/\<end-pi\>/
-                       \ contains=@rpgleDclProps
-                       \ fold
+syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
+                          \ start=/\<DCL-PI\>/
+                          \ end=/\<END-PI\>/
+                          \ contains=@rpgleDclProps
+                          \ fold
 
 " Prototype
-syn region  rpgleDclSpec matchgroup=rpgleDclKeywords
-                       \ start=/\<dcl-pr\>/
-                       \ end=/\<end-pr\>/
-                       \ contains=@rpgleDclProps
+syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
+                          \ start=/\<DCL-PR\>/
+                          \ end=/\<END-PR\>/
+                          \ contains=@rpgleDclProps
 
 " Data Structure
-syn region  rpgleDclSpec matchgroup=rpgleDclKeywords
-                       \ start=/\<dcl-ds\>/
-                       \ end=/\<\%(end-ds\|likeds\|likerec\)\>/
-                       \ contains=@rpgleDclProps
+syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
+                          \ start=/\<DCL-DS\>/
+                          \ end=/\<\%(END-DS\|LIKEDS\|LIKEREC\)\>/
+                          \ contains=@rpgleDclProps
 
 " Declaration Types
-syn keyword rpgleDclTypes contained BINDEC CHAR DATE DATE FLOAT GRAPH IND INT
-                                  \ OBJECT PACKED POINTER TIME TIMESTAMP UCS2
-                                  \ UCS2 UNS VARCHAR VARGRAPH VARUCS2 ZONED
+syntax keyword rpgleDclTypes contained BINDEC CHAR DATE DATE FLOAT GRAPH IND
+                                     \ INT OBJECT PACKED POINTER TIME
+                                     \ TIMESTAMP UCS2 UCS2 UNS VARCHAR
+                                     \ VARGRAPH VARUCS2 ZONED
 
 " Declaration Keywords
-syn keyword rpgleDclKeywords contained ALIAS ALIGN ALT ALTSEQ ASCEND BASED
-                                     \ CCSID CLASS CONST CTDATA DATFMT
-                                     \ DESCEND DIM DTAARA EXPORT EXT EXTFLD
-                                     \ EXTFMT EXTNAME EXTPGM EXTPROC FROMFILE
-                                     \ IMPORT INZ LEN LIKE LIKEDS LIKEFILE
-                                     \ LIKEREC NOOPT NULLIND OCCURS OPDESC
-                                     \ OPTIONS OVERLAY PACKEVEN PERRCD POS
-                                     \ PREFIX PSDS QUALIFIED RTNPARM STATIC
-                                     \ TEMPLATE TIMFMT TOFILE VALUE
+syntax keyword rpgleDclKeywords contained ALIAS ALIGN ALT ALTSEQ ASCEND BASED
+                                        \ CCSID CLASS CONST CTDATA DATFMT
+                                        \ DESCEND DIM DTAARA EXPORT EXT
+                                        \ EXTFLD EXTFMT EXTNAME EXTPGM
+                                        \ EXTPROC FROMFILE IMPORT INZ LEN
+                                        \ LIKE LIKEDS LIKEFILE LIKEREC NOOPT
+                                        \ NULLIND OCCURS OPDESC OPTIONS
+                                        \ OVERLAY PACKEVEN PERRCD POS PREFIX
+                                        \ PSDS QUALIFIED RTNPARM STATIC
+                                        \ TEMPLATE TIMFMT TOFILE VALUE
 
 " Declaration Constaints
-syn keyword rpgleDclConstants contained *NOPASS *OMIT *VARSIZE *STRING
-                                      \ *RIGHTADJ
+syntax keyword rpgleDclConstants contained *NOPASS *OMIT *VARSIZE *STRING
+                                         \ *RIGHTADJ
 
-syn cluster rpgleDclProps contains=rpgleComment,rpgleDclTypes,
-                                  \rpgleDclKeywords,rpgleDclConstants,
-                                  \rpgleNumber,rpgleString,rpgleConstant
+syntax cluster rpgleDclProps contains=rpgleComment,rpgleDclTypes,
+                                     \rpgleDclKeywords,rpgleDclConstants,
+                                     \rpgleNumber,rpgleString,rpgleConstant
 
 " }}}
 " Calculation Specs {{{
 
 " IF -> ELSEIF -> ELSE -> ENDIF
-syn region  rpgleIf   matchgroup=rpgleConditional
-                    \ start=/\<if\>/
-                    \ end=/\<endif\>/
-                    \ contains=@rpgleNest,rpgleElse
-                    \ fold
-syn keyword rpgleElse contained else elseif
+syntax region  rpgleIf   matchgroup=rpgleConditional
+                       \ start=/\<IF\>/
+                       \ end=/\<ENDIF\>/
+                       \ contains=@rpgleNest,rpgleElse
+                       \ fold
+syntax keyword rpgleElse contained else elseif
 
 " NOT, AND, OR
-syn keyword rpgleConditional NOT AND OR
+syntax keyword rpgleConditional NOT AND OR
 
 " DOW .. ENDDO, DOU .. ENDDO
-syn region  rpgleDo matchgroup=rpgleRepeat
-                  \ start=/\<do[wu]\>/
-                  \ end=/\<enddo\>/
-                  \ contains=@rpgleNest
-                  \ fold
+syntax region  rpgleDo matchgroup=rpgleRepeat
+                     \ start=/\<DO[WU]\>/
+                     \ end=/\<ENDDO\>/
+                     \ contains=@rpgleNest
+                     \ fold
 
 " FOR ... ENDFOR
-syn region  rpgleFor matchgroup=rpgleRepeat
-                   \ start=/\<for\>/
-                   \ end=/\<endfor\>/
-                   \ contains=@rpgleNest
-                   \ fold
+syntax region  rpgleFor matchgroup=rpgleRepeat
+                      \ start=/\<FOR\>/
+                      \ end=/\<ENDFOR\>/
+                      \ contains=@rpgleNest
+                      \ fold
 
 " ITER, LEAVE
-syn keyword rpgleRepeat contained ITER LEAVE
+syntax keyword rpgleRepeat contained ITER LEAVE
 
 " MONITOR -> ON-ERROR -> ENDMON
-syn region  rpgleMonitor matchgroup=rpgleConditional
-                       \ start=/\<monitor\>/
-                       \ end=/\<endmon\>/
-                       \ contains=@rpgleNest,rpgleOnError
-                       \ fold
-syn keyword rpgleOnError contained ON-ERROR
+syntax region  rpgleMonitor matchgroup=rpgleConditional
+                          \ start=/\<MONITOR\>/
+                          \ end=/\<ENDMON\>/
+                          \ contains=@rpgleNest,rpgleOnError
+                          \ fold
+syntax keyword rpgleOnError contained ON-ERROR
 
 " SELECT -> WHEN -> OTHER -> ENDSL
-syn region rpgleSelect matchgroup=rpgleSwitch
-                     \ start=/\<select\>/
-                     \ end=/\<endsl\>/
-                     \ contains=rpgleWhen,rpgleOther
-                     \ fold
-syn region rpgleWhen   matchgroup=rpgleSwitch
-                     \ start=/\<when\>/
-                     \ end=/\ze\n\_s*\<\%(when\|other\|endsl\)\>/
-                     \ contains=@rpgleNest
-                     \ contained
-syn region rpgleOther  matchgroup=rpgleSwitch
-                     \ start=/\<other\>/
-                     \ end=/\ze\n\_s*\<endsl\>/
-                     \ contains=@rpgleNest
-                     \ contained
+syntax region rpgleSelect matchgroup=rpgleKeywords
+                        \ start=/\<SELECT\>/
+                        \ end=/\<ENDSL\>/
+                        \ contains=rpgleWhen,rpgleOther
+                        \ fold
+syntax region rpgleWhen   matchgroup=rpgleKeywords
+                        \ start=/\<WHEN\>/
+                        \ end=/\ze\n\_s*\<\%(WHEN\|OTHER\|ENDSL\)\>/
+                        \ contains=@rpgleNest
+                        \ contained
+syntax region rpgleOther  matchgroup=rpgleKeywords
+                        \ start=/\<OTHER\>/
+                        \ end=/\ze\n\_s*\<ENDSL\>/
+                        \ contains=@rpgleNest
+                        \ contained
 
 " Build In Functions
-syn keyword rpgleBIF %ABS %ADDR %ALLOC %BITAND %BITNOT %BITOR %BITXOR %CHAR
-                   \ %CHECK %CHECKR %DATE %DAYS %DEC %DECH %DECPOS %DIFF %DIV
-                   \ %EDITC %EDITFLT %EDITW %ELEM %EOF %EQUAL %ERROR %FIELDS
-                   \ %FLOAT %FOUND %GRAPH %HANDLER %HOURS %INT %INTH %KDS
-                   \ %LEN %LOOKUPxx %MAX %MIN %MINUTES %MONTHS %MSECONDS
-                   \ %NULLIND %OCCUR %OPEN %PADDR %PARMNUM %PARMS %REALLOC
-                   \ %REM %REPLACE %SCAN %SCANR %SCANRPL %SECONDS %SHTDN
-                   \ %SIZE %SQRT %STATUS %STR %SUBARR %SUBDT %SUBST %THIS
-                   \ %TIME %TIMESTAMP %TLOOKUPxx %TRIM %TRIML %TRIMR %UCS2
-                   \ %UNS %UNSH %XFOOT %XLATE %XML %YEARS
+syntax keyword rpgleBIF %ABS %ADDR %ALLOC %BITAND %BITNOT %BITOR %BITXOR
+                      \ %CHAR %CHECK %CHECKR %DATE %DAYS %DEC %DECH %DECPOS
+                      \ %DIFF %DIV %EDITC %EDITFLT %EDITW %ELEM %EOF %EQUAL
+                      \ %ERROR %FIELDS %FLOAT %FOUND %GRAPH %HANDLER %HOURS
+                      \ %INT %INTH %KDS %LEN %LOOKUP %LOOKUPGE %LOOKUPGT
+                      \ %LOOKUPLE %LOOKUPLT %MAX %MIN %MINUTES %MONTHS
+                      \ %MSECONDS %NULLIND %OCCUR %OPEN %PADDR %PARMNUM
+                      \ %PARMS %REALLOC %REM %REPLACE %SCAN %SCANR %SCANRPL
+                      \ %SECONDS %SHTDN %SIZE %SQRT %STATUS %STR %SUBARR
+                      \ %SUBDT %SUBST %THIS %TIME %TIMESTAMP %TLOOKUP
+                      \ %TLOOKUPGE %TLOOKUPGT %TLOOKUPLE %TLOOKUPLT %TRIM
+                      \ %TRIML %TRIMR %UCS2 %UNS %UNSH %XFOOT %XLATE %XML
+                      \ %YEARS
 
 " Exec SQL
-syn region rpgleSql matchgroup=rpgleLabel
-                  \ start=/\<exec\_s\+sql\>/
-                  \ end=/;/
-                  \ contains=@rpgleSql
+syntax region rpgleSql matchgroup=rpgleKeywords
+                     \ start=/\<EXEC\_s\+SQL\>/
+                     \ end=/;/
+                     \ contains=@rpgleSql
 
 " Procedures
-syn match   rpgleProcedure '%\@1<!\<\w\+\>\ze('
-syn keyword rpgleKeywords  RETURN
+syntax match   rpgleProcedure '%\@1<!\<\w\+\>\ze('
+syntax keyword rpgleKeywords  RETURN
 
 " BEGSR .. ENDSR
-syn region rpgleSub matchgroup=rpgleLabel
-                  \ start=/\<begsr\>/
-                  \ end=/\<endsr\>/
-                  \ contains=@rpgleNest
-                  \ fold
+syntax region rpgleSub matchgroup=rpgleKeywords
+                     \ start=/\<BEGSR\>/
+                     \ end=/\<ENDSR\>/
+                     \ contains=@rpgleNest
+                     \ fold
 
 " EXSR
-syn keyword rpgleKeywords EXSR
+syntax keyword rpgleKeywords EXSR
 
 " }}}
 " Prodecure Specs {{{
 
-syn region rpgleDclProc matchgroup=rpgleLabel
-                      \ start=/\<dcl-proc\>/ end=/\<end-proc\>/
-                      \ contains=@rpgleNest,rpgleSub,rpgleDclSpec
-                      \ fold
+syntax region rpgleDclProc matchgroup=rpgleKeywords
+                         \ start=/\<DCL-PROC\>/
+                         \ end=/\<END-PROC\>/
+                         \ contains=@rpgleNest,rpgleSub,rpgleDclSpec
+                         \ fold
 
 " }}}
 
 " All nestable groups, i.e. mostly Calculation Spec keywords:
-syn cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,
+syntax cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,
                               \rpgleProcedure,rpgleComment,rpgleIf,rpgleDo,
                               \rpgleFor,rpgleRepeat,rpgleMonitor,rpgleSelect,
                               \rpgleKeywords,rpgleConstant,rpgleBIF,rpgleSql
 
-syn sync fromstart
+syntax sync fromstart
 
-hi link rpgleInclude       Include
-
-hi link rpgleNumber        Number
-hi link rpgleString        String
-hi link rpgleOperator      Operator
-hi link rpgleProcedure     Function
-hi link rpgleComment       Comment
-hi link rpgleTodo          Todo
-hi link rpgleConstant      Constant
-hi link rpgleIdentifier    Identifier
-
-hi link rpgleCtlKeywords   Keyword
-
-hi link rpgleDclTypes      Type
-hi link rpgleDclKeywords   Keyword
-
-hi link rpgleElse          rpgleConditional
-hi link rpgleConditional   Conditional
-
-hi link rpgleRepeat        Repeat
-
-hi link rpgleOnError       Label
-
-hi link rpgleSwitch        Label
-
-hi link rpgleKeywords      Keyword
-
-hi link rpgleLabel         Label
-hi link rpgleBIF           Function
+highlight link rpgleInclude     Include
+highlight link rpgleNumber      Number
+highlight link rpgleString      String
+highlight link rpgleOperator    Operator
+highlight link rpgleProcedure   Function
+highlight link rpgleComment     Comment
+highlight link rpgleTodo        Todo
+highlight link rpgleConstant    Constant
+highlight link rpgleIdentifier  Identifier
+highlight link rpgleCtlKeywords rpgleKeywords
+highlight link rpgleDclTypes    Type
+highlight link rpgleDclKeywords rpgleKeywords
+highlight link rpgleElse        rpgleConditional
+highlight link rpgleOnError     rpgleKeywords
+highlight link rpgleConditional Conditional
+highlight link rpgleRepeat      Repeat
+highlight link rpgleKeywords    Keyword
+highlight link rpgleBIF         Function
 
 " vim: foldmethod=marker
