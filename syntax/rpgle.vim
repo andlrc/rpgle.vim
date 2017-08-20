@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 20, 2017
-" Version:              56
+" Version:              57
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -37,7 +37,8 @@ syntax region rpgleCtlSpec matchgroup=rpgleKeywords
                          \ contains=@rpgleCtlProps
 
 " Header Keywords
-syntax keyword rpgleCtlKeywords ALLOC ACTGRP ALTSEQ ALWNULL AUT BNDDIR CCSID
+syntax keyword rpgleCtlKeywords contained
+                              \ ALLOC ACTGRP ALTSEQ ALWNULL AUT BNDDIR CCSID
                               \ CCSIDCVT COPYNEST COPYRIGHT CURSYM CVTOPT
                               \ DATEDIT DATFMT DCLOPT DEBUG DECEDIT DECPREC
                               \ DFTACTGRP DFTNAME ENBPFRCOL EXPROPTS
@@ -61,8 +62,8 @@ syntax region  rpgleString start=/'/
                          \ contains=@Spell
 
 " Constants
-syntax keyword rpgleConstant *ON *OFF *ENTRY *ALL *BLANKS *BLANK
-                           \ *ZEROS *ZERO *HIVAL *LOVAL *NULL
+syntax keyword rpgleConstant *ON *OFF *ENTRY *ALL *BLANKS *BLANK *ZEROS *ZERO
+                           \ *HIVAL *LOVAL *NULL
 
 " *IN01 .. *IN99, *INH1 .. *INH9, *INL1 .. *INL9, *INLR, *INRT
 syntax match   rpgleIdentifier /\%(\*IN0[1-9]\|\*IN[1-9][0-9]\)/
@@ -100,26 +101,25 @@ syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
                           \ contains=@rpgleDclProps
 
 " Declaration Types
-syntax keyword rpgleDclTypes contained BINDEC CHAR DATE DATE FLOAT GRAPH IND
-                                     \ INT OBJECT PACKED POINTER TIME
-                                     \ TIMESTAMP UCS2 UCS2 UNS VARCHAR
-                                     \ VARGRAPH VARUCS2 ZONED
+syntax keyword rpgleDclTypes contained
+                           \ BINDEC CHAR DATE DATE FLOAT GRAPH IND INT OBJECT
+                           \ PACKED POINTER TIME TIMESTAMP UCS2 UCS2 UNS
+                           \ VARCHAR VARGRAPH VARUCS2 ZONED
 
 " Declaration Keywords
-syntax keyword rpgleDclKeywords contained ALIAS ALIGN ALT ALTSEQ ASCEND BASED
-                                        \ CCSID CLASS CONST CTDATA DATFMT
-                                        \ DESCEND DIM DTAARA EXPORT EXT
-                                        \ EXTFLD EXTFMT EXTNAME EXTPGM
-                                        \ EXTPROC FROMFILE IMPORT INZ LEN
-                                        \ LIKE LIKEDS LIKEFILE LIKEREC NOOPT
-                                        \ NULLIND OCCURS OPDESC OPTIONS
-                                        \ OVERLAY PACKEVEN PERRCD POS PREFIX
-                                        \ PSDS QUALIFIED RTNPARM STATIC
-                                        \ TEMPLATE TIMFMT TOFILE VALUE
+syntax keyword rpgleDclKeywords contained
+                              \ ALIAS ALIGN ALT ALTSEQ ASCEND BASED CCSID
+                              \ CLASS CONST CTDATA DATFMT DESCEND DIM DTAARA
+                              \ EXPORT EXT EXTFLD EXTFMT EXTNAME EXTPGM
+                              \ EXTPROC FROMFILE IMPORT INZ LEN LIKE LIKEDS
+                              \ LIKEFILE LIKEREC NOOPT NULLIND OCCURS OPDESC
+                              \ OPTIONS OVERLAY PACKEVEN PERRCD POS PREFIX
+                              \ PSDS QUALIFIED RTNPARM STATIC TEMPLATE TIMFMT
+                              \ TOFILE VALUE
 
 " Declaration Constaints
-syntax keyword rpgleDclConstants contained *NOPASS *OMIT *VARSIZE *STRING
-                                         \ *RIGHTADJ
+syntax keyword rpgleDclConstants contained
+                               \ *NOPASS *OMIT *VARSIZE *STRING *RIGHTADJ
 
 syntax cluster rpgleDclProps contains=rpgleComment,rpgleDclTypes,
                                      \rpgleDclKeywords,rpgleDclConstants,
