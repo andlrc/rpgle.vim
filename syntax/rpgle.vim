@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 20, 2017
-" Version:              59
+" Version:              60
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -130,12 +130,14 @@ syntax cluster rpgleDclProps contains=rpgleComment,rpgleDclTypes,
 " }}}
 " Calculation Specs {{{
 
-" IF -> ELSEIF -> ELSE -> ENDIF
+" IF ... ENDIF
 syntax region  rpgleIf   matchgroup=rpgleConditional
                        \ start=/\<IF\>/
                        \ end=/\<ENDIF\>/
                        \ contains=@rpgleNest,rpgleElse
                        \ fold
+
+" ELSE ELSEIF
 syntax keyword rpgleElse contained else elseif
 
 " NOT, AND, OR
@@ -158,30 +160,25 @@ syntax region  rpgleFor matchgroup=rpgleRepeat
 " ITER, LEAVE
 syntax keyword rpgleRepeat contained ITER LEAVE
 
-" MONITOR -> ON-ERROR -> ENDMON
+" MONITOR ... ENDMON
 syntax region  rpgleMonitor matchgroup=rpgleConditional
                           \ start=/\<MONITOR\>/
                           \ end=/\<ENDMON\>/
                           \ contains=@rpgleNest,rpgleOnError
                           \ fold
+
+" ON-ERROR
 syntax keyword rpgleOnError contained ON-ERROR
 
-" SELECT -> WHEN -> OTHER -> ENDSL
-syntax region rpgleSelect matchgroup=rpgleKeywords
-                        \ start=/\<SELECT\>/
-                        \ end=/\<ENDSL\>/
-                        \ contains=rpgleWhen,rpgleOther
-                        \ fold
-syntax region rpgleWhen   matchgroup=rpgleKeywords
-                        \ start=/\<WHEN\>/
-                        \ end=/\ze\n\_s*\<\%(WHEN\|OTHER\|ENDSL\)\>/
-                        \ contains=@rpgleNest
-                        \ contained
-syntax region rpgleOther  matchgroup=rpgleKeywords
-                        \ start=/\<OTHER\>/
-                        \ end=/\ze\n\_s*\<ENDSL\>/
-                        \ contains=@rpgleNest
-                        \ contained
+" SELECT ... ENDSL
+syntax region  rpgleSelect    matchgroup=rpgleKeywords
+                            \ start=/\<SELECT\>/
+                            \ end=/\<ENDSL\>/
+                            \ contains=@rpgleNest,rpgleWhenOther
+                            \ fold
+
+" WHEN, OTHER
+syntax keyword rpgleWhenOther contained WHEN OTHER
 
 " Build In Functions
 syntax keyword rpgleBIF %ABS %ADDR %ALLOC %BITAND %BITNOT %BITOR %BITXOR
@@ -269,6 +266,7 @@ highlight link rpgleDclKeywords    rpgleKeywords
 highlight link rpgleDclSpecialKeys rpgleSpecialKey
 highlight link rpgleElse           rpgleConditional
 highlight link rpgleOnError        rpgleKeywords
+highlight link rpgleWhenOther      rpgleKeywords
 highlight link rpgleBIF            rpgleSpecial
 
 " vim: foldmethod=marker
