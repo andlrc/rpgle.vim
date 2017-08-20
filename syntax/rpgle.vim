@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 20, 2017
-" Version:              57
+" Version:              58
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -25,7 +25,10 @@ syntax keyword rpgleTodo    contained TODO FIXME
 " }}}
 " Compiler directive {{{
 
-syntax match rpgleInclude '^/\_s*\zs\%(INCLUDE\|COPY\)'
+syntax match rpgleInclude '^\_s*\zs/\%(INCLUDE\|COPY\)'
+                        \ nextgroup=rpgleIncludeFile,rpgleString
+
+syntax match rpgleIncludeFile /\w\+\|\w\+\.\w\+/ contained
 
 " }}}
 " Header Specs {{{
@@ -236,6 +239,7 @@ syntax cluster rpgleNest contains=rpgleNumber,rpgleString,rpgleOperator,
 syntax sync fromstart
 
 highlight link rpgleInclude     Include
+highlight link rpgleIncludeFile String
 highlight link rpgleNumber      Number
 highlight link rpgleString      String
 highlight link rpgleOperator    Operator
