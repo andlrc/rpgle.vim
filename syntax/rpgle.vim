@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Aug 20, 2017
-" Version:              61
+" Last Change:          Aug 21, 2017
+" Version:              62
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -58,7 +58,7 @@ syntax cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,
 
 " Numbers and Strings
 
-syntax match   rpgleNumber /\d\+\.\d\+\|\.\d\+\|\d\+\./
+syntax match   rpgleNumber /\<\%(\d\+\.\d\+\|\.\d\+\|\d\+\.\|\d\+\)\>/
 syntax region  rpgleString start=/[xz]\='/
                          \ skip=/''\|[+-]$/
                          \ end=/'\|$/
@@ -202,8 +202,9 @@ syntax region rpgleSql matchgroup=rpgleKeywords
                      \ end=/;/
                      \ contains=@rpgleSql
 
-" Procedures
-syntax region  rpgleProcCall matchgroup=rpgleProc
+" Procedures, the match group is to avoid infinite recursion as a
+" ``rpgleProcCall'' can be within another ``rpgleProcCall''
+syntax region  rpgleProcCall matchgroup=xxx
                            \ start=/%\@1<!\<\w\+(/
                            \ end=/)/
                            \ contains=@rpgleProcArgs
@@ -228,11 +229,21 @@ syntax keyword rpgleKeywords EXSR
 " }}}
 " Prodecure Specs {{{
 
-syntax region rpgleDclProc matchgroup=rpgleKeywords
-                         \ start=/\<DCL-PROC\>/
-                         \ end=/\<END-PROC\>/
-                         \ contains=@rpgleNest,rpgleSub,rpgleDclSpec
-                         \ fold
+syntax region  rpgleDclProc       matchgroup=rpgleKeywords
+                                \ start=/\<DCL-PROC\>/
+                                \ end=/\<END-PROC\>/
+                                \ contains=@rpgleDclProcNest
+                                \ fold
+syntax cluster rpgleDclProcNest   contains=@rpgleNest,rpgleSub,rpgleDclSpec,
+                                         \rpgleDclProcName
+
+" Prodecure Name
+syntax match   rpgleDclProcName   contained
+                                \ /\%(DCL-PROC\s\+\)\@<=\w\+\s*/
+                                \ nextgroup=rpgleDclProcExport
+
+" Export
+syntax keyword rpgleDclProcExport contained EXPORT
 
 " }}}
 
@@ -247,6 +258,7 @@ syntax cluster rpgleNest contains=rpgleBIF,rpgleComment,rpgleConditional,
 syntax sync fromstart
 
 highlight link rpglePreProc        PreProc
+highlight link rpgleProc           Function
 highlight link rpgleSpecialKey     SpecialKey
 highlight link rpgleNumber         Number
 highlight link rpgleString         String
@@ -264,6 +276,8 @@ highlight link rpgleProcOmit       rpgleSpecialKey
 highlight link rpgleCtlKeywords    rpgleKeywords
 highlight link rpgleDclTypes       rpgleTypes
 highlight link rpgleDclKeywords    rpgleKeywords
+highlight link rpgleDclProcExport  rpgleKeywords
+highlight link rpgleDclProcName    rpgleProc
 highlight link rpgleDclSpecialKeys rpgleSpecialKey
 highlight link rpgleElse           rpgleConditional
 highlight link rpgleOnError        rpgleKeywords
