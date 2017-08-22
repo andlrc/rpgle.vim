@@ -56,24 +56,24 @@ Enable by adding the following to your |vimrc| >
 	:filetype on
 <
 						*rpgle-[[*
-[[			Jump to previous `dcl-proc`
+[[			Jump to previous dcl-proc keyword
 						*rpgle-]]*
-]]			Jump to next `dcl-proc`
+]]			Jump to next dcl-proc keyword
 						*rpgle-[]*
-[]			Jump to previous `end-proc`
+[]			Jump to previous end-proc keyword
 						*rpgle-][*
-][			Jump to next `end-proc`
+][			Jump to next end-proc keyword
 						*rpgle-gd*
 gd			Goto local Declaration. When the cursor is on a local
 			variable, this command will jump to its declaration.
 			Use |gD| to goto global declaration.
 						*rpgle-[{*
-[{			Jump to the associated block opener, i.e. pressing
-			|[{| inside an if statement will move the cursor to
-			the if.
+[{			Jump back to the block opener at the start of the
+			current code block, i.e. pressing |[{| inside an
+			if-statement will jump to the if keyword.
 						*rpgle-]}*
-]}			Jump to the associated block close, i.e. pressing
-			|]}| inside an if statement will move the cursor to
-			the endif.
+]}			Jump forward to the block closer at the end of the
+			current code block, i.e. pressing |]}| inside an
+			if-statement will jump to the endif keyword.
 
  vim:tw=78:ts=8:ft=help:norl:
