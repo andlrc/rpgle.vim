@@ -1,26 +1,25 @@
 rpgle.vim
 =========
 
-What do I get?
---------------
+What does it contain?
+---------------------
 
-RPG/ILE bundle for vim, this bundle provides syntax highlighting, syntax folds,
-auto indent, more match words as well as mapping a few sensible keys.
+RPG/ILE bundle for vim, this bundle contains syntax highlighting, syntax folds,
+auto indent, more match words and a few sensible keys is remapped.
 
 ### Indent
 
-Enable by running adding `filetype indent on` to your `~/.vimrc`.
-
-Add `let g:rpgle_indentStart = 0` to your `~/.vimrc` to avoid 7 leading spaces.
+One should modify `g:rpgle_indentStart` to adjust initial indentation level,
+see `:help g:rpgle_indentStart` for more information.
 
 There is support for automatic indentation. An example is:
 
     dcl-proc myProc;
         _
 
-The cursor is located at `_` and the indent was inserted automatic when pressing
-enter after `dcl-proc`. When typing `end-proc;` the indentation will be
-decreased.
+The cursor is located at `_` and the indent was inserted automatic when
+pressing enter after `dcl-proc`. When typing `end-proc;` the indentation will
+be decreased.
 
 With procedure interfaces indentation will only happen if the procedure takes
 an argument:
@@ -46,8 +45,7 @@ If one type `end-pi;` the result will automatic become:
 
 As soon as `endsl` is typed it will be aligned with the initial `select;`.
 
-`if`-`elseif`-`else`-`endif` will be indented
-like this:
+`if`-`elseif`-`else`-`endif` will be indented like this:
 
     if a = 1;
         a();
@@ -66,19 +64,17 @@ Currently proper SQL indentation is missing:
     from a
     order by 1 desc;
 
+See `:help rpgle-indent`
+
 ### Syntax
 
-Enable by running adding `filetype syntax on` to your `~/.vimrc`.
+Keywords, procedures and built-in functions will all be highlighted.
 
-There is partial support for context aware syntax highlighting, and mistyped
-keywords will be *not* be highlighted. The same will happen for keywords outside
-it's proper context, such as `elseif` and `else` with no preceding `if`.
+See `:help rpgle-syntax`
 
 ### Syntax Folds
 
-Enable by running adding `set foldmethod=syntax` to your `~/.vimrc`.
-
-The following folds is supported:
+The following folds are supported:
 
     - if       -> endif
     - dow      -> enddo
@@ -88,11 +84,11 @@ The following folds is supported:
     - dcl-proc -> end-proc
     - begsr    -> endsr
 
+See `:help rpgle-fold`
+
 ### Match Words
 
-Enable by running adding `runtime macros/matchit.vim` to your `~/.vimrc`.
-
-The following match words is supported:
+The following match words are supported:
 
     - select   -> when     -> other   -> endsl
     - if       -> elseif   -> else    -> endif
@@ -103,9 +99,9 @@ The following match words is supported:
     - dcl-pi   -> end-pi
     - monitor  -> on-error -> endmon
 
-### Movements
+See `:help rpgle-match-words`
 
-Enable by running adding `filetype on` to your `~/.vimrc`.
+### Movements
 
 rpgle.vim takes the liberty to bind `[[`, `]]`, `[]`, `][`, `gd`, `[{` and `]}`
 and tried to make them useful in RPG/ILE:
@@ -119,25 +115,7 @@ will jump to the previous or next `end-proc`.
 `if` statement and pressing `[{` will bring you to the `if`, pressing `]}` will
 bring you to the `endif`.
 
-See `:help rpgle-[[`, `:help rpgle-gd` and `:help rpgle-[{`
-
-Installation
-------------
-
-### Install with [Vundle](https://github.com/gmarik/vundle)
-
-Add this to your `~/.vimrc`:
-
-    Plugin 'andlrc/rpgle.vim'
-
-And install it:
-
-    :so $MYVIMRC
-    :PluginInstall
-
-To enable folds you need to add this to your `~/.vimrc`:
-
-    set foldmethod=syntax
+See `:help rpgle-movements`
 
 Contributing
 ------------
@@ -150,7 +128,9 @@ Self-Promotion
 
 Like rpgle.vim? Then you might also like
 [rpglectags](https://github.com/andlrc/rpglectags), which provides a reliable
-way to create ctags compatible files from RPG/ILE.
+way to create ctags compatible files from RPG/ILE.  And
+[rpgleman](https://github.com/andlrc/rpgleman) which provides man pages for
+built-in functions keywords and more.
 
 License
 -------

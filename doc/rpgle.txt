@@ -24,7 +24,7 @@ SYNTAX						*rpgle-syntax*
 Enable by adding the following to your |vimrc| >
 	:syntax enable
 <
-SYNTAX FOLDS					*rpgle-syntax-folds*
+SYNTAX FOLDS					*rpgle-fold*
 
 Settings |foldmethod| to 'syntax' to enable the following folds: >
 	if		-> endif
