@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 24, 2017
-" Version:              64
+" Version:              65
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -87,11 +87,14 @@ syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
                           \ contains=@rpgleDclProps
 
 " Procedure Interface
-syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
-                          \ start=/\<DCL-PI\>/
-                          \ end=/\<END-PI\>/
-                          \ contains=@rpgleDclProps
-                          \ fold
+syntax region  rpgleDclSpec   matchgroup=rpgleDclKeywords
+                            \ start=/\<DCL-PI\>/
+                            \ end=/\<END-PI\>/
+                            \ contains=@rpgleDclProps,rpgleDclPiName
+                            \ fold
+
+" Special PI Name
+syntax keyword rpgleDclPiName *N
 
 " Prototype
 syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
@@ -122,7 +125,7 @@ syntax keyword rpgleDclKeywords contained
                               \ PSDS QUALIFIED RTNPARM STATIC TEMPLATE TIMFMT
                               \ TOFILE VALUE
 
-" Declaration Constaints
+" Declaration Constants
 syntax keyword rpgleDclSpecialKeys contained
                                \ *NOPASS *OMIT *VARSIZE *STRING *RIGHTADJ
 
@@ -229,7 +232,7 @@ syntax region rpgleSub matchgroup=rpgleKeywords
 syntax keyword rpgleKeywords EXSR
 
 " }}}
-" Prodecure Specs {{{
+" Procedure Specs {{{
 
 syntax region  rpgleDclProc       matchgroup=rpgleKeywords
                                 \ start=/\<DCL-PROC\>/
@@ -239,7 +242,7 @@ syntax region  rpgleDclProc       matchgroup=rpgleKeywords
 syntax cluster rpgleDclProcNest   contains=@rpgleNest,rpgleSub,rpgleDclSpec,
                                          \rpgleDclProcName
 
-" Prodecure Name
+" Procedure Name
 syntax match   rpgleDclProcName   contained
                                 \ /\%(DCL-PROC\s\+\)\@<=\w\+\s*/
                                 \ nextgroup=rpgleDclProcExport
@@ -280,6 +283,7 @@ highlight link rpgleDclTypes       rpgleTypes
 highlight link rpgleDclKeywords    rpgleKeywords
 highlight link rpgleDclProcExport  rpgleKeywords
 highlight link rpgleDclProcName    rpgleProc
+highlight link rpgleDclPiName      rpgleSpecial
 highlight link rpgleDclSpecialKeys rpgleSpecialKey
 highlight link rpgleElse           rpgleConditional
 highlight link rpgleOnError        rpgleKeywords
