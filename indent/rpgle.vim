@@ -1,8 +1,8 @@
 " Vim indent file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Jul 04, 2017
-" Version:              13
+" Last Change:          Aug 24, 2017
+" Version:              14
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -40,9 +40,16 @@ function! GetRpgleIndent()
   let pnum = prevnonblank(cnum - 1)
 
   " There is no lines to determinate indent, so use what is set in
-  " 'g:rpgle_indentStart' or default to '7'
+  " ``g:rpgle_indentStart'', check if ``**FREE'' is present or default to
+  " ``7''.
   if pnum == 0
-    return exists('g:rpgle_indentStart') ? g:rpgle_indentStart : 7
+    if exists('g:rpgle_indentStart')
+      return g:rpgle_indentStart
+    elseif getline(1) =~ '^\*\*FREE$'
+      return 0
+    else
+      return 7
+    endif
   endif
 
   let pind = indent(pnum)
@@ -60,23 +67,23 @@ function! GetRpgleIndent()
     return pind - 1
   endif
 
-  " A 'when' which follows a 'select' should be indented:
-  " All other 'when' should be de indented
+  " A ``when'' which follows a ``select'' should be indented:
+  " All other ``when'' should be de indented
   if cline =~ '^\s*\<when\>'
     return pline =~ '^\s*\<select\>;' ?
       \ pind + shiftwidth() : pind - shiftwidth()
   endif
 
-  " 'dcl-pi', 'dcl-pr', and 'dcl-ds' with no parameters should not indent the
-  " 'end-xx':
+  " ``dcl-pi'', ``dcl-pr'', and ``dcl-ds'' with no parameters should not
+  " indent the ``end-xx'':
   if pline =~ '^\s*\<dcl-pi\>' && cline =~ '^\s*\<end-pi\>'
   \ || pline =~ '^\s*\<dcl-pr\>' && cline =~ '^\s*\<end-pr\>'
   \ || pline =~ '^\s*\<dcl-ds\>' && cline =~ '^\s*\<end-ds\>'
     return pind
   endif
 
-  " 'dcl-ds' with 'likeds' on the same line doesn't take a definition and should
-  " not do any indent:
+  " ``dcl-ds'' with ``likeds'' on the same line doesn't take a definition and
+  " should not do any indent:
   if pline =~ '^\s*\<dcl-ds\>' && pline =~ '\<likeds\>'
     return pind
   endif
@@ -93,7 +100,7 @@ function! GetRpgleIndent()
     return pind - shiftwidth()
   endif
 
-  " 'endsl' have to de indent two levels:
+  " ``endsl'' have to de indent two levels:
   if cline =~ '^\s*\<endsl\>'
     return pind - shiftwidth() * 2
   endif

@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Aug 21, 2017
-" Version:              62
+" Last Change:          Aug 24, 2017
+" Version:              63
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -24,6 +24,8 @@ syntax keyword rpgleTodo    contained TODO FIXME
 
 " }}}
 " Compiler directive {{{
+
+syntax keyword rpglePreProc **FREE
 
 syntax keyword rpglePreProc /COPY /DEFINE /EJECT /ELSE /ELSEIF /END-FREE
                           \ /ENDIF /EOF /FREE /IF /INCLUDE /RESTORE /SET
