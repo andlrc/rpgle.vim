@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 24, 2017
-" Version:              63
+" Version:              64
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -14,7 +14,7 @@ let b:current_syntax = "rpgle"
 syntax include @rpgleSql syntax/sqlanywhere.vim
 
 syntax case ignore
-syntax iskeyword @,48-57,192-255,-,%,*,/
+syntax iskeyword @,48-57,192-255,-,%,*,/,_
 
 " Comments {{{
 
