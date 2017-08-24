@@ -2,7 +2,7 @@
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Aug 24, 2017
-" Version:              65
+" Version:              66
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")
@@ -18,9 +18,13 @@ syntax iskeyword @,48-57,192-255,-,%,*,/,_
 
 " Comments {{{
 
-syntax match   rpgleComment '//.*' contains=rpgleTodo,@Spell
-syntax region  rpgleComment start='/\*' end='\*/' contains=rpgleTodo,@Spell
-syntax keyword rpgleTodo    contained TODO FIXME
+syntax match   rpgleComment      '//.*'
+                               \ contains=@rpgleCommentProps
+syntax region  rpgleComment      start='/\*'
+                               \ end='\*/'
+                               \ contains=@rpgleCommentProps
+syntax cluster rpgleCommentProps contains=rpgleTodo,@Spell
+syntax keyword rpgleTodo         contained TODO FIXME
 
 " }}}
 " Compiler directive {{{
@@ -35,10 +39,12 @@ syntax keyword rpglePreProc /COPY /DEFINE /EJECT /ELSE /ELSEIF /END-FREE
 " Header Specs {{{
 
 " CTL-OPT ... ;
-syntax region rpgleCtlSpec matchgroup=rpgleKeywords
-                         \ start=/\<CTL-OPT\>/
-                         \ end=/;/
-                         \ contains=@rpgleCtlProps
+syntax region rpgleCtlSpec   matchgroup=rpgleKeywords
+                           \ start=/\<CTL-OPT\>/
+                           \ end=/;/
+                           \ contains=@rpgleCtlProps
+syntax cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,
+                                     \rpgleString,rpgleConstant
 
 " Header Keywords
 syntax keyword rpgleCtlKeywords contained
@@ -52,19 +58,18 @@ syntax keyword rpgleCtlKeywords contained
                               \ SRTSEQ STGMDL TEXT THREAD  TIMFMT TRUNCNBR
                               \ USERPRF VALIDATE
 
-syntax cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,
-                                     \rpgleString,rpgleConstant
-
 " }}}
 " Declaration Specs {{{
 
 " Numbers and Strings
 
-syntax match   rpgleNumber /\<\%(\d\+\.\d\+\|\.\d\+\|\d\+\.\|\d\+\)\>/
-syntax region  rpgleString start=/[xz]\='/
-                         \ skip=/''\|[+-]$/
-                         \ end=/'\|$/
-                         \ contains=@Spell
+syntax match   rpgleNumber      /\<\%(\d\+\.\d\+\|\.\d\+\|\d\+\.\|\d\+\)\>/
+syntax region  rpgleString      start=/[xz]\='/
+                              \ skip=/''\|[+-]$/
+                              \ end=/'\|$/
+                              \ contains=@rpgleStringProps
+
+syntax cluster rpgleStringProps contains=@Spell
 
 " Constants
 syntax keyword rpgleConstant *ALL *BLANK *BLANKS *ENTRY *HIVAL *LOVAL *NULL
