@@ -1,11 +1,11 @@
 " Vim autoload file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Aug 19, 2017
-" Version:              5
+" Last Change:          Aug 25, 2017
+" Version:              6
 " URL:                  https://github.com/andlrc/rpgle.vim
 
-function! rpgle#NextSection(motion, flags, mode) range
+function! rpgle#movement#NextSection(motion, flags, mode) range
 
   let cnt = v:count1
   let old_pos = getpos('.')
@@ -29,7 +29,7 @@ function! rpgle#NextSection(motion, flags, mode) range
   normal! ^
 endfunction
 
-function! rpgle#NextNest(flags)
+function! rpgle#movement#NextNest(flags)
   let flags = a:flags
   let pos = getpos('.')
   let fn  = a:flags == 'b' ? 'max' : 'min'

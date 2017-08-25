@@ -28,28 +28,32 @@ let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
 nnoremap <script> <buffer> <silent> gd
        \ :<C-U>execute 'keepj normal [[/\<<C-r><C-w>\>/' . "\r"<CR>
 nnoremap <script> <buffer> <silent> ]]
-       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', '', '')<CR>
+       \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', '', '')<CR>
 nnoremap <script> <buffer> <silent> ][
-       \ :<C-U>call rpgle#NextSection('^\s*end-proc', '', '')<CR>
+       \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', '', '')<CR>
 nnoremap <script> <buffer> <silent> [[
-       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', 'b', '')<CR>
+       \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', 'b', '')<CR>
 nnoremap <script> <buffer> <silent> []
-       \ :<C-U>call rpgle#NextSection('^\s*end-proc', 'b', '')<CR>
+       \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', 'b', '')<CR>
 xnoremap <script> <buffer> <silent> ]]
-       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', '', 'x')<CR>
+       \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', '', 'x')<CR>
 xnoremap <script> <buffer> <silent> ][
-       \ :<C-U>call rpgle#NextSection('^\s*end-proc', '', 'x')<CR>
+       \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', '', 'x')<CR>
 xnoremap <script> <buffer> <silent> [[
-       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', 'b', 'x')<CR>
+       \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', 'b', 'x')<CR>
 xnoremap <script> <buffer> <silent> []
-       \ :<C-U>call rpgle#NextSection('^\s*end-proc', 'b', 'x')<CR>
+       \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', 'b', 'x')<CR>
 
 " }}}
 " Proper nest jumping {{{
 
-nnoremap <script> <buffer> <silent> [{ :call rpgle#NextNest('b')<CR>
-nnoremap <script> <buffer> <silent> ]} :call rpgle#NextNest('')<CR>
+nnoremap <script> <buffer> <silent> [{ :call rpgle#movement#NextNest('b')<CR>
+nnoremap <script> <buffer> <silent> ]} :call rpgle#movement#NextNest('')<CR>
 
 " }}}
+" Set completion with CTRL-X CTRL-O {{{
 
+setlocal omnifunc=rpgle#omni#Complete
+
+" }}}
 " vim: fdm=marker
