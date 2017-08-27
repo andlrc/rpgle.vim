@@ -1,8 +1,8 @@
 " Vim completion script
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Aug 25, 2017
-" Version:              1
+" Last Change:          Aug 27, 2017
+" Version:              3
 " URL:                  https://github.com/andlrc/rpgle.vim
 "
 " Complete via tag files, this code is experimental
@@ -35,40 +35,73 @@ function! rpgle#omni#Complete(findstart, base)
   endif
 
   " Return list of matches:
-
-  let tags = taglist('^' . a:base)
-
-  " Remove static matches in other files.
-  call filter(tags, '!has_key(v:val, "static") || !v:val["static"] || bufnr("%") == bufnr(v:val["filename"])')
+  let matches  = []
+  let tags     = taglist('^' . a:base)
+  let curbufnr = bufnr('%')
 
   " Member completion
   if s:struct != ''
     " Resolve referenced data structure (``likeds(...)'')
     let struct_tags = taglist('^' . s:struct . '$')
     for tag in struct_tags
+      if complete_check()
+        break
+      endif
+
       if tag['kind'] ==? "s" && has_key(tag, 'typeref')
-        echom tag['typeref']
         let s:struct = substitute(tag['typeref'], 'struct:', '', '')
         break
       endif
     endfor
 
-    " Remove anything but members
-    call filter(tags, 'v:val["kind"] == "m"')
+    for tag in tags
+      if complete_check()
+        break
+      endif
 
-    " Remove members from other data structures
-    call filter(tags, 'v:val["struct"] ==? "' . s:struct . '"')
+      " Remove static matches in other files.
+      if tag['static'] && bufnr('%') != bufnr(tag['filename'])
+        continue
+      endif
 
-    return map(tags, 's:Tag2Item(v:val)')
+      " Remove anything but members
+      if tag['kind'] !=? 'm'
+        continue
+      endif
+
+      " Remove members from other data structures
+      if tag['struct'] !=? s:struct
+        continue
+      endif
+
+      call add(matches, s:Tag2Item(tag))
+    endfor
   else
-    " Remove members
-    call filter(tags, 'v:val["kind"] != "m"')
+    for tag in tags
+      if complete_check()
+        break
+      endif
 
-    return map(tags, 's:Tag2Item(v:val)')
+      " Remove static matches in other files.
+      if tag['static'] && curbufnr != bufnr(tag['filename'])
+        continue
+      endif
+
+      " Remove members
+      if tag['kind'] ==? 'm'
+        continue
+      endif
+
+      call add(matches, s:Tag2Item(tag))
+    endfor
   endif
 
+  return matches
 endfunction
 
 function s:Tag2Item(tag)
-  return a:tag['name']
+  return {
+    \ 'word': a:tag['name'],
+    \ 'kind': a:tag['kind']
+  \ }
 endfunction
