@@ -117,6 +117,16 @@ bring you to the `endif`.
 
 See `:help rpgle-movements`
 
+### Omni Completion
+
+rpgle.vim provides a naive omni completion that will attempt to suggest
+completion for compiler directives and header, declaration, calculation and
+procedure specifications.
+
+Calculation specification completion requires generated generated tags.
+
+See `:h rpgle-omni`
+
 Contributing
 ------------
 

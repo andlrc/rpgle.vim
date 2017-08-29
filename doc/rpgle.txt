@@ -76,4 +76,49 @@ gd			Goto local Declaration. When the cursor is on a local
 			current code block, i.e. pressing |]}| inside an
 			if-statement will jump to the endif keyword.
 
+OMNI COMPLETION					*rpgle-omni*
+
+Omni completion for compiler directives and header, declaration, calculation
+and procedure specifications.
+
+Omni completion can be called with |i_CTRL-X_CTRL-O|
+
+OMNI COMPILER DIRECTIVES			*rpgle-omni-compdir*
+
+A file found via 'path' will be suggested for /copy and /include.
+
+Only files ending with .rpgleinc and .mbr will be suggested.
+Directories ending in .file will be preserved, with the exception of a
+directory called qrpglesrc.file which will be substituted. >
+	directory.file/file.mbr	-> directory,file
+	qrpglesrc.file/file.mbr	-> file
+<
+OMNI HEADER SPECIFICATION			*rpgle-omni-hspec*
+
+Keywords like bnddir and copyright will be suggested.
+
+An example would be: >
+	ctl-opt bnd<TAB>	-> ctl-opt bnddir(
+<
+OMNI DECLARATION SPECIFICATION			*rpgle-omni-dspec*
+
+Keywords like static and dim and types like varchar and inz will be suggested
+for constants, standalone, data-structures, procedure-interfaces and
+prototypes.
+
+An example would be: >
+	dcl-s name var<tab>	-> dcl-s name varchar(
+				   dcl-s name vargraph(
+				   dcl-s name varucs2(
+
+	dcl-ds name qual	-> dcl-ds name qualified
+<
+OMNI PROCEDURE SPECIFICATION			*rpgle-omni-pspec*
+
+Keywords like export will be suggested.
+
+An example would be: >
+	dcl-proc name ex	-> export
+	dcl-proc name ex	-> export(
+<
  vim:tw=78:ts=8:ft=help:norl:
