@@ -23,6 +23,8 @@ let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
                   \ '\<dcl-pr\>:\<end-pr\>,' .
                   \ '\<monitor\>:\<on-error\>:\<endmon\>'
 
+setlocal comments=s1:/*,mb:*,ex:*/,://,:*
+
 " Proper section jumping {{{
 
 nnoremap <script> <buffer> <silent> gd
