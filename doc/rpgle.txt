@@ -3,28 +3,28 @@
 Author:		Andreas Louv <andreas@louv.dk>
 License:	Same terms as Vim itself (see |license|)
 
-INTRODUCTION					*rpgle* *ft-rpgle*
+INTRODUCTION					*ft-rpgle*
 
 This bundle provides syntax highlighting, syntax folds, auto indent, more
 match words as well as mapping a few sensible keys.
 
-VARIABLES					*rpgle-variables*
+VARIABLES					*ft-rpgle-variables*
 
 						*g:rpgle_indentStart*
 `g:rpgle_indentStart`	Set the number of leading spaces that should be used
 			when no previous line is to be accounted for.
 
-INDENT						*rpgle-indent*
+INDENT						*ft-rpgle-indent*
 
 Enable by adding the following to your |vimrc| >
 	:filetype indent on
 <
-SYNTAX						*rpgle-syntax*
+SYNTAX						*ft-rpgle-syntax*
 
 Enable by adding the following to your |vimrc| >
 	:syntax enable
 <
-SYNTAX FOLDS					*rpgle-fold*
+SYNTAX FOLDS					*ft-rpgle-fold*
 
 Settings |foldmethod| to 'syntax' to enable the following folds: >
 	if		-> endif
@@ -35,7 +35,7 @@ Settings |foldmethod| to 'syntax' to enable the following folds: >
 	dcl-proc	-> end-proc
 	begsr		-> endsr
 <
-MATCH WORDS					*rpgle-match-words*
+MATCH WORDS					*ft-rpgle-match-words*
 
 Enable by adding the following to your |vimrc| >
 	:packadd! matchit
@@ -50,40 +50,40 @@ The following match words is supported: >
 	dcl-pi		-> end-pi
 	monitor		-> on-error	-> endmon
 <
-MOVEMENTS					*rpgle-movements*
+MOVEMENTS					*ft-rpgle-movements*
 
 Enable by adding the following to your |vimrc| >
 	:filetype on
 <
-						*rpgle-[[*
+						*ft-rpgle-[[*
 [[			Jump to previous dcl-proc keyword
-						*rpgle-]]*
+						*ft-rpgle-]]*
 ]]			Jump to next dcl-proc keyword
-						*rpgle-[]*
+						*ft-rpgle-[]*
 []			Jump to previous end-proc keyword
-						*rpgle-][*
+						*ft-rpgle-][*
 ][			Jump to next end-proc keyword
-						*rpgle-gd*
+						*ft-rpgle-gd*
 gd			Goto local Declaration. When the cursor is on a local
 			variable, this command will jump to its declaration.
 			Use |gD| to goto global declaration.
-						*rpgle-[{*
+						*ft-rpgle-[{*
 [{			Jump back to the block opener at the start of the
 			current code block, i.e. pressing |[{| inside an
 			if-statement will jump to the if keyword.
-						*rpgle-]}*
+						*ft-rpgle-]}*
 ]}			Jump forward to the block closer at the end of the
 			current code block, i.e. pressing |]}| inside an
 			if-statement will jump to the endif keyword.
 
-OMNI COMPLETION					*rpgle-omni*
+OMNI COMPLETION					*ft-rpgle-omni*
 
 Omni completion for compiler directives and header, declaration, calculation
 and procedure specifications.
 
 Omni completion can be called with |i_CTRL-X_CTRL-O|
 
-OMNI COMPILER DIRECTIVES			*rpgle-omni-compdir*
+OMNI COMPILER DIRECTIVES			*ft-rpgle-omni-compdir*
 
 A file found via 'path' will be suggested for /copy and /include.
 
@@ -93,14 +93,14 @@ directory called qrpglesrc.file which will be substituted. >
 	directory.file/file.mbr	-> directory,file
 	qrpglesrc.file/file.mbr	-> file
 <
-OMNI HEADER SPECIFICATION			*rpgle-omni-hspec*
+OMNI HEADER SPECIFICATION			*ft-rpgle-omni-hspec*
 
 Keywords like bnddir and copyright will be suggested.
 
 An example would be: >
 	ctl-opt bnd<TAB>	-> ctl-opt bnddir(
 <
-OMNI DECLARATION SPECIFICATION			*rpgle-omni-dspec*
+OMNI DECLARATION SPECIFICATION			*ft-rpgle-omni-dspec*
 
 Keywords like static and dim and types like varchar and inz will be suggested
 for constants, standalone, data-structures, procedure-interfaces and
@@ -113,7 +113,7 @@ An example would be: >
 
 	dcl-ds name qual	-> dcl-ds name qualified
 <
-OMNI PROCEDURE SPECIFICATION			*rpgle-omni-pspec*
+OMNI PROCEDURE SPECIFICATION			*ft-rpgle-omni-pspec*
 
 Keywords like export will be suggested.
 

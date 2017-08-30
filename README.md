@@ -64,13 +64,13 @@ Currently proper SQL indentation is missing:
     from a
     order by 1 desc;
 
-See `:help rpgle-indent`
+See `:help ft-rpgle-indent`
 
 ### Syntax
 
 Keywords, procedures and built-in functions will all be highlighted.
 
-See `:help rpgle-syntax`
+See `:help ft-rpgle-syntax`
 
 ### Syntax Folds
 
@@ -84,7 +84,7 @@ The following folds are supported:
     - dcl-proc -> end-proc
     - begsr    -> endsr
 
-See `:help rpgle-fold`
+See `:help ft-rpgle-fold`
 
 ### Match Words
 
@@ -99,7 +99,7 @@ The following match words are supported:
     - dcl-pi   -> end-pi
     - monitor  -> on-error -> endmon
 
-See `:help rpgle-match-words`
+See `:help ft-rpgle-match-words`
 
 ### Movements
 
@@ -115,7 +115,7 @@ will jump to the previous or next `end-proc`.
 `if` statement and pressing `[{` will bring you to the `if`, pressing `]}` will
 bring you to the `endif`.
 
-See `:help rpgle-movements`
+See `:help ft-rpgle-movements`
 
 ### Omni Completion
 
@@ -125,7 +125,7 @@ procedure specifications.
 
 Calculation specification completion requires generated generated tags.
 
-See `:h rpgle-omni`
+See `:h ft-rpgle-omni`
 
 Contributing
 ------------
