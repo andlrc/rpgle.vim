@@ -1,8 +1,8 @@
 " Vim ftplugin file
 " Language:             Free RPG/ILE based on IBMi 7.1
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Aug 19, 2017
-" Version:              13
+" Last Change:          Aug 31, 2017
+" Version:              14
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_ftplugin")
@@ -12,6 +12,12 @@ endif
 let b:did_ftplugin = 1
 
 setlocal iskeyword+=-,%
+
+setlocal suffixesadd=.rpgle,.rpgleinc
+setlocal include=^\\s*/\\%(include\\\|copy\\)
+setlocal includeexpr=substitute(v:fname,',','.file/','')
+
+setlocal comments=s1:/*,mb:*,ex:*/,://,:*
 
 let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
                   \ '\<if\>:\<elseif\>:\<else\>:\<endif\>,' .
@@ -23,7 +29,8 @@ let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
                   \ '\<dcl-pr\>:\<end-pr\>,' .
                   \ '\<monitor\>:\<on-error\>:\<endmon\>'
 
-setlocal comments=s1:/*,mb:*,ex:*/,://,:*
+" POSIX man pages is nice to look through when ``bnddir('Q2ILE')'' is used.
+setlocal keywordprg=man\ 3p
 
 " Proper section jumping {{{
 
