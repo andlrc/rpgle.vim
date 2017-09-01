@@ -2,7 +2,7 @@
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Sep 01, 2017
-" Version:              15
+" Version:              16
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_ftplugin")
@@ -18,6 +18,9 @@ setlocal include=^\\s*/\\%(include\\\|copy\\)
 setlocal includeexpr=substitute(v:fname,',','.file/','')
 
 setlocal comments=s1:/*,mb:*,ex:*/,://,:*
+
+" ILE RPG is in case-sensitive
+setlocal tagcase=ignore nosmartcase ignorecase
 
 let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
                   \ '\<if\>:\<elseif\>:\<else\>:\<endif\>,' .
