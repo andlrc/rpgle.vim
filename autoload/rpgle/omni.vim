@@ -1,8 +1,8 @@
 " Vim completion script
-" Language:             Free RPG/ILE based on IBMi 7.1
+" Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Aug 29, 2017
-" Version:              4
+" Last Change:          Sep 01, 2017
+" Version:              5
 " URL:                  https://github.com/andlrc/rpgle.vim
 "
 " Complete via tag files, this code is experimental

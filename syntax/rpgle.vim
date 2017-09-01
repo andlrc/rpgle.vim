@@ -1,8 +1,8 @@
 " Vim syntax file
-" Language:             Free RPG/ILE based on IBMi 7.1
+" Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Aug 24, 2017
-" Version:              66
+" Last Change:          Sep 01, 2017
+" Version:              67
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:current_syntax")

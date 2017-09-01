@@ -4,8 +4,8 @@ rpgle.vim
 What does it contain?
 ---------------------
 
-RPG/ILE bundle for vim, this bundle contains syntax highlighting, syntax folds,
-auto indent, more match words and a few sensible keys is remapped.
+Free-Form ILE RPG bundle for vim, which contains syntax highlighting, syntax
+folds, auto indent, more match words and a few sensible keys is remapped.
 
 ### Indent
 
@@ -104,7 +104,7 @@ See `:help ft-rpgle-match-words`
 ### Movements
 
 rpgle.vim takes the liberty to bind `[[`, `]]`, `[]`, `][`, `gd`, `[{` and `]}`
-and tried to make them useful in RPG/ILE:
+and tried to make them useful for ILE RPG programming.
 
 `[[` and `]]` will jump to the previous or next `dcl-proc` while `][` and `[]`
 will jump to the previous or next `end-proc`.
@@ -137,10 +137,9 @@ Self-Promotion
 --------------
 
 Like rpgle.vim? Then you might also like
-[rpglectags](https://github.com/andlrc/rpglectags), which provides a reliable
-way to create ctags compatible files from RPG/ILE.  And
-[rpgleman](https://github.com/andlrc/rpgleman) which provides man pages for
-built-in functions keywords and more.
+[rpglectags](https://github.com/andlrc/rpglectags), creates tags files from ILE
+RPG. And [rpgleman](https://github.com/andlrc/rpgleman) which provides man
+pages for built-in functions keywords and more.
 
 License
 -------

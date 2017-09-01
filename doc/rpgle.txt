@@ -1,4 +1,4 @@
-*rpgle.txt* RPG/ILE bundle for vim
+*rpgle.txt* Free-Form ILE RPG
 
 Author:		Andreas Louv <andreas@louv.dk>
 License:	Same terms as Vim itself (see |license|)

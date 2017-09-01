@@ -1,8 +1,8 @@
 " Vim ftplugin file
-" Language:             Free RPG/ILE based on IBMi 7.1
+" Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Aug 31, 2017
-" Version:              14
+" Last Change:          Sep 01, 2017
+" Version:              15
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_ftplugin")

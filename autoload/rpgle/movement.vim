@@ -1,8 +1,8 @@
 " Vim autoload file
-" Language:             Free RPG/ILE based on IBMi 7.1
+" Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Aug 25, 2017
-" Version:              6
+" Last Change:          Sep 01, 2017
+" Version:              7
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 function! rpgle#movement#NextSection(motion, flags, mode) range
