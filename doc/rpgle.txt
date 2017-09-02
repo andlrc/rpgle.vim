@@ -14,6 +14,10 @@ VARIABLES					*ft-rpgle-variables*
 `g:rpgle_indentStart`	Set the number of leading spaces that should be used
 			when no previous line is to be accounted for.
 
+FILETYPE DETECT					*ft-rpgle-detect*
+
+File ending with .rpgle and .rpgleinc are detected as ILE RPG files.
+
 INDENT						*ft-rpgle-indent*
 
 Enable by adding the following to your |vimrc| >
@@ -45,9 +49,11 @@ The following match words is supported: >
 	if		-> elseif	-> else		-> endif
 	dow		-> iter		-> leave	-> enddo
 	dou		-> iter		-> leave	-> enddo
+	for		-> iter		-> leave	-> endfor
 	begsr		-> endsr
-	dcl-proc	-> return	-> endproc
+	dcl-proc	-> return	-> end-proc
 	dcl-pi		-> end-pi
+	dcl-pr		-> end-pr
 	monitor		-> on-error	-> endmon
 <
 MOVEMENTS					*ft-rpgle-movements*
@@ -75,6 +81,32 @@ gd			Goto local Declaration. When the cursor is on a local
 ]}			Jump forward to the block closer at the end of the
 			current code block, i.e. pressing |]}| inside an
 			if-statement will jump to the endif keyword.
+
+INCLUDE						*ft-rpgle-include*
+
+'include' is set to match /include and /copy. .rpgle and .rpgleinc is added
+when following files with |gf|, or when searching included files with |[I| and
+friends.
+
+'includeexpr' is set to replace a , with .file/ i.e. >
+	/include myfile,mymbr	=> myfile.file/mymbr.rpgleinc
+<
+It can be beneficial to setup 'path' accordantly:
+	setlocal path=~/.cache/rpgleinc/qrpglesrc.file,~/.cache/rpgleinc
+>
+And then download all headers to the respective directories inside
+~/.cache/rpgleinc. i.e the header called myhdr located in qrpglesrc should be
+saved as ~/.cache/rpgleinc/qrpglesrc.file/myhdr.rpgle
+
+One can use dd to download the files, i.e: >
+	$ dd if=/mnt_dir/QSYS.LIB/MY_LIB.LIB/QRPGLESRC.FILE/MYHDR.MBR \
+	     of=~/.cache/rpgleinc/qrpglesrc.file/myhdr.rpgleinc       \
+	     bs=120                                                   \
+	     cbs=120                                                  \
+	     conv=ascii
+<
+
+Where 120 is the width of the header.
 
 OMNI COMPLETION					*ft-rpgle-omni*
 
