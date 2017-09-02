@@ -239,7 +239,7 @@ syntax keyword rpgleKeywords EXSR
 " }}}
 " Procedure Specs {{{
 
-syntax region  rpgleDclProc       matchgroup=rpgleKeywords
+syntax region  rpgleDclProcBody   matchgroup=rpgleDclProc
                                 \ start=/\<DCL-PROC\>/
                                 \ end=/\<END-PROC\>/
                                 \ contains=@rpgleDclProcNest
@@ -286,6 +286,7 @@ highlight link rpgleProcOmit       rpgleSpecialKey
 highlight link rpgleCtlKeywords    rpgleKeywords
 highlight link rpgleDclTypes       rpgleTypes
 highlight link rpgleDclKeywords    rpgleKeywords
+highlight link rpgleDclProc        rpgleKeywords
 highlight link rpgleDclProcExport  rpgleKeywords
 highlight link rpgleDclProcName    rpgleProc
 highlight link rpgleDclPiName      rpgleSpecial
