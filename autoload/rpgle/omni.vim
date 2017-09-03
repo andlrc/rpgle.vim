@@ -2,401 +2,167 @@
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Sep 03, 2017
-" Version:              6
+" Version:              7
 " URL:                  https://github.com/andlrc/rpgle.vim
 "
 " Complete via tag files, this code is experimental
 
 let s:keywords = [
-  \ ['alias',			['ds']],
-  \ ['align',			['ds']],
-  \ ['alt(',			['s', 'ds']],
-  \ ['altseq(',			['s', 'ds', 'subf', 'pi', 'pr', 'prp']],
-  \ ['ascend',			['s', 'ds', 'prp']],
-  \ ['based(',			['s', 'ds', 'pr']],
-  \ ['bindec(',			['s', 'subf', 'pip', 'prp']],
-  \ ['ccsid(',			['s', 'subf', 'pip', 'prp']],
-  \ ['char(',			['s', 'subf', 'pip', 'prp']],
-  \ ['class(',			['s', 'subf', 'pip', 'prp']],
-  \ ['const(',			['c']],
-  \ ['ctdata',			['s', 'subf']],
-  \ ['date',			['s', 'subf', 'pip', 'prp']],
-  \ ['date(',			['s', 'subf', 'pip', 'prp']],
-  \ ['descend',			['s', 'ds', 'prp']],
-  \ ['dim(',			['s', 'ds', 'pi', 'pip', 'pr', 'prp']],
-  \ ['dtaara',			['s', 'ds', 'subf']],
-  \ ['dtaara(',			['s', 'ds', 'subf']],
-  \ ['export',			['s', 'ds', 'proc']],
-  \ ['export(',			['s', 'ds', 'proc']],
-  \ ['ext',			['ds']],
-  \ ['extfld',			['subf']],
-  \ ['extfld(',			['subf']],
-  \ ['extname(',		['ds']],
-  \ ['extpgm',			['pr']],
-  \ ['extpgm(',			['pr']],
-  \ ['extproc',			['pr']],
-  \ ['extproc(*CL : ',		['pr']],
-  \ ['extproc(*CWIDEN :',	['pr']],
-  \ ['extproc(*NOWIDEN : ',	['pr']],
-  \ ['extproc(*JAVA : ',	['pr']],
-  \ ['extproc(',		['pr']],
-  \ ['float(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['graph(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['import',			['s', 'ds', 'proc']],
-  \ ['import(',			['s', 'ds', 'proc']],
-  \ ['int(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['ind',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['inz',			['s', 'ds', 'subf']],
-  \ ['inz(',			['s', 'subf']],
-  \ ['len(',			['s', 'ds', 'subf', 'pr', 'prp']],
-  \ ['like(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['likeds(',			['ds']],
-  \ ['likefile(',		['prp']],
-  \ ['likerec(',		['ds', 'subf', 'pr', 'prp']],
-  \ ['noopt',			['s', 'ds']],
-  \ ['nullind',			['s', 'ds']],
-  \ ['nullind(',		['s', 'ds']],
-  \ ['object',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['object(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['occurs(',			['ds']],
-  \ ['opdesc',			['pr']],
-  \ ['options(',		['pip', 'prp']],
-  \ ['overlay(',		['subf']],
-  \ ['packed(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['packeven',		['subf']],
-  \ ['perrcd(',			['s']],
-  \ ['pointer',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['pointer(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['pos(',			['subf']],
-  \ ['prefix(',			['subf']],
-  \ ['psds',			['ds']],
-  \ ['qualified',		['ds']],
-  \ ['static',			['s', 'ds']],
-  \ ['static(',			['s', 'ds']],
-  \ ['template',		['s', 'ds']],
-  \ ['time',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['time(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['timestamp',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['timestamp(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['ucs2(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['uns(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['value',			['pip', 'prp']],
-  \ ['varchar(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['vargraph(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['varucs2(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
-  \ ['zoned(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['alias',		['ds']],
+  \ ['align',		['ds']],
+  \ ['alt(',		['s', 'ds']],
+  \ ['altseq(',		['s', 'ds', 'subf', 'pi', 'pr', 'prp']],
+  \ ['ascend',		['s', 'ds', 'prp']],
+  \ ['based(',		['s', 'ds', 'pr']],
+  \ ['bindec(',		['s', 'subf', 'pip', 'prp']],
+  \ ['ccsid(',		['s', 'subf', 'pip', 'prp']],
+  \ ['char(',		['s', 'subf', 'pip', 'prp']],
+  \ ['class(',		['s', 'subf', 'pip', 'prp']],
+  \ ['const(',		['c']],
+  \ ['ctdata',		['s', 'subf']],
+  \ ['date',		['s', 'subf', 'pip', 'prp']],
+  \ ['date(',		['s', 'subf', 'pip', 'prp']],
+  \ ['descend',		['s', 'ds', 'prp']],
+  \ ['dim(',		['s', 'ds', 'pi', 'pip', 'pr', 'prp']],
+  \ ['dtaara',		['s', 'ds', 'subf']],
+  \ ['dtaara(',		['s', 'ds', 'subf']],
+  \ ['export',		['s', 'ds', 'proc']],
+  \ ['export(',		['s', 'ds', 'proc']],
+  \ ['ext',		['ds']],
+  \ ['extfld',		['subf']],
+  \ ['extfld(',		['subf']],
+  \ ['extname(',	['ds']],
+  \ ['extpgm',		['pr']],
+  \ ['extpgm(',		['pr']],
+  \ ['extproc',		['pr']],
+  \ ['extproc(',	['pr']],
+  \ ['extproc(',	['pr']],
+  \ ['float(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['graph(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['import',		['s', 'ds', 'proc']],
+  \ ['import(',		['s', 'ds', 'proc']],
+  \ ['int(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['ind',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['inz',		['s', 'ds', 'subf']],
+  \ ['inz(',		['s', 'subf']],
+  \ ['len(',		['s', 'ds', 'subf', 'pr', 'prp']],
+  \ ['like(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['likeds(',		['ds']],
+  \ ['likefile(',	['prp']],
+  \ ['likerec(',	['ds', 'subf', 'pr', 'prp']],
+  \ ['noopt',		['s', 'ds']],
+  \ ['nullind',		['s', 'ds']],
+  \ ['nullind(',	['s', 'ds']],
+  \ ['object',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['object(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['occurs(',		['ds']],
+  \ ['opdesc',		['pr']],
+  \ ['options(',	['pip', 'prp']],
+  \ ['overlay(',	['subf']],
+  \ ['packed(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['packeven',	['subf']],
+  \ ['perrcd(',		['s']],
+  \ ['pointer',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['pointer(',	['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['pos(',		['subf']],
+  \ ['prefix(',		['subf']],
+  \ ['psds',		['ds']],
+  \ ['qualified',	['ds']],
+  \ ['static',		['s', 'ds']],
+  \ ['static(',		['s', 'ds']],
+  \ ['template',	['s', 'ds']],
+  \ ['time',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['time(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['timestamp',	['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['timestamp(',	['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['ucs2(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['uns(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['value',		['pip', 'prp']],
+  \ ['varchar(',	['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['vargraph(',	['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['varucs2(',	['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
+  \ ['zoned(',		['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
 \ ]
 
 let s:bifs = [
-  \ [
-  \   '%abs',
-  \   'Absolute Value of Expression'
-  \ ],
-  \ [
-  \   '%addr',
-  \   'Get Address of Variable'
-  \ ],
-  \ [
-  \   '%alloc',
-  \   'Allocate Storage'
-  \ ],
-  \ [
-  \   '%bitand',
-  \   'Bitwise AND Operation'
-  \ ],
-  \ [
-  \   '%bitnot',
-  \   'Invert Bits'
-  \ ],
-  \ [
-  \   '%bitor',
-  \   'Bitwise OR Operation'
-  \ ],
-  \ [
-  \   '%bitxor',
-  \   'Bitwise Exclusive-OR Operation'
-  \ ],
-  \ [
-  \   '%char',
-  \   'Convert to Character Data'
-  \ ],
-  \ [
-  \   '%check',
-  \   'Check Characters'
-  \ ],
-  \ [
-  \   '%checkr',
-  \   'Check Reverse'
-  \ ],
-  \ [
-  \   '%date',
-  \   'Convert to Date'
-  \ ],
-  \ [
-  \   '%days',
-  \   'Number of Days'
-  \ ],
-  \ [
-  \   '%dec',
-  \   'Convert to Packed Decimal Format'
-  \ ],
-  \ [
-  \   '%dech',
-  \   'Convert to Packed Decimal Format with Half Adjust'
-  \ ],
-  \ [
-  \   '%decpos',
-  \   'Get Number of Decimal Positions'
-  \ ],
-  \ [
-  \   '%diff',
-  \   'Difference Between Two Date, Time, or Timestamp Values'
-  \ ],
-  \ [
-  \   '%div',
-  \   'Return Integer Portion of Quotient'
-  \ ],
-  \ [
-  \   '%editc',
-  \   'Edit Value Using an Editcode'
-  \ ],
-  \ [
-  \   '%editflt',
-  \   'Convert to Float External Representation'
-  \ ],
-  \ [
-  \   '%editw',
-  \   'Edit Value Using an Editword'
-  \ ],
-  \ [
-  \   '%elem',
-  \   'Get Number of Elements'
-  \ ],
-  \ [
-  \   '%eof',
-  \   'Return End or Beginning of File Condition'
-  \ ],
-  \ [
-  \   '%equal',
-  \   'Return Exact Match Condition'
-  \ ],
-  \ [
-  \   '%fields',
-  \   'Fields to update'
-  \ ],
-  \ [
-  \   '%float',
-  \   'Convert to Floating Format'
-  \ ],
-  \ [
-  \   '%found',
-  \   'Return Found Condition'
-  \ ],
-  \ [
-  \   '%graph',
-  \   'Convert to Graphic Value'
-  \ ],
-  \ [
-  \   '%hours',
-  \   'Number of Hours'
-  \ ],
-  \ [
-  \   '%int',
-  \   'Convert to Integer Format'
-  \ ],
-  \ [
-  \   '%inth',
-  \   'Convert to Integer Format with Half Adjust'
-  \ ],
-  \ [
-  \   '%kds',
-  \   'Search Arguments in Data Structure'
-  \ ],
-  \ [
-  \   '%len',
-  \   'Get or Set Length'
-  \ ],
-  \ [
-  \   '%lookup',
-  \   'Look Up an Array Element'
-  \ ],
-  \ [
-  \   '%lookupge',
-  \   'Look Up an Array Element'
-  \ ],
-  \ [
-  \   '%lookupgt',
-  \   'Look Up an Array Element'
-  \ ],
-  \ [
-  \   '%lookuple',
-  \   'Look Up an Array Element'
-  \ ],
-  \ [
-  \   '%lookuplt',
-  \   'Look Up an Array Element'
-  \ ],
-  \ [
-  \   '%max',
-  \   'Maximum Value'
-  \ ],
-  \ [
-  \   '%min',
-  \   'Minimum Value'
-  \ ],
-  \ [
-  \   '%minutes',
-  \   'Number of Minutes'
-  \ ],
-  \ [
-  \   '%months',
-  \   'Number of Months'
-  \ ],
-  \ [
-  \   '%mseconds',
-  \   'Number of Microseconds'
-  \ ],
-  \ [
-  \   '%nullind',
-  \   'Query or Set Null Indicator'
-  \ ],
-  \ [
-  \   '%occur',
-  \   'Set/Get Occurrence of a Data Structure'
-  \ ],
-  \ [
-  \   '%open',
-  \   'Return File Open Condition'
-  \ ],
-  \ [
-  \   '%paddr',
-  \   'Get Procedure Address'
-  \ ],
-  \ [
-  \   '%realloc',
-  \   'Reallocate Storage'
-  \ ],
-  \ [
-  \   '%rem',
-  \   'Return Integer Remainder'
-  \ ],
-  \ [
-  \   '%replace',
-  \   'Replace Character String'
-  \ ],
-  \ [
-  \   '%scan',
-  \   'Scan for Characters'
-  \ ],
-  \ [
-  \   '%scanr',
-  \   'Scan Reverse for Characters'
-  \ ],
-  \ [
-  \   '%scanrpl',
-  \   'Scan and Replace Characters'
-  \ ],
-  \ [
-  \   '%seconds',
-  \   'Number of Seconds'
-  \ ],
-  \ [
-  \   '%shtdn',
-  \   'Shut Down'
-  \ ],
-  \ [
-  \   '%size',
-  \   'Get Size in Bytes'
-  \ ],
-  \ [
-  \   '%sqrt',
-  \   'Square Root of Expression'
-  \ ],
-  \ [
-  \   '%status',
-  \   'Return File or Program Status'
-  \ ],
-  \ [
-  \   '%str',
-  \   'Get or Store Null-Terminated String'
-  \ ],
-  \ [
-  \   '%subarr',
-  \   'Set/Get Portion of an Array'
-  \ ],
-  \ [
-  \   '%subdt',
-  \   'Extract a Portion of a Date, Time, or Timestamp'
-  \ ],
-  \ [
-  \   '%subst',
-  \   'Get Substring'
-  \ ],
-  \ [
-  \   '%this',
-  \   'Return Class Instance for Native Method'
-  \ ],
-  \ [
-  \   '%time',
-  \   'Convert to Time'
-  \ ],
-  \ [
-  \   '%timestamp',
-  \   'Convert to Timestamp'
-  \ ],
-  \ [
-  \   '%tlookup',
-  \   'Look Up a Table Element'
-  \ ],
-  \ [
-  \   '%tlookupge',
-  \   'Look Up a Table Element'
-  \ ],
-  \ [
-  \   '%tlookupgt',
-  \   'Look Up a Table Element'
-  \ ],
-  \ [
-  \   '%tlookuple',
-  \   'Look Up a Table Element'
-  \ ],
-  \ [
-  \   '%tlookuplt',
-  \   'Look Up a Table Element'
-  \ ],
-  \ [
-  \   '%trim',
-  \   'Trim Characters at Edges'
-  \ ],
-  \ [
-  \   '%triml',
-  \   'Trim Leading Characters'
-  \ ],
-  \ [
-  \   '%trimr',
-  \   'Trim Trailing Characters'
-  \ ],
-  \ [
-  \   '%uns',
-  \   'Convert to Unsigned Format'
-  \ ],
-  \ [
-  \   '%unsh',
-  \   'Convert to Unsigned Format with Half Adjust'
-  \ ],
-  \ [
-  \   '%xfoot',
-  \   'Sum Array Expression Elements'
-  \ ],
-  \ [
-  \   '%xlate',
-  \   'Translate'
-  \ ],
-  \ [
-  \   '%years',
-  \   'Number of Years'
-  \ ]
-\ ]
+  \ ['%abs',		'Absolute Value of Expression'],
+  \ ['%addr',		'Get Address of Variable'],
+  \ ['%alloc',		'Allocate Storage'],
+  \ ['%bitand',		'Bitwise AND Operation'],
+  \ ['%bitnot',		'Invert Bits'],
+  \ ['%bitor',		'Bitwise OR Operation'],
+  \ ['%bitxor',		'Bitwise Exclusive-OR Operation'],
+  \ ['%char',		'Convert to Character Data'],
+  \ ['%check',		'Check Characters'],
+  \ ['%checkr',		'Check Reverse'],
+  \ ['%date',		'Convert to Date'],
+  \ ['%days',		'Number of Days'],
+  \ ['%dec',		'Convert to Packed Decimal Format'],
+  \ ['%dech',		'Convert to Packed Decimal Format with Half Adjust'],
+  \ ['%decpos',		'Get Number of Decimal Positions'],
+  \ ['%diff',		'Difference Between Two Date, Time, or Timestamp Values'],
+  \ ['%div',		'Return Integer Portion of Quotient'],
+  \ ['%editc',		'Edit Value Using an Editcode'],
+  \ ['%editflt',	'Convert to Float External Representation'],
+  \ ['%editw',		'Edit Value Using an Editword'],
+  \ ['%elem',		'Get Number of Elements'],
+  \ ['%eof',		'Return End or Beginning of File Condition'],
+  \ ['%equal',		'Return Exact Match Condition'],
+  \ ['%fields',		'Fields to update'],
+  \ ['%float',		'Convert to Floating Format'],
+  \ ['%found',		'Return Found Condition'],
+  \ ['%graph',		'Convert to Graphic Value'],
+  \ ['%hours',		'Number of Hours'],
+  \ ['%int',		'Convert to Integer Format'],
+  \ ['%inth',		'Convert to Integer Format with Half Adjust'],
+  \ ['%kds',		'Search Arguments in Data Structure'],
+  \ ['%len',		'Get or Set Length'],
+  \ ['%lookup',		'Look Up an Array Element'],
+  \ ['%lookupge',	'Look Up an Array Element'],
+  \ ['%lookupgt',	'Look Up an Array Element'],
+  \ ['%lookuple',	'Look Up an Array Element'],
+  \ ['%lookuplt',	'Look Up an Array Element'],
+  \ ['%max',		'Maximum Value'],
+  \ ['%min',		'Minimum Value'],
+  \ ['%minutes',	'Number of Minutes'],
+  \ ['%months',		'Number of Months'],
+  \ ['%mseconds',	'Number of Microseconds'],
+  \ ['%nullind',	'Query or Set Null Indicator'],
+  \ ['%occur',		'Set/Get Occurrence of a Data Structure'],
+  \ ['%open',		'Return File Open Condition'],
+  \ ['%paddr',		'Get Procedure Address'],
+  \ ['%realloc',	'Reallocate Storage'],
+  \ ['%rem',		'Return Integer Remainder'],
+  \ ['%replace',	'Replace Character String'],
+  \ ['%scan',		'Scan for Characters'],
+  \ ['%scanr',		'Scan Reverse for Characters'],
+  \ ['%scanrpl',	'Scan and Replace Characters'],
+  \ ['%seconds',	'Number of Seconds'],
+  \ ['%shtdn',		'Shut Down'],
+  \ ['%size',		'Get Size in Bytes'],
+  \ ['%sqrt',		'Square Root of Expression'],
+  \ ['%status',		'Return File or Program Status'],
+  \ ['%str',		'Get or Store Null-Terminated String'],
+  \ ['%subarr',		'Set/Get Portion of an Array'],
+  \ ['%subdt',		'Extract a Portion of a Date, Time, or Timestamp'],
+  \ ['%subst',		'Get Substring'],
+  \ ['%this',		'Return Class Instance for Native Method'],
+  \ ['%time',		'Convert to Time'],
+  \ ['%timestamp',	'Convert to Timestamp'],
+  \ ['%tlookup',	'Look Up a Table Element'],
+  \ ['%tlookupge',	'Look Up a Table Element'],
+  \ ['%tlookupgt',	'Look Up a Table Element'],
+  \ ['%tlookuple',	'Look Up a Table Element'],
+  \ ['%tlookuplt',	'Look Up a Table Element'],
+  \ ['%trim',		'Trim Characters at Edges'],
+  \ ['%triml',		'Trim Leading Characters'],
+  \ ['%trimr',		'Trim Trailing Characters'],
+  \ ['%uns',		'Convert to Unsigned Format'],
+  \ ['%unsh',		'Convert to Unsigned Format with Half Adjust'],
+  \ ['%xfoot',		'Sum Array Expression Elements'],
+  \ ['%xlate',		'Translate'],
+  \ ['%years',		'Number of Years']
+\]
 
 function! rpgle#omni#Complete(findstart, base)
   if a:findstart
