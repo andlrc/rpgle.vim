@@ -1,8 +1,8 @@
 " Vim completion script
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 01, 2017
-" Version:              5
+" Last Change:          Sep 03, 2017
+" Version:              6
 " URL:                  https://github.com/andlrc/rpgle.vim
 "
 " Complete via tag files, this code is experimental
@@ -87,6 +87,317 @@ let s:keywords = [
   \ ['zoned(',			['s', 'subf', 'pi', 'pip', 'pr', 'prp']],
 \ ]
 
+let s:bifs = [
+  \ [
+  \   '%abs',
+  \   'Absolute Value of Expression'
+  \ ],
+  \ [
+  \   '%addr',
+  \   'Get Address of Variable'
+  \ ],
+  \ [
+  \   '%alloc',
+  \   'Allocate Storage'
+  \ ],
+  \ [
+  \   '%bitand',
+  \   'Bitwise AND Operation'
+  \ ],
+  \ [
+  \   '%bitnot',
+  \   'Invert Bits'
+  \ ],
+  \ [
+  \   '%bitor',
+  \   'Bitwise OR Operation'
+  \ ],
+  \ [
+  \   '%bitxor',
+  \   'Bitwise Exclusive-OR Operation'
+  \ ],
+  \ [
+  \   '%char',
+  \   'Convert to Character Data'
+  \ ],
+  \ [
+  \   '%check',
+  \   'Check Characters'
+  \ ],
+  \ [
+  \   '%checkr',
+  \   'Check Reverse'
+  \ ],
+  \ [
+  \   '%date',
+  \   'Convert to Date'
+  \ ],
+  \ [
+  \   '%days',
+  \   'Number of Days'
+  \ ],
+  \ [
+  \   '%dec',
+  \   'Convert to Packed Decimal Format'
+  \ ],
+  \ [
+  \   '%dech',
+  \   'Convert to Packed Decimal Format with Half Adjust'
+  \ ],
+  \ [
+  \   '%decpos',
+  \   'Get Number of Decimal Positions'
+  \ ],
+  \ [
+  \   '%diff',
+  \   'Difference Between Two Date, Time, or Timestamp Values'
+  \ ],
+  \ [
+  \   '%div',
+  \   'Return Integer Portion of Quotient'
+  \ ],
+  \ [
+  \   '%editc',
+  \   'Edit Value Using an Editcode'
+  \ ],
+  \ [
+  \   '%editflt',
+  \   'Convert to Float External Representation'
+  \ ],
+  \ [
+  \   '%editw',
+  \   'Edit Value Using an Editword'
+  \ ],
+  \ [
+  \   '%elem',
+  \   'Get Number of Elements'
+  \ ],
+  \ [
+  \   '%eof',
+  \   'Return End or Beginning of File Condition'
+  \ ],
+  \ [
+  \   '%equal',
+  \   'Return Exact Match Condition'
+  \ ],
+  \ [
+  \   '%fields',
+  \   'Fields to update'
+  \ ],
+  \ [
+  \   '%float',
+  \   'Convert to Floating Format'
+  \ ],
+  \ [
+  \   '%found',
+  \   'Return Found Condition'
+  \ ],
+  \ [
+  \   '%graph',
+  \   'Convert to Graphic Value'
+  \ ],
+  \ [
+  \   '%hours',
+  \   'Number of Hours'
+  \ ],
+  \ [
+  \   '%int',
+  \   'Convert to Integer Format'
+  \ ],
+  \ [
+  \   '%inth',
+  \   'Convert to Integer Format with Half Adjust'
+  \ ],
+  \ [
+  \   '%kds',
+  \   'Search Arguments in Data Structure'
+  \ ],
+  \ [
+  \   '%len',
+  \   'Get or Set Length'
+  \ ],
+  \ [
+  \   '%lookup',
+  \   'Look Up an Array Element'
+  \ ],
+  \ [
+  \   '%lookupge',
+  \   'Look Up an Array Element'
+  \ ],
+  \ [
+  \   '%lookupgt',
+  \   'Look Up an Array Element'
+  \ ],
+  \ [
+  \   '%lookuple',
+  \   'Look Up an Array Element'
+  \ ],
+  \ [
+  \   '%lookuplt',
+  \   'Look Up an Array Element'
+  \ ],
+  \ [
+  \   '%max',
+  \   'Maximum Value'
+  \ ],
+  \ [
+  \   '%min',
+  \   'Minimum Value'
+  \ ],
+  \ [
+  \   '%minutes',
+  \   'Number of Minutes'
+  \ ],
+  \ [
+  \   '%months',
+  \   'Number of Months'
+  \ ],
+  \ [
+  \   '%mseconds',
+  \   'Number of Microseconds'
+  \ ],
+  \ [
+  \   '%nullind',
+  \   'Query or Set Null Indicator'
+  \ ],
+  \ [
+  \   '%occur',
+  \   'Set/Get Occurrence of a Data Structure'
+  \ ],
+  \ [
+  \   '%open',
+  \   'Return File Open Condition'
+  \ ],
+  \ [
+  \   '%paddr',
+  \   'Get Procedure Address'
+  \ ],
+  \ [
+  \   '%realloc',
+  \   'Reallocate Storage'
+  \ ],
+  \ [
+  \   '%rem',
+  \   'Return Integer Remainder'
+  \ ],
+  \ [
+  \   '%replace',
+  \   'Replace Character String'
+  \ ],
+  \ [
+  \   '%scan',
+  \   'Scan for Characters'
+  \ ],
+  \ [
+  \   '%scanr',
+  \   'Scan Reverse for Characters'
+  \ ],
+  \ [
+  \   '%scanrpl',
+  \   'Scan and Replace Characters'
+  \ ],
+  \ [
+  \   '%seconds',
+  \   'Number of Seconds'
+  \ ],
+  \ [
+  \   '%shtdn',
+  \   'Shut Down'
+  \ ],
+  \ [
+  \   '%size',
+  \   'Get Size in Bytes'
+  \ ],
+  \ [
+  \   '%sqrt',
+  \   'Square Root of Expression'
+  \ ],
+  \ [
+  \   '%status',
+  \   'Return File or Program Status'
+  \ ],
+  \ [
+  \   '%str',
+  \   'Get or Store Null-Terminated String'
+  \ ],
+  \ [
+  \   '%subarr',
+  \   'Set/Get Portion of an Array'
+  \ ],
+  \ [
+  \   '%subdt',
+  \   'Extract a Portion of a Date, Time, or Timestamp'
+  \ ],
+  \ [
+  \   '%subst',
+  \   'Get Substring'
+  \ ],
+  \ [
+  \   '%this',
+  \   'Return Class Instance for Native Method'
+  \ ],
+  \ [
+  \   '%time',
+  \   'Convert to Time'
+  \ ],
+  \ [
+  \   '%timestamp',
+  \   'Convert to Timestamp'
+  \ ],
+  \ [
+  \   '%tlookup',
+  \   'Look Up a Table Element'
+  \ ],
+  \ [
+  \   '%tlookupge',
+  \   'Look Up a Table Element'
+  \ ],
+  \ [
+  \   '%tlookupgt',
+  \   'Look Up a Table Element'
+  \ ],
+  \ [
+  \   '%tlookuple',
+  \   'Look Up a Table Element'
+  \ ],
+  \ [
+  \   '%tlookuplt',
+  \   'Look Up a Table Element'
+  \ ],
+  \ [
+  \   '%trim',
+  \   'Trim Characters at Edges'
+  \ ],
+  \ [
+  \   '%triml',
+  \   'Trim Leading Characters'
+  \ ],
+  \ [
+  \   '%trimr',
+  \   'Trim Trailing Characters'
+  \ ],
+  \ [
+  \   '%uns',
+  \   'Convert to Unsigned Format'
+  \ ],
+  \ [
+  \   '%unsh',
+  \   'Convert to Unsigned Format with Half Adjust'
+  \ ],
+  \ [
+  \   '%xfoot',
+  \   'Sum Array Expression Elements'
+  \ ],
+  \ [
+  \   '%xlate',
+  \   'Translate'
+  \ ],
+  \ [
+  \   '%years',
+  \   'Number of Years'
+  \ ]
+\ ]
+
 function! rpgle#omni#Complete(findstart, base)
   if a:findstart
     " Locate the start of the item
@@ -128,21 +439,23 @@ function! rpgle#omni#Complete(findstart, base)
       let s:type = 'cspec'
       let lastword = -1
       while start > 0
-        if line[start - 1] =~? '\w'
+        if line[start - 1] =~ '\w'
           let start -= 1
-        elseif line[start - 1] =~? '\.'
-          if lastword == -1
-            let lastword = start
-          endif
+        elseif line[start - 1] == '.'
+          let s:type = 'cspec_struct'
+          let member_start = start
+          let start -= 1
+        elseif line[start - 1] == '%'
+          let s:type = 'cspec_bif'
           let start -= 1
         else
           break
         endif
       endwhile
 
-      if lastword != -1
-        let s:struct = strpart(line, start, lastword - start - 1)
-        return lastword
+      if s:type == 'cspec_struct'
+        let s:struct = strpart(line, start, member_start - start - 1)
+        return member_start
       endif
     endif
     let s:struct = ''
@@ -156,8 +469,12 @@ function! rpgle#omni#Complete(findstart, base)
     return s:HSpec(a:base)
   elseif s:type == 'dspec'
     return s:DSpec(a:base)
+  elseif s:type == 'cspec_struct'
+    return s:CSpecStruct(a:base, s:struct)
+  elseif s:type == 'cspec_bif'
+    return s:CSpecBIF(a:base)
   elseif s:type == 'cspec'
-    return s:CSpec(s:struct, a:base)
+    return s:CSpec(a:base)
   endif
 endfunction
 
@@ -219,70 +536,87 @@ function s:DSpec(base)
   return map(matches, 's:Keyword2Item(v:val)')
 endfunction
 
-function! s:CSpec(struct, base)
+" Member completion via tags
+function! s:CSpecStruct(base, struct)
   let matches  = []
   let tags     = taglist('^' . a:base)
   let curbufnr = bufnr('%')
   let struct   = a:struct
 
-  " Member completion
-  if struct != ''
-    " Resolve referenced data structure (``likeds(...)'')
-    let struct_tags = taglist('^' . struct . '$')
-    for tag in struct_tags
-      if complete_check()
-        break
-      endif
+  " Resolve referenced data structure (``likeds(...)'')
+  let struct_tags = taglist('^' . struct . '$')
+  for tag in struct_tags
+    if complete_check()
+      break
+    endif
 
-      if tag['kind'] ==? "s" && has_key(tag, 'typeref')
-        let struct = substitute(tag['typeref'], 'struct:', '', '')
-        break
-      endif
-    endfor
+    if tag['kind'] ==? "s" && has_key(tag, 'typeref')
+      let struct = substitute(tag['typeref'], 'struct:', '', '')
+      break
+    endif
+  endfor
 
-    for tag in tags
-      if complete_check()
-        break
-      endif
+  for tag in tags
+    if complete_check()
+      break
+    endif
 
-      " Remove static matches in other files.
-      if tag['static'] && bufnr('%') != bufnr(tag['filename'])
-        continue
-      endif
+    " Remove static matches in other files.
+    if tag['static'] && bufnr('%') != bufnr(tag['filename'])
+      continue
+    endif
 
-      " Remove anything but members
-      if tag['kind'] !=? 'm'
-        continue
-      endif
+    " Remove anything but members
+    if tag['kind'] !=? 'm'
+      continue
+    endif
 
-      " Remove members from other data structures
-      if tag['struct'] !=? struct
-        continue
-      endif
+    " Remove members from other data structures
+    if tag['struct'] !=? struct
+      continue
+    endif
 
-      call add(matches, s:Tag2Item(tag))
-    endfor
-  else
-    for tag in tags
-      if complete_check()
-        break
-      endif
-
-      " Remove static matches in other files.
-      if tag['static'] && curbufnr != bufnr(tag['filename'])
-        continue
-      endif
-
-      " Remove members
-      if tag['kind'] ==? 'm'
-        continue
-      endif
-
-      call add(matches, s:Tag2Item(tag))
-    endfor
-  endif
+    call add(matches, s:Tag2Item(tag))
+  endfor
 
   return matches
+endfunction
+
+function! s:CSpecBIF(base)
+  let matches = []
+  for bif in s:bifs
+    if bif[0] =~? '^' . a:base
+      call add(matches, s:BIF2Item(bif))
+    endif
+  endfor
+  return matches
+endfunction
+
+" Keyword completion via tags
+function! s:CSpec(base)
+  let matches  = []
+  let tags     = taglist('^' . a:base)
+  let curbufnr = bufnr('%')
+
+  for tag in tags
+    if complete_check()
+      break
+    endif
+
+    " Remove static matches in other files.
+    if tag['static'] && curbufnr != bufnr(tag['filename'])
+      continue
+    endif
+
+    " Remove members
+    if tag['kind'] ==? 'm'
+      continue
+    endif
+
+    call add(matches, s:Tag2Item(tag))
+  endfor
+
+return matches
 endfunction
 
 function! s:Path2Suggetion(path)
@@ -316,5 +650,12 @@ endfunction
 function! s:Keyword2Item(kw)
   return {
     \ 'word': a:kw
+  \ }
+endfunction
+
+function! s:BIF2Item(bif)
+  return {
+    \ 'word': a:bif[0],
+    \ 'abbr': printf("%-10s - %s", a:bif[0], a:bif[1])
   \ }
 endfunction
