@@ -1,8 +1,8 @@
 " Vim indent file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 01, 2017
-" Version:              15
+" Last Change:          Sep 03, 2017
+" Version:              16
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists("b:did_indent")
@@ -14,16 +14,16 @@ let b:did_indent = 1
 setlocal indentexpr=GetRpgleIndent()
 setlocal indentkeys=o,O
 setlocal indentkeys+=0*
-setlocal indentkeys+=0=if,0=elseif,0=else,0=endif
-setlocal indentkeys+=0=dou,0=dow,0=enddo
-setlocal indentkeys+=0=for,0=endfor
-setlocal indentkeys+=0=monitor,0=on-error,0=endmon
-setlocal indentkeys+=0=select,0=when,0=other,0=endsl
-setlocal indentkeys+=0=dcl-proc,0=end-proc
-setlocal indentkeys+=0=begsr,0=endsr
-setlocal indentkeys+=0=dcl-pi,0=end-pi
-setlocal indentkeys+=0=dcl-pr,0=end-pr
-setlocal indentkeys+=0=dcl-ds,0=end-ds
+setlocal indentkeys+=0=~if,0=~elseif,0=~else,0=~endif
+setlocal indentkeys+=0=~dou,0=~dow,0=~enddo
+setlocal indentkeys+=0=~for,0=~endfor
+setlocal indentkeys+=0=~monitor,0=~on-error,0=~endmon
+setlocal indentkeys+=0=~select,0=~when,0=~other,0=~endsl
+setlocal indentkeys+=0=~dcl-proc,0=~end-proc
+setlocal indentkeys+=0=~begsr,0=~endsr
+setlocal indentkeys+=0=~dcl-pi,0=~end-pi
+setlocal indentkeys+=0=~dcl-pr,0=~end-pr
+setlocal indentkeys+=0=~dcl-ds,0=~end-ds
 setlocal nosmartindent
 
 let b:undo_indent = 'setlocal indentexpr< indentkeys< smartindent<'
