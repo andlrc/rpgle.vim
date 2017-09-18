@@ -1,11 +1,11 @@
 " Vim indent file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 03, 2017
-" Version:              16
+" Last Change:          Sep 13, 2017
+" Version:              17
 " URL:                  https://github.com/andlrc/rpgle.vim
 
-if exists("b:did_indent")
+if exists('b:did_indent')
   finish
 endif
 
@@ -28,7 +28,7 @@ setlocal nosmartindent
 
 let b:undo_indent = 'setlocal indentexpr< indentkeys< smartindent<'
 
-if exists("*GetRpgleIndent")
+if exists('*GetRpgleIndent')
   finish
 endif
 
@@ -45,7 +45,7 @@ function! GetRpgleIndent()
   if pnum == 0
     if exists('g:rpgle_indentStart')
       return g:rpgle_indentStart
-    elseif getline(1) =~ '^\*\*FREE$'
+    elseif getline(1) =~? '^\*\*FREE$'
       return 0
     else
       return 7
@@ -69,22 +69,22 @@ function! GetRpgleIndent()
 
   " A ``when'' which follows a ``select'' should be indented:
   " All other ``when'' should be de indented
-  if cline =~ '^\s*\<when\>'
-    return pline =~ '^\s*\<select\>;' ?
+  if cline =~? '^\s*\<when\>'
+    return pline =~? '^\s*\<select\>;' ?
       \ pind + shiftwidth() : pind - shiftwidth()
   endif
 
   " ``dcl-pi'', ``dcl-pr'', and ``dcl-ds'' with no parameters should not
   " indent the ``end-xx'':
-  if pline =~ '^\s*\<dcl-pi\>' && cline =~ '^\s*\<end-pi\>'
-  \ || pline =~ '^\s*\<dcl-pr\>' && cline =~ '^\s*\<end-pr\>'
-  \ || pline =~ '^\s*\<dcl-ds\>' && cline =~ '^\s*\<end-ds\>'
+  if pline =~? '^\s*\<dcl-pi\>' && cline =~? '^\s*\<end-pi\>'
+  \ || pline =~? '^\s*\<dcl-pr\>' && cline =~? '^\s*\<end-pr\>'
+  \ || pline =~? '^\s*\<dcl-ds\>' && cline =~? '^\s*\<end-ds\>'
     return pind
   endif
 
   " ``dcl-ds'' with ``likeds'' on the same line doesn't take a definition and
   " should not do any indent:
-  if pline =~ '^\s*\<dcl-ds\>' && pline =~ '\<likeds\>'
+  if pline =~? '^\s*\<dcl-ds\>' && pline =~? '\<likeds\>'
     return pind
   endif
 
@@ -101,7 +101,7 @@ function! GetRpgleIndent()
   endif
 
   " ``endsl'' have to de indent two levels:
-  if cline =~ '^\s*\<endsl\>'
+  if cline =~? '^\s*\<endsl\>'
     return pind - shiftwidth() * 2
   endif
 

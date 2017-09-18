@@ -1,8 +1,8 @@
 " Vim completion script
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 03, 2017
-" Version:              7
+" Last Change:          Sep 13, 2017
+" Version:              8
 " URL:                  https://github.com/andlrc/rpgle.vim
 "
 " Complete via tag files, this code is experimental
@@ -219,7 +219,7 @@ function! rpgle#omni#Complete(findstart, base)
         endif
       endwhile
 
-      if s:type == 'cspec_struct'
+      if s:type ==# 'cspec_struct'
         let s:struct = strpart(line, start, member_start - start - 1)
         return member_start
       endif
@@ -229,17 +229,17 @@ function! rpgle#omni#Complete(findstart, base)
   endif
 
   " Return list of matches:
-  if s:type == 'compdir'
+  if s:type ==# 'compdir'
     return s:Compdir(a:base)
-  elseif s:type == 'hspec'
+  elseif s:type ==# 'hspec'
     return s:HSpec(a:base)
-  elseif s:type == 'dspec'
+  elseif s:type ==# 'dspec'
     return s:DSpec(a:base)
-  elseif s:type == 'cspec_struct'
+  elseif s:type ==# 'cspec_struct'
     return s:CSpecStruct(a:base, s:struct)
-  elseif s:type == 'cspec_bif'
+  elseif s:type ==# 'cspec_bif'
     return s:CSpecBIF(a:base)
-  elseif s:type == 'cspec'
+  elseif s:type ==# 'cspec'
     return s:CSpec(a:base)
   endif
 endfunction
@@ -316,7 +316,7 @@ function! s:CSpecStruct(base, struct)
       break
     endif
 
-    if tag['kind'] ==? "s" && has_key(tag, 'typeref')
+    if tag['kind'] ==? 's' && has_key(tag, 'typeref')
       let struct = substitute(tag['typeref'], 'struct:', '', '')
       break
     endif
@@ -422,6 +422,6 @@ endfunction
 function! s:BIF2Item(bif)
   return {
     \ 'word': a:bif[0],
-    \ 'abbr': printf("%-10s - %s", a:bif[0], a:bif[1])
+    \ 'abbr': printf('%-10s - %s', a:bif[0], a:bif[1])
   \ }
 endfunction

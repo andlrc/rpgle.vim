@@ -1,15 +1,15 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 01, 2017
-" Version:              67
+" Last Change:          Sep 13, 2017
+" Version:              68
 " URL:                  https://github.com/andlrc/rpgle.vim
 
-if exists("b:current_syntax")
+if exists('b:current_syntax')
   finish
 endif
 
-let b:current_syntax = "rpgle"
+let b:current_syntax = 'rpgle'
 
 syntax include @rpgleSql syntax/sqlanywhere.vim
 

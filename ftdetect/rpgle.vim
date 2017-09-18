@@ -1,11 +1,11 @@
 " Vim ftdetect file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 11, 2017
-" Version:              6
+" Last Change:          Sep 13, 2017
+" Version:              7
 " URL:                  https://github.com/andlrc/rpgle.vim
 
-if exists("b:did_ftdetect")
+if exists('b:did_ftdetect')
   finish
 endif
 

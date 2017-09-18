@@ -1,11 +1,11 @@
 " Vim ftplugin file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 01, 2017
-" Version:              16
+" Last Change:          Sep 13, 2017
+" Version:              17
 " URL:                  https://github.com/andlrc/rpgle.vim
 
-if exists("b:did_ftplugin")
+if exists('b:did_ftplugin')
   finish
 endif
 
