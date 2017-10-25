@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 13, 2017
-" Version:              68
+" Last Change:          Oct 25, 2017
+" Version:              69
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -248,8 +248,8 @@ syntax cluster rpgleDclProcNest   contains=@rpgleNest,rpgleSub,rpgleDclSpec,
                                          \rpgleDclProcName
 
 " Procedure Name
-syntax match   rpgleDclProcName   contained
-                                \ /\%(DCL-PROC\s\+\)\@<=\w\+\s*/
+syntax match   rpgleDclProcName   contained skipwhite
+                                \ /\%(DCL-PROC\s\+\)\@<=\w\+/
                                 \ nextgroup=rpgleDclProcExport
 
 " Export
