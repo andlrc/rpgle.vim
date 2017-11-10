@@ -1,8 +1,8 @@
 " Vim completion script
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 13, 2017
-" Version:              8
+" Last Change:          Nov 10, 2017
+" Version:              9
 " URL:                  https://github.com/andlrc/rpgle.vim
 "
 " Complete via tag files, this code is experimental
@@ -164,7 +164,7 @@ let s:bifs = [
   \ ['%years',		'Number of Years']
 \]
 
-function! rpgle#omni#Complete(findstart, base)
+function! rpgle#omni#Complete(findstart, base) abort
   if a:findstart
     " Locate the start of the item
     let line = getline('.')
@@ -205,13 +205,13 @@ function! rpgle#omni#Complete(findstart, base)
       let s:type = 'cspec'
       let lastword = -1
       while start > 0
-        if line[start - 1] =~ '\w'
+        if line[start - 1] =~# '\w'
           let start -= 1
-        elseif line[start - 1] == '.'
+        elseif line[start - 1] ==# '.'
           let s:type = 'cspec_struct'
           let member_start = start
           let start -= 1
-        elseif line[start - 1] == '%'
+        elseif line[start - 1] ==# '%'
           let s:type = 'cspec_bif'
           let start -= 1
         else
@@ -244,7 +244,7 @@ function! rpgle#omni#Complete(findstart, base)
   endif
 endfunction
 
-function! s:Compdir(base)
+function! s:Compdir(base) abort
   let line = getline('.')
   echom a:base
   " Filename completion
@@ -262,7 +262,7 @@ function! s:Compdir(base)
   endif
 endfunction
 
-function s:HSpec(base)
+function! s:HSpec(base) abort
   return filter(['actgrp(', 'alloc(', 'altseq', 'alwnull(', 'aut(',
                \ 'bnddir(', 'ccsid(', 'ccsidcvt(', 'copynest(', 'copyright(',
                \ 'cursym(', 'cvtopt(', 'datedit(', 'datfmt(', 'dclopt(',
@@ -276,7 +276,7 @@ function s:HSpec(base)
               \ { key, val -> val =~? '^' . a:base })
 endfunction
 
-function s:DSpec(base)
+function! s:DSpec(base) abort
   if a:base =~? 'dcl-'
     let matches = filter(['dcl-s', 'dcl-c', 'dcl-ds', 'dcl-pr', 'dcl-proc',
                         \ 'dcl-pi'],
@@ -303,7 +303,7 @@ function s:DSpec(base)
 endfunction
 
 " Member completion via tags
-function! s:CSpecStruct(base, struct)
+function! s:CSpecStruct(base, struct) abort
   let matches  = []
   let tags     = taglist('^' . a:base)
   let curbufnr = bufnr('%')
@@ -348,7 +348,7 @@ function! s:CSpecStruct(base, struct)
   return matches
 endfunction
 
-function! s:CSpecBIF(base)
+function! s:CSpecBIF(base) abort
   let matches = []
   for bif in s:bifs
     if bif[0] =~? '^' . a:base
@@ -359,7 +359,7 @@ function! s:CSpecBIF(base)
 endfunction
 
 " Keyword completion via tags
-function! s:CSpec(base)
+function! s:CSpec(base) abort
   let matches  = []
   let tags     = taglist('^' . a:base)
   let curbufnr = bufnr('%')
@@ -385,7 +385,7 @@ function! s:CSpec(base)
 return matches
 endfunction
 
-function! s:Path2Suggetion(path)
+function! s:Path2Suggetion(path) abort
   let path = substitute(a:path,
         \ '^.\{-}\<qrpglesrc.file/\(\w\+\).\%(mbr\|rpgleinc\)$', '\1', '')
   if path == a:path
@@ -400,26 +400,26 @@ function! s:Path2Suggetion(path)
   return path
 endfunction
 
-function! s:Path2Item(path)
+function! s:Path2Item(path) abort
   return {
     \ 'word': a:path
   \ }
 endfunction
 
-function! s:Tag2Item(tag)
+function! s:Tag2Item(tag) abort
   return {
     \ 'word': a:tag['name'],
     \ 'kind': a:tag['kind']
   \ }
 endfunction
 
-function! s:Keyword2Item(kw)
+function! s:Keyword2Item(kw) abort
   return {
     \ 'word': a:kw
   \ }
 endfunction
 
-function! s:BIF2Item(bif)
+function! s:BIF2Item(bif) abort
   return {
     \ 'word': a:bif[0],
     \ 'abbr': printf('%-10s - %s', a:bif[0], a:bif[1])

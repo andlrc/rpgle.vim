@@ -1,8 +1,8 @@
 " Vim indent file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 13, 2017
-" Version:              17
+" Last Change:          Nov 10, 2017
+" Version:              18
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:did_indent')
@@ -58,12 +58,12 @@ function! GetRpgleIndent()
   let cline = getline(cnum)
 
   " Continues comments should indent the ``*'' one space
-  if cline =~ '^\s*\*' && pline =~ '^\s*/\*' && pline !~ '\*/'
+  if cline =~# '^\s*\*' && pline =~# '^\s*/\*' && pline !~# '\*/'
     return pind + 1
   endif
 
   " Continues comments should de indent one space when ended
-  if pline =~ '^\s*\*.*\*/' || cline =~ '^\s*\\\*.*\*/'
+  if pline =~# '^\s*\*.*\*/' || cline =~# '^\s*\\\*.*\*/'
     return pind - 1
   endif
 

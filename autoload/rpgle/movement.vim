@@ -1,11 +1,11 @@
 " Vim autoload file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 13, 2017
-" Version:              8
+" Last Change:          Nov 10, 2017
+" Version:              9
 " URL:                  https://github.com/andlrc/rpgle.vim
 
-function! rpgle#movement#NextSection(motion, flags, mode) range
+function! rpgle#movement#NextSection(motion, flags, mode) range abort
 
   let cnt = v:count1
   let old_pos = line('.')
@@ -29,7 +29,7 @@ function! rpgle#movement#NextSection(motion, flags, mode) range
   normal! ^
 endfunction
 
-function! rpgle#movement#NextNest(flags)
+function! rpgle#movement#NextNest(flags) abort
   let flags = a:flags
   let fn    = a:flags ==# 'b' ? 'max' : 'min'
 
@@ -47,7 +47,7 @@ function! rpgle#movement#NextNest(flags)
   endif
 endfunction
 
-function! s:nextNestSearch(kw, flags)
+function! s:nextNestSearch(kw, flags) abort
   if a:kw[0] =~? 'if'
     let middle = '\<\(else\|elseif\)\>'
   else
