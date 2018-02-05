@@ -136,10 +136,14 @@ Make a [pull request](https://github.com/andlrc/rpgle.vim/pulls) or
 Self-Promotion
 --------------
 
-Like rpgle.vim? Then you might also like
-[rpglectags](https://github.com/andlrc/rpglectags), creates tags files from ILE
-RPG. And [rpgleman](https://github.com/andlrc/rpgleman) which provides man
-pages for built-in functions keywords and more.
+Like rpgle.vim? Then you might also like:
+
+- [rpglectags](https://github.com/andlrc/rpglectags) which creates tags files
+  from ILE RPG,
+- [rpgleman](https://github.com/andlrc/rpgleman) which provides man pages for
+  built-in functions keywords and more,
+- and [rpglefmt](https://github.com/andlrc/rpglefmt) which will format Free Form ILE
+  RPG programs.
 
 License
 -------
