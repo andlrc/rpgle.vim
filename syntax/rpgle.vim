@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Oct 25, 2017
-" Version:              69
+" Last Change:          Feb 05, 2018
+" Version:              70
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -44,7 +44,13 @@ syntax region rpgleCtlSpec   matchgroup=rpgleKeywords
                            \ end=/;/
                            \ contains=@rpgleCtlProps
 syntax cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,
-                                     \rpgleString,rpgleConstant
+                                     \rpgleString,rpgleConstant,rpgleError,
+                                     \rpgleCtlParanBalance
+
+syntax region rpgleCtlParanBalance matchgroup=xxx
+                                 \ start=/(/
+                                 \ end=/)/
+                                 \ contains=@rpgleCtlKeywords
 
 " Header Keywords
 syntax keyword rpgleCtlKeywords contained
@@ -97,6 +103,7 @@ syntax region  rpgleDclSpec   matchgroup=rpgleDclKeywords
                             \ end=/\<END-PI\>/
                             \ contains=@rpgleDclProps,rpgleDclPiName
                             \ fold
+syntax keyword rpgleError END-PI
 
 " Special PI Name
 syntax keyword rpgleDclPiName *N
@@ -106,12 +113,14 @@ syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
                           \ start=/\<DCL-PR\>/
                           \ end=/\<END-PR\>/
                           \ contains=@rpgleDclProps
+syntax keyword rpgleError END-PR
 
 " Data Structure
 syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
                           \ start=/\<DCL-DS\>/
                           \ end=/\<\%(END-DS\|LIKEDS\|LIKEREC\)\>/
                           \ contains=@rpgleDclProps
+syntax keyword rpgleError LIKEDS LIKEREC END-DS
 
 " Declaration Types
 syntax keyword rpgleDclTypes contained
@@ -134,9 +143,15 @@ syntax keyword rpgleDclKeywords contained
 syntax keyword rpgleDclSpecialKeys contained
                                \ *NOPASS *OMIT *VARSIZE *STRING *RIGHTADJ
 
+syntax region rpgleDclParenBalance matchgroup=xxx
+                                 \ start=/(/
+                                 \ end=/)/
+                                 \ contains=@rpgleDclProps
+
 syntax cluster rpgleDclProps contains=rpgleComment,rpgleDclTypes,
                                      \rpgleDclKeywords,rpgleDclSpecialKeys,
-                                     \rpgleNumber,rpgleString,rpgleConstant
+                                     \rpgleNumber,rpgleString,rpgleConstant,
+                                     \rpgleError,rpgleDclParenBalance
 
 " }}}
 " Calculation Specs {{{
@@ -147,6 +162,7 @@ syntax region  rpgleIf   matchgroup=rpgleConditional
                        \ end=/\<ENDIF\>/
                        \ contains=@rpgleNest,rpgleElse
                        \ fold
+syntax keyword rpgleError ELSE ELSEIF ENDIF
 
 " ELSE ELSEIF
 syntax keyword rpgleElse contained else elseif
@@ -160,6 +176,7 @@ syntax region  rpgleDo matchgroup=rpgleRepeat
                      \ end=/\<ENDDO\>/
                      \ contains=@rpgleNest
                      \ fold
+syntax keyword rpgleError ENDDO
 
 " FOR ... ENDFOR
 syntax region  rpgleFor matchgroup=rpgleRepeat
@@ -167,6 +184,7 @@ syntax region  rpgleFor matchgroup=rpgleRepeat
                       \ end=/\<ENDFOR\>/
                       \ contains=@rpgleNest
                       \ fold
+syntax keyword rpgleError ENDFOR
 
 " ITER, LEAVE
 syntax keyword rpgleRepeat contained ITER LEAVE
@@ -177,6 +195,7 @@ syntax region  rpgleMonitor matchgroup=rpgleConditional
                           \ end=/\<ENDMON\>/
                           \ contains=@rpgleNest,rpgleOnError
                           \ fold
+syntax keyword rpgleError ON-ERROR ENDMON
 
 " ON-ERROR
 syntax keyword rpgleOnError contained ON-ERROR
@@ -187,9 +206,16 @@ syntax region  rpgleSelect    matchgroup=rpgleKeywords
                             \ end=/\<ENDSL\>/
                             \ contains=@rpgleNest,rpgleWhenOther
                             \ fold
+syntax keyword rpgleError WHEN OTHER ENDSL
 
 " WHEN, OTHER
 syntax keyword rpgleWhenOther contained WHEN OTHER
+
+" Exec SQL
+syntax region rpgleSql matchgroup=rpgleKeywords
+                     \ start=/\<EXEC\_s\+SQL\>/
+                     \ end=/;/
+                     \ contains=@rpgleSql
 
 " Build In Functions
 syntax keyword rpgleBIF %ABS %ADDR %ALLOC %BITAND %BITNOT %BITOR %BITXOR
@@ -205,12 +231,7 @@ syntax keyword rpgleBIF %ABS %ADDR %ALLOC %BITAND %BITNOT %BITOR %BITXOR
                       \ %TLOOKUPGE %TLOOKUPGT %TLOOKUPLE %TLOOKUPLT %TRIM
                       \ %TRIML %TRIMR %UCS2 %UNS %UNSH %XFOOT %XLATE %XML
                       \ %YEARS
-
-" Exec SQL
-syntax region rpgleSql matchgroup=rpgleKeywords
-                     \ start=/\<EXEC\_s\+SQL\>/
-                     \ end=/;/
-                     \ contains=@rpgleSql
+syntax match rpgleError /%\w\+/
 
 " Procedures, the match group is to avoid infinite recursion as a
 " ``rpgleProcCall'' can be within another ``rpgleProcCall''
@@ -218,11 +239,12 @@ syntax region  rpgleProcCall matchgroup=xxx
                            \ start=/%\@1<!\<\w\+(/
                            \ end=/)/
                            \ contains=@rpgleProcArgs
+syntax match rpgleError /)/
 
 syntax cluster rpgleProcArgs contains=rpgleBIF,rpgleComment,rpgleConstant,
                                      \rpgleNumber,rpglePreProc,rpgleProcCall,
                                      \rpgleProcOmit,rpgleSpecialKey,
-                                     \rpgleString
+                                     \rpgleString,rpgleError,rpgleParenBalance
 syntax keyword rpgleProcOmit contained *OMIT
 syntax keyword rpgleKeywords RETURN
 
@@ -232,6 +254,7 @@ syntax region rpgleSub matchgroup=rpgleKeywords
                      \ end=/\<ENDSR\>/
                      \ contains=@rpgleNest
                      \ fold
+syntax keyword rpgleError ENDSR
 
 " EXSR
 syntax keyword rpgleKeywords EXSR
@@ -245,7 +268,8 @@ syntax region  rpgleDclProcBody   matchgroup=rpgleDclProc
                                 \ contains=@rpgleDclProcNest
                                 \ fold
 syntax cluster rpgleDclProcNest   contains=@rpgleNest,rpgleSub,rpgleDclSpec,
-                                         \rpgleDclProcName
+                                         \rpgleDclProcName,rpgleError
+syntax keyword rpgleError END-PROC
 
 " Procedure Name
 syntax match   rpgleDclProcName   contained skipwhite
@@ -257,16 +281,23 @@ syntax keyword rpgleDclProcExport contained EXPORT
 
 " }}}
 
+syntax region rpgleParenBalance matchgroup=xxx
+                              \ start=/(/
+                              \ end=/)/
+                              \ contains=@rpgleNest
+
 " All nestable groups, i.e. mostly Calculation Spec keywords:
 syntax cluster rpgleNest contains=rpgleBIF,rpgleComment,rpgleConditional,
                                  \rpgleConstant,rpgleDo,rpgleFor,rpgleIf,
                                  \rpgleKeywords,rpgleMonitor,rpgleNumber,
                                  \rpgleOperator,rpglePreProc,rpgleProcCall,
                                  \rpgleRepeat,rpgleSelect,rpgleSpecialKey,
-                                 \rpgleSql,rpgleString
+                                 \rpgleSql,rpgleString,rpgleError,
+                                 \rpgleParenBalance
 
 syntax sync fromstart
 
+highlight link rpgleError          Error
 highlight link rpglePreProc        PreProc
 highlight link rpgleProc           Function
 highlight link rpgleSpecialKey     SpecialKey
