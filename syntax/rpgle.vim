@@ -2,7 +2,7 @@
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Feb 21, 2018
-" Version:              71
+" Version:              72
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -18,11 +18,13 @@ syntax iskeyword @,48-57,192-255,-,%,*,/,_
 
 " Comments {{{
 
-syntax match   rpgleComment      '//.*'
-                               \ contains=@rpgleCommentProps
-syntax region  rpgleComment      start='/\*'
-                               \ end='\*/'
-                               \ contains=@rpgleCommentProps
+syntax match   rpgleLineComment      '//.*'
+                                   \ contains=@rpgleCommentProps
+syntax region  rpgleBracketedComment start='/\*'
+                                   \ end='\*/'
+                                   \ contains=@rpgleCommentProps
+syntax cluster rpgleComment          contains=rpgleLineComment,rpgleBracketedComment
+
 syntax cluster rpgleCommentProps contains=rpgleTodo,@Spell
 syntax keyword rpgleTodo         contained TODO FIXME
 
@@ -44,7 +46,7 @@ syntax region rpgleCtlSpec   matchgroup=rpgleKeywords
                            \ end=/;/
                            \ contains=@rpgleCtlProps
 syntax cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,
-                                     \rpgleString,rpgleConstant,rpgleError,
+                                     \@rpgleString,rpgleConstant,rpgleError,
                                      \rpgleCtlParanBalance
 
 syntax region rpgleCtlParanBalance matchgroup=xxx
@@ -75,6 +77,7 @@ syntax region  rpgleString      start=/[xz]\='/
                               \ end=/'\|$/
                               \ contains=@rpgleStringProps
 
+syntax cluster rpgleString      contains=rpgleString
 syntax cluster rpgleStringProps contains=@Spell
 
 " Constants
@@ -244,10 +247,10 @@ syntax region  rpgleProcCall matchgroup=xxx
                            \ end=/)/
                            \ contains=@rpgleProcArgs
 
-syntax cluster rpgleProcArgs contains=rpgleBIF,rpgleComment,rpgleConstant,
+syntax cluster rpgleProcArgs contains=rpgleBIF,@rpgleComment,rpgleConstant,
                                      \rpgleNumber,rpglePreProc,rpgleProcCall,
                                      \rpgleProcOmit,rpgleSpecialKey,
-                                     \rpgleString,rpgleError,rpgleParenBalance
+                                     \@rpgleString,rpgleError,rpgleParenBalance
 syntax keyword rpgleProcOmit contained *OMIT
 syntax keyword rpgleKeywords RETURN
 
@@ -290,44 +293,47 @@ syntax region rpgleParenBalance matchgroup=xxx
                               \ contains=@rpgleNest
 
 " All nestable groups, i.e. mostly Calculation Spec keywords:
-syntax cluster rpgleNest contains=rpgleBIF,rpgleComment,rpgleConditional,
+syntax cluster rpgleNest contains=rpgleBIF,@rpgleComment,rpgleConditional,
                                  \rpgleConstant,rpgleDo,rpgleFor,rpgleIf,
                                  \rpgleKeywords,rpgleMonitor,rpgleNumber,
                                  \rpgleOperator,rpglePreProc,rpgleProcCall,
                                  \rpgleRepeat,rpgleSelect,rpgleSpecialKey,
-                                 \rpgleSql,rpgleString,rpgleError,
+                                 \rpgleSql,@rpgleString,rpgleError,
                                  \rpgleParenBalance
 
 syntax sync fromstart
 
-highlight link rpgleError          Error
-highlight link rpglePreProc        PreProc
-highlight link rpgleProc           Function
-highlight link rpgleSpecialKey     SpecialKey
-highlight link rpgleNumber         Number
-highlight link rpgleString         String
-highlight link rpgleOperator       Operator
-highlight link rpgleComment        Comment
-highlight link rpgleTodo           Todo
-highlight link rpgleConstant       Constant
-highlight link rpgleConditional    Conditional
-highlight link rpgleRepeat         Repeat
-highlight link rpgleKeywords       Keyword
-highlight link rpgleSpecial        Special
-highlight link rpgleTypes          Type
+highlight link rpgleError            Error
+highlight link rpglePreProc          PreProc
+highlight link rpgleProc             Function
+highlight link rpgleSpecialKey       SpecialKey
+highlight link rpgleNumber           Number
+highlight link rpgleString           String
+highlight link rpgleOperator         Operator
+highlight link rpgleComment          Comment
+highlight link rpgleTodo             Todo
+highlight link rpgleConstant         Constant
+highlight link rpgleConditional      Conditional
+highlight link rpgleRepeat           Repeat
+highlight link rpgleKeywords         Keyword
+highlight link rpgleSpecial          Special
+highlight link rpgleTypes            Type
 
-highlight link rpgleProcOmit       rpgleSpecialKey
-highlight link rpgleCtlKeywords    rpgleKeywords
-highlight link rpgleDclTypes       rpgleTypes
-highlight link rpgleDclKeywords    rpgleKeywords
-highlight link rpgleDclProc        rpgleKeywords
-highlight link rpgleDclProcExport  rpgleKeywords
-highlight link rpgleDclProcName    rpgleProc
-highlight link rpgleDclPiName      rpgleSpecial
-highlight link rpgleDclSpecialKeys rpgleSpecialKey
-highlight link rpgleElse           rpgleConditional
-highlight link rpgleOnError        rpgleKeywords
-highlight link rpgleWhenOther      rpgleKeywords
-highlight link rpgleBIF            rpgleSpecial
+highlight link rpgleLineComment      rpgleComment
+highlight link rpgleBracketedComment rpgleComment
+
+highlight link rpgleProcOmit         rpgleSpecialKey
+highlight link rpgleCtlKeywords      rpgleKeywords
+highlight link rpgleDclTypes         rpgleTypes
+highlight link rpgleDclKeywords      rpgleKeywords
+highlight link rpgleDclProc          rpgleKeywords
+highlight link rpgleDclProcExport    rpgleKeywords
+highlight link rpgleDclProcName      rpgleProc
+highlight link rpgleDclPiName        rpgleSpecial
+highlight link rpgleDclSpecialKeys   rpgleSpecialKey
+highlight link rpgleElse             rpgleConditional
+highlight link rpgleOnError          rpgleKeywords
+highlight link rpgleWhenOther        rpgleKeywords
+highlight link rpgleBIF              rpgleSpecial
 
 " vim: foldmethod=marker
