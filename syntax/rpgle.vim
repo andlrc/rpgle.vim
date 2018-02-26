@@ -2,7 +2,7 @@
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Feb 26, 2018
-" Version:              73
+" Version:              74
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -52,7 +52,7 @@ syntax cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,
 syntax region rpgleCtlParanBalance matchgroup=xxx
                                  \ start=/(/
                                  \ end=/)/
-                                 \ contains=@rpgleCtlKeywords
+                                 \ contains=@rpgleCtlProps
 
 " Header Keywords
 syntax keyword rpgleCtlKeywords contained
