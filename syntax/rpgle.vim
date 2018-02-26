@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Feb 21, 2018
-" Version:              72
+" Last Change:          Feb 26, 2018
+" Version:              73
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -71,7 +71,8 @@ syntax keyword rpgleCtlKeywords contained
 
 " Numbers and Strings
 
-syntax match   rpgleNumber      /\<\%(\d\+\.\d\+\|\.\d\+\|\d\+\.\|\d\+\)\>/
+syntax match   rpgleNumber      display
+                              \ /\<\%(\d\+\.\d\+\|\.\d\+\|\d\+\.\|\d\+\)\>/
 syntax region  rpgleString      start=/[xz]\='/
                               \ skip=/''\|[+-]$/
                               \ end=/'\|$/
@@ -85,17 +86,17 @@ syntax keyword rpgleConstant *ALL *BLANK *BLANKS *ENTRY *HIVAL *LOVAL *NULL
                            \ *OFF *ON *ZERO *ZEROS
 
 " *IN01 .. *IN99, *INH1 .. *INH9, *INL1 .. *INL9, *INLR, *INRT
-syntax match   rpgleSpecialKey /\%(\*IN0[1-9]\|\*IN[1-9][0-9]\)/
-syntax match   rpgleSpecialKey /\*INH[1-9]/
-syntax match   rpgleSpecialKey /\*INL[1-9]/
-syntax match   rpgleSpecialKey /\*INU[1-8]/
+syntax match   rpgleSpecialKey display /\%(\*IN0[1-9]\|\*IN[1-9][0-9]\)/
+syntax match   rpgleSpecialKey display /\*INH[1-9]/
+syntax match   rpgleSpecialKey display /\*INL[1-9]/
+syntax match   rpgleSpecialKey display /\*INU[1-8]/
 syntax keyword rpgleSpecialKey *INLR *INRT
 
 " Operators
-syntax match   rpgleOperator /\*\|<>\|>=\|<=\|[*=><+-]/
+syntax match   rpgleOperator display /\*\|<>\|>=\|<=\|[*=><+-]/
 
 " Standalone, Constant
-syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
+syntax region  rpgleDclSpec display matchgroup=rpgleDclKeywords
                           \ start=/\<DCL-[SC]\>/
                           \ end=/$/
                           \ contains=@rpgleDclProps
@@ -278,8 +279,8 @@ syntax cluster rpgleDclProcNest   contains=@rpgleNest,rpgleSub,rpgleDclSpec,
 syntax keyword rpgleError END-PROC
 
 " Procedure Name
-syntax match   rpgleDclProcName   contained skipwhite
-                                \ /\%(DCL-PROC\s\+\)\@<=\w\+/
+syntax match   rpgleDclProcName   display contained skipwhite
+                                \ /\%(DCL-PROC\s\+\)\@10<=\w\+/
                                 \ nextgroup=rpgleDclProcExport
 
 " Export
