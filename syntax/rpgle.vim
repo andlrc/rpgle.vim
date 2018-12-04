@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Feb 26, 2018
-" Version:              74
+" Last Change:          Dec 04, 2018
+" Version:              75
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -93,7 +93,10 @@ syntax match   rpgleSpecialKey display /\*INU[1-8]/
 syntax keyword rpgleSpecialKey *INLR *INRT
 
 " Operators
-syntax match   rpgleOperator display /\*\|<>\|>=\|<=\|[*=><+-]/
+syntax match   rpgleOperator display /<>/
+syntax match   rpgleOperator display />=/
+syntax match   rpgleOperator display /<=/
+syntax match   rpgleOperator display /[*=><+-]/
 
 " Standalone, Constant
 syntax region  rpgleDclSpec display matchgroup=rpgleDclKeywords
@@ -123,7 +126,7 @@ syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
 syntax keyword rpgleError LIKEDS LIKEREC END-DS
 syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
                           \ start=/\<DCL-DS\>/
-                          \ end=/\<\%(END-DS\|LIKEDS\|LIKEREC\)\>/
+                          \ end=/\<\%(END-DS\|\%(DCL-DS.*\)\@<=LIKEDS\|\%(DCL-DS.*\)\@<=LIKEREC\)\>/
                           \ contains=@rpgleDclProps
 
 " Declaration Types
