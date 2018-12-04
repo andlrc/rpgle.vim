@@ -1,8 +1,8 @@
 " Vim autoload file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Nov 10, 2017
-" Version:              9
+" Last Change:          Dec 04, 2018
+" Version:              10
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 function! rpgle#movement#NextSection(motion, flags, mode) range abort
@@ -50,11 +50,52 @@ endfunction
 function! s:nextNestSearch(kw, flags) abort
   if a:kw[0] =~? 'if'
     let middle = '\<\(else\|elseif\)\>'
+  elseif a:kw[0] =~? 'select'
+    let middle = '\<\(when\|other\)\>'
   else
     let middle = ''
   endif
 
+  return s:findpair(a:kw[0], middle, a:kw[-1], a:flags)
+endfunction
+
+function! s:findpair(start, middle, end, flags) abort
   " Find a pair which isn't inside a string nor comment
-  return searchpair(a:kw[0], middle, a:kw[-1], a:flags . 'nW',
-  \ 'synIDattr(synID(line("."), col("."), 1), "name") =~? "string\\|comment"')
+  return searchpair(a:start, a:middle, a:end, a:flags . 'nW',
+                  \ 'synIDattr(synID(line("."), col("."), 1), "name") =~? "string\\|comment"')
+endfunction
+
+function! rpgle#movement#Operator(ai) abort
+  let pairs = map(split(b:match_words, ','), { key, val ->
+            \ [split(val, ':')[0], split(val, ':')[-1]] })
+
+  " Find a pair which isn't inside a string nor comment
+
+  let poss = filter(map(pairs,
+                      \ { key, val -> {"pair": val, "pos": s:findpair(val[0], '', val[1], 'b')} }),
+                  \ { key, val -> val.pos > 0 })
+
+  let closest = { "index": 0, "pos": -1 }
+  let index = 0
+  for pos in poss
+    if pos.pos > closest.pos
+      let closest.pos = pos.pos
+      let closest.index = index
+      let closest.pair = pos.pair
+    endif
+    let index = index + 1
+  endfor
+
+  let match_words = b:match_words
+  let b:match_words = join(closest.pair, ':')
+  execute 'normal! ' . closest.pos . 'G^V'
+  normal %
+  let b:match_words = match_words
+
+  if a:ai == 'i'
+    normal! koj
+  endif
+
+
+  echo closest
 endfunction

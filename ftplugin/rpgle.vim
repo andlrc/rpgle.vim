@@ -1,8 +1,8 @@
 " Vim ftplugin file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 13, 2017
-" Version:              17
+" Last Change:          Dec 04, 2018
+" Version:              18
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:did_ftplugin')
@@ -35,7 +35,7 @@ let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
 " POSIX man pages is nice to look through when ``bnddir('Q2ILE')'' is used.
 setlocal keywordprg=man\ 3p
 
-" Proper section jumping {{{
+" section jumping {{{
 
 nnoremap <script> <buffer> <silent> gd
        \ :<C-U>execute 'keepj normal [[/\<<C-r><C-w>\>/' . "\r"<CR>
@@ -57,10 +57,21 @@ xnoremap <script> <buffer> <silent> []
        \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', 'b', 'x')<CR>
 
 " }}}
-" Proper nest jumping {{{
+" Nest jumping {{{
 
 nnoremap <script> <buffer> <silent> [{ :call rpgle#movement#NextNest('b')<CR>
 nnoremap <script> <buffer> <silent> ]} :call rpgle#movement#NextNest('')<CR>
+
+" }}}
+" Operator Pending brackets {{{
+
+onoremap a} :<C-U>call rpgle#movement#Operator('a')<CR>
+onoremap a{ :<C-U>call rpgle#movement#Operator('a')<CR>
+onoremap aB :<C-U>call rpgle#movement#Operator('a')<CR>
+
+onoremap i} :<C-U>call rpgle#movement#Operator('i')<CR>
+onoremap i{ :<C-U>call rpgle#movement#Operator('i')<CR>
+onoremap iB :<C-U>call rpgle#movement#Operator('i')<CR>
 
 " }}}
 " Set completion with CTRL-X CTRL-O {{{
