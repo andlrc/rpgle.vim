@@ -14,6 +14,10 @@ VARIABLES					*ft-rpgle-variables*
 `g:rpgle_indentStart`	Set the number of leading spaces that should be used
 			when no previous line is to be accounted for.
 
+						*g:rpgle_skipMapping*
+`g:rpgle_skipMapping`	Set to |v:true| to disable mappings defined in
+			|ft-rpgle-movements|, |ft-rpgle-operator-pending|
+
 FILETYPE DETECT					*ft-rpgle-detect*
 
 File ending with ".rpgle" and ".rpgleinc" are detected as ILE RPG files.
@@ -81,6 +85,19 @@ gd			Goto local Declaration. When the cursor is on a local
 ]}			Jump forward to the block closer at the end of the
 			current code block, i.e. pressing |]}| inside an
 			if-statement will jump to the endif keyword.
+
+OPERATOR PENDING				*ft-rpgle-operator-pending*
+
+Enable by adding the following to your |vimrc| >
+	:filetype on
+<
+a}						*ft-rpgle-a}* *ft-rpgle-a{*
+a{						*ft-rpgle-aB*
+aB			See |aB|
+
+i}						*ft-rpgle-i}* *ft-rpgle-i{*
+i{						*ft-rpgle-iB*
+iB			See |iB|
 
 INCLUDE						*ft-rpgle-include*
 

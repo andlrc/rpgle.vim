@@ -1,8 +1,8 @@
 " Vim ftplugin file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 04, 2018
-" Version:              18
+" Last Change:          Dec 10, 2018
+" Version:              19
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:did_ftplugin')
@@ -37,41 +37,66 @@ setlocal keywordprg=man\ 3p
 
 " section jumping {{{
 
-nnoremap <script> <buffer> <silent> gd
+nnoremap <script> <buffer> <silent> <Plug>RpgleGoToDeclaration
        \ :<C-U>execute 'keepj normal [[/\<<C-r><C-w>\>/' . "\r"<CR>
-nnoremap <script> <buffer> <silent> ]]
+nnoremap <script> <buffer> <silent> <Plug>RpgleNextProcStart
        \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', '', '')<CR>
-nnoremap <script> <buffer> <silent> ][
+nnoremap <script> <buffer> <silent> <Plug>RpgleNextProcEnd
        \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', '', '')<CR>
-nnoremap <script> <buffer> <silent> [[
+nnoremap <script> <buffer> <silent> <Plug>RpglePrevProcStart
        \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', 'b', '')<CR>
-nnoremap <script> <buffer> <silent> []
+nnoremap <script> <buffer> <silent> <Plug>RpglePrevProcEnd
        \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', 'b', '')<CR>
-xnoremap <script> <buffer> <silent> ]]
+xnoremap <script> <buffer> <silent> <Plug>XRpgleNextProcStart
        \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', '', 'x')<CR>
-xnoremap <script> <buffer> <silent> ][
+xnoremap <script> <buffer> <silent> <Plug>XRpgleNextProcEnd
        \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', '', 'x')<CR>
-xnoremap <script> <buffer> <silent> [[
+xnoremap <script> <buffer> <silent> <Plug>XRpglePrevProcStart
        \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', 'b', 'x')<CR>
-xnoremap <script> <buffer> <silent> []
+xnoremap <script> <buffer> <silent> <Plug>XRpglePrevProcEnd
        \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', 'b', 'x')<CR>
+
+if get(g:, 'rpgle_skipMapping', 0) == v:false
+  nmap <buffer> <silent> gd <Plug>RpgleGoToDeclaration
+  nmap <buffer> <silent> ]] <Plug>RpgleNextProcStart
+  nmap <buffer> <silent> ][ <Plug>RpgleNextProcEnd
+  nmap <buffer> <silent> [[ <Plug>RpglePrevProcStart
+  nmap <buffer> <silent> [] <Plug>RpglePrevProcEnd
+  xmap <buffer> <silent> ]] <Plug>XRpgleNextProcStart
+  xmap <buffer> <silent> ][ <Plug>XRpgleNextProcEnd
+  xmap <buffer> <silent> [[ <Plug>XRpglePrevProcStart
+  xmap <buffer> <silent> [] <Plug>XRpglePrevProcEnd
+endif
 
 " }}}
 " Nest jumping {{{
 
-nnoremap <script> <buffer> <silent> [{ :call rpgle#movement#NextNest('b')<CR>
-nnoremap <script> <buffer> <silent> ]} :call rpgle#movement#NextNest('')<CR>
+nnoremap <script> <buffer> <silent> <Plug>RpglePrevBlock
+       \ :call rpgle#movement#NextNest('b')<CR>
+nnoremap <script> <buffer> <silent> <Plug>RpgleNextBlock
+       \ :call rpgle#movement#NextNest('')<CR>
+
+if get(g:, 'rpgle_skipMapping', 0) == v:false
+  nmap <buffer> <silent> [{ <Plug>RpglePrevBlock
+  nmap <buffer> <silent> ]} <Plug>RpgleNextBlock
+endif
 
 " }}}
 " Operator Pending brackets {{{
 
-onoremap a} :<C-U>call rpgle#movement#Operator('a')<CR>
-onoremap a{ :<C-U>call rpgle#movement#Operator('a')<CR>
-onoremap aB :<C-U>call rpgle#movement#Operator('a')<CR>
+onoremap <script> <buffer> <silent> <Plug>RpgleAroundBlock
+       \ :<C-U>call rpgle#movement#Operator('a')<CR>
+onoremap <script> <buffer> <silent> <Plug>RpgleInnerBlock
+       \ :<C-U>call rpgle#movement#Operator('i')<CR>
 
-onoremap i} :<C-U>call rpgle#movement#Operator('i')<CR>
-onoremap i{ :<C-U>call rpgle#movement#Operator('i')<CR>
-onoremap iB :<C-U>call rpgle#movement#Operator('i')<CR>
+if get(g:, 'rpgle_skipMapping', 0) == v:false
+  omap <buffer> a} <Plug>RpgleAroundBlock
+  omap <buffer> a{ <Plug>RpgleAroundBlock
+  omap <buffer> aB <Plug>RpgleAroundBlock
+  omap <buffer> i} <Plug>RpgleInnerBlock
+  omap <buffer> i{ <Plug>RpgleInnerBlock
+  omap <buffer> iB <Plug>RpgleInnerBlock
+endif
 
 " }}}
 " Set completion with CTRL-X CTRL-O {{{
