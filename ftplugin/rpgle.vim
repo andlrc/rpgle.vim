@@ -2,7 +2,7 @@
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
 " Last Change:          Dec 10, 2018
-" Version:              19
+" Version:              20
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:did_ftplugin')
@@ -31,9 +31,6 @@ let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
                   \ '\<dcl-pi\>:\<end-pi\>,' .
                   \ '\<dcl-pr\>:\<end-pr\>,' .
                   \ '\<monitor\>:\<on-error\>:\<endmon\>'
-
-" POSIX man pages is nice to look through when ``bnddir('Q2ILE')'' is used.
-setlocal keywordprg=man\ 3p
 
 " section jumping {{{
 
