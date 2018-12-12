@@ -1,8 +1,8 @@
 " Vim ftplugin file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 10, 2018
-" Version:              20
+" Last Change:          Dec 12, 2018
+" Version:              21
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:did_ftplugin')
@@ -22,15 +22,16 @@ setlocal comments=s1:/*,mb:*,ex:*/,://,:*
 " ILE RPG is in case-sensitive
 setlocal tagcase=ignore nosmartcase ignorecase
 
-let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>,' .
-                  \ '\<if\>:\<elseif\>:\<else\>:\<endif\>,' .
-                  \ '\<do[uw]\>:\<iter\>:\<leave\>:\<enddo\>,' .
-                  \ '\<for\>:\<iter\>:\<leave\>:\<endfor\>,' .
-                  \ '\<begsr\>:\<endsr\>,' .
-                  \ '\<dcl-proc\>:\<return\>:\<end-proc\>,' .
-                  \ '\<dcl-pi\>:\<end-pi\>,' .
-                  \ '\<dcl-pr\>:\<end-pr\>,' .
-                  \ '\<monitor\>:\<on-error\>:\<endmon\>'
+let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>'
+                \ . ',\<if\>:\<elseif\>:\<else\>:\<endif\>'
+                \ . ',\<do[uw]\>:\<iter\>:\<leave\>:\<enddo\>'
+                \ . ',\<for\>:\<iter\>:\<leave\>:\<endfor\>'
+                \ . ',\<begsr\>:\<endsr\>'
+                \ . ',\<dcl-proc\>:\<return\>:\<end-proc\>'
+                \ . ',\<dcl-pi\>:\<end-pi\>'
+                \ . ',\<dcl-pr\>:\<end-pr\>'
+                \ . ',\<monitor\>:\<on-error\>:\<endmon\>'
+                \ . ',\<dcl-ds\>:\<\%(likeds\|extname\|end-ds\)\>'
 
 " section jumping {{{
 
