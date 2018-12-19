@@ -1,8 +1,8 @@
 " Vim ftplugin file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 12, 2018
-" Version:              21
+" Last Change:          Dec 19, 2018
+" Version:              22
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:did_ftplugin')
@@ -60,6 +60,7 @@ if get(g:, 'rpgle_skipMapping', 0) == v:false
   nmap <buffer> <silent> ][ <Plug>RpgleNextProcEnd
   nmap <buffer> <silent> [[ <Plug>RpglePrevProcStart
   nmap <buffer> <silent> [] <Plug>RpglePrevProcEnd
+
   xmap <buffer> <silent> ]] <Plug>XRpgleNextProcStart
   xmap <buffer> <silent> ][ <Plug>XRpgleNextProcEnd
   xmap <buffer> <silent> [[ <Plug>XRpglePrevProcStart
@@ -75,16 +76,16 @@ nnoremap <script> <buffer> <silent> <Plug>RpgleNextBlock
        \ :call rpgle#movement#NextNest('')<CR>
 
 if get(g:, 'rpgle_skipMapping', 0) == v:false
-  nmap <buffer> <silent> [{ <Plug>RpglePrevBlock
-  nmap <buffer> <silent> ]} <Plug>RpgleNextBlock
+  nmap <buffer> [{ <Plug>RpglePrevBlock
+  nmap <buffer> ]} <Plug>RpgleNextBlock
 endif
 
 " }}}
 " Operator Pending brackets {{{
 
-onoremap <script> <buffer> <silent> <Plug>RpgleAroundBlock
+noremap <script> <buffer> <silent> <Plug>RpgleAroundBlock
        \ :<C-U>call rpgle#movement#Operator('a')<CR>
-onoremap <script> <buffer> <silent> <Plug>RpgleInnerBlock
+noremap <script> <buffer> <silent> <Plug>RpgleInnerBlock
        \ :<C-U>call rpgle#movement#Operator('i')<CR>
 
 if get(g:, 'rpgle_skipMapping', 0) == v:false
@@ -94,6 +95,13 @@ if get(g:, 'rpgle_skipMapping', 0) == v:false
   omap <buffer> i} <Plug>RpgleInnerBlock
   omap <buffer> i{ <Plug>RpgleInnerBlock
   omap <buffer> iB <Plug>RpgleInnerBlock
+
+  xmap <buffer> a} <Plug>RpgleAroundBlock
+  xmap <buffer> a{ <Plug>RpgleAroundBlock
+  xmap <buffer> aB <Plug>RpgleAroundBlock
+  xmap <buffer> i} <Plug>RpgleInnerBlock
+  xmap <buffer> i{ <Plug>RpgleInnerBlock
+  xmap <buffer> iB <Plug>RpgleInnerBlock
 endif
 
 " }}}

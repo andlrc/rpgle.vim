@@ -95,7 +95,4 @@ function! rpgle#movement#Operator(ai) abort
   if a:ai == 'i'
     normal! koj
   endif
-
-
-  echo closest
 endfunction
