@@ -28,4 +28,5 @@ ft-rpgle-syntax	rpgle.txt	/*ft-rpgle-syntax*
 ft-rpgle-variables	rpgle.txt	/*ft-rpgle-variables*
 g:rpgle_indentStart	rpgle.txt	/*g:rpgle_indentStart*
 g:rpgle_skipMapping	rpgle.txt	/*g:rpgle_skipMapping*
+g:rpgle_spellString	rpgle.txt	/*g:rpgle_spellString*
 rpgle.txt	rpgle.txt	/*rpgle.txt*

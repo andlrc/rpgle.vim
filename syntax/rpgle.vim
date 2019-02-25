@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 04, 2018
-" Version:              75
+" Last Change:          Feb 25, 2019
+" Version:              76
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -79,7 +79,9 @@ syntax region  rpgleString      start=/[xz]\='/
                               \ contains=@rpgleStringProps
 
 syntax cluster rpgleString      contains=rpgleString
-syntax cluster rpgleStringProps contains=@Spell
+if get(g:, 'rpgle_spellString', 1)
+  syntax cluster rpgleStringProps contains=@Spell
+endif
 
 " Constants
 syntax keyword rpgleConstant *ALL *BLANK *BLANKS *ENTRY *HIVAL *LOVAL *NULL

@@ -18,6 +18,10 @@ VARIABLES					*ft-rpgle-variables*
 `g:rpgle_skipMapping`	Set to |v:true| to disable mappings defined in
 			|ft-rpgle-movements|, |ft-rpgle-operator-pending|
 
+						*g:rpgle_spellString*
+`g:rpgle_spellString`	Set to |v:false| to disable spell checking in string
+			constants.
+
 FILETYPE DETECT					*ft-rpgle-detect*
 
 File ending with ".rpgle" and ".rpgleinc" are detected as ILE RPG files.
