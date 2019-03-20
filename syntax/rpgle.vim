@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Feb 25, 2019
-" Version:              76
+" Last Change:          Mar 20, 2019
+" Version:              77
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -160,7 +160,7 @@ syntax region rpgleDclParenBalance matchgroup=xxx
 syntax cluster rpgleDclProps contains=@rpgleComment,rpgleDclTypes,
                                      \rpgleDclKeywords,rpgleDclSpecialKeys,
                                      \rpgleNumber,@rpgleString,rpgleConstant,
-                                     \rpgleError,rpgleDclParenBalance
+                                     \rpgleError,rpgleDclParenBalance,rpgleBIF
 
 " }}}
 " Calculation Specs {{{
