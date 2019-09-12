@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Mar 20, 2019
-" Version:              77
+" Last Change:          Jul 24, 2019
+" Version:              78
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -231,18 +231,84 @@ syntax region rpgleSql matchgroup=rpgleKeywords
 
 " Build In Functions
 syntax match rpgleError /%\w\+/
-syntax keyword rpgleBIF %ABS %ADDR %ALLOC %BITAND %BITNOT %BITOR %BITXOR
-                      \ %CHAR %CHECK %CHECKR %DATE %DAYS %DEC %DECH %DECPOS
-                      \ %DIFF %DIV %EDITC %EDITFLT %EDITW %ELEM %EOF %EQUAL
-                      \ %ERROR %FIELDS %FLOAT %FOUND %GRAPH %HANDLER %HOURS
-                      \ %INT %INTH %KDS %LEN %LOOKUP %LOOKUPGE %LOOKUPGT
-                      \ %LOOKUPLE %LOOKUPLT %MAX %MIN %MINUTES %MONTHS
-                      \ %MSECONDS %NULLIND %OCCUR %OPEN %PADDR %PARMNUM
-                      \ %PARMS %REALLOC %REM %REPLACE %SCAN %SCANR %SCANRPL
-                      \ %SECONDS %SHTDN %SIZE %SQRT %STATUS %STR %SUBARR
-                      \ %SUBDT %SUBST %THIS %TIME %TIMESTAMP %TLOOKUP
-                      \ %TLOOKUPGE %TLOOKUPGT %TLOOKUPLE %TLOOKUPLT %TRIM
-                      \ %TRIML %TRIMR %UCS2 %UNS %UNSH %XFOOT %XLATE %XML
+
+syntax keyword rpgleBIF %ABS
+                      \ %ADDR
+                      \ %ALLOC
+                      \ %BITAND
+                      \ %BITNOT
+                      \ %BITOR
+                      \ %BITXOR
+                      \ %CHAR
+                      \ %CHECK
+                      \ %CHECKR
+                      \ %DATA
+                      \ %DATE
+                      \ %DAYS
+                      \ %DEC
+                      \ %DECH
+                      \ %DECPOS
+                      \ %DIFF
+                      \ %DIV
+                      \ %EDITC
+                      \ %EDITFLT
+                      \ %EDITW
+                      \ %ELEM
+                      \ %EOF
+                      \ %EQUAL
+                      \ %ERROR
+                      \ %FIELDS
+                      \ %FLOAT
+                      \ %FOUND
+                      \ %GRAPH
+                      \ %HANDLER
+                      \ %HOURS
+                      \ %INT
+                      \ %INTH
+                      \ %KDS
+                      \ %LEN
+                      \ %LOOKUPxx
+                      \ %MAX
+                      \ %MIN
+                      \ %MINUTES
+                      \ %MONTHS
+                      \ %MSECONDS
+                      \ %NULLIND
+                      \ %OCCUR
+                      \ %OPEN
+                      \ %PADDR
+                      \ %PARMS
+                      \ %PARMNUM
+                      \ %PARSER
+                      \ %PROC
+                      \ %REALLOC
+                      \ %REM
+                      \ %REPLACE
+                      \ %SCAN
+                      \ %SCANR
+                      \ %SCANRPL
+                      \ %SECONDS
+                      \ %SHTDN
+                      \ %SIZE
+                      \ %SQRT
+                      \ %STATUS
+                      \ %STR
+                      \ %SUBARR
+                      \ %SUBDT
+                      \ %SUBST
+                      \ %THIS
+                      \ %TIME
+                      \ %TIMESTAMP
+                      \ %TLOOKUPxx
+                      \ %TRIM
+                      \ %TRIML
+                      \ %TRIMR
+                      \ %UCS2
+                      \ %UNS
+                      \ %UNSH
+                      \ %XFOOT
+                      \ %XLATE
+                      \ %XML
                       \ %YEARS
 
 " Procedures, the match group is to avoid infinite recursion as a
