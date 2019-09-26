@@ -1,3 +1,12 @@
+a = 'hello
+x  '' world
+world
+hello';
+
+a = 'hello -
+     hello -
+world';
+
 dcl-pi;
 end-pi;
   end-pi;
