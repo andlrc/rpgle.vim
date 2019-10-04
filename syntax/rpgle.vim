@@ -36,6 +36,9 @@ syntax keyword rpglePreProc **FREE
 syntax keyword rpglePreProc /COPY /DEFINE /EJECT /ELSE /ELSEIF /END-FREE
                           \ /ENDIF /EOF /FREE /IF /INCLUDE /RESTORE /SET
                           \ /SPACE /TITLE /UNDEFINE /SET
+                          \ nextgroup=rpglePreProcValue
+
+syntax match rpglePreProcValue /.*/ contained display
 
 " }}}
 " Header Specs {{{
