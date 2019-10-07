@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Sep 26, 2019
-" Version:              79
+" Last Change:          Oct 07, 2019
+" Version:              80
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -108,14 +108,14 @@ syntax match   rpgleOperator display /[*=><+-]/
 syntax region  rpgleDclSpec display matchgroup=rpgleDclKeywords
                           \ start=/\<DCL-[SC]\>/
                           \ end=/$/
-                          \ contains=@rpgleDclProps
+                          \ contains=rpgleDclProp
 
 " Procedure Interface
 syntax keyword rpgleError END-PI
 syntax region  rpgleDclSpec   matchgroup=rpgleDclKeywords
                             \ start=/\<DCL-PI\>/
                             \ end=/\<END-PI\>/
-                            \ contains=@rpgleDclProps,rpgleDclPiName
+                            \ contains=rpgleDclProp,rpgleDclPiName
                             \ fold
 
 " Special PI Name
@@ -126,14 +126,25 @@ syntax keyword rpgleError END-PR
 syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
                           \ start=/\<DCL-PR\>/
                           \ end=/\<END-PR\>/
-                          \ contains=@rpgleDclProps
+                          \ contains=rpgleDclProp
 
 " Data Structure
 syntax keyword rpgleError LIKEDS LIKEREC END-DS
+
 syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
                           \ start=/\<DCL-DS\>/
-                          \ end=/\<\%(END-DS\|\%(DCL-DS.*\)\@<=LIKEDS\|\%(DCL-DS.*\)\@<=LIKEREC\)\>/
-                          \ contains=@rpgleDclProps
+                          \ end=/\<END-DS\>/
+                          \ contains=rpgleDclProp
+
+syntax region  rpgleDclSpec display matchgroup=rpgleDclKeywords
+                          \ start=/\<DCL-DS\>\ze.*LIKEDS/
+                          \ end=/$/
+                          \ contains=rpgleDclProp
+
+syntax region  rpgleDclSpec display matchgroup=rpgleDclKeywords
+                          \ start=/\<DCL-DS\>\ze.*LIKEREC/
+                          \ end=/$/
+                          \ contains=rpgleDclProp
 
 " Declaration Types
 syntax keyword rpgleDclTypes contained
@@ -159,12 +170,18 @@ syntax keyword rpgleDclSpecialKeys contained
 syntax region rpgleDclParenBalance matchgroup=xxx
                                  \ start=/(/
                                  \ end=/)/
-                                 \ contains=@rpgleDclProps
+                                 \ contains=@rpgleComment,rpgleDclSpecialKeys,
+                                           \rpgleNumber,@rpgleString,
+                                           \rpgleConstant,rpgleError,
+                                           \rpgleDclParenBalance,rpgleBIF
 
-syntax cluster rpgleDclProps contains=@rpgleComment,rpgleDclTypes,
-                                     \rpgleDclKeywords,rpgleDclSpecialKeys,
-                                     \rpgleNumber,@rpgleString,rpgleConstant,
-                                     \rpgleError,rpgleDclParenBalance,rpgleBIF
+
+syntax match rpgleDclProp     /\s*/  contained nextgroup=rpgleDclPropName
+syntax match rpgleDclPropName /\k\+/ contained nextgroup=rpgleDclPropTail
+syntax match rpgleDclPropTail /.\+/  contained
+                                   \ contains=@rpgleComment,rpgleDclTypes,
+                                             \rpgleDclKeywords,rpgleError,
+                                             \rpgleDclParenBalance
 
 " }}}
 " Calculation Specs {{{
