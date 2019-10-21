@@ -136,12 +136,10 @@ syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
                           \ end=/\<END-DS\>/
                           \ contains=rpgleDclProp
 
-syntax region  rpgleDclSpec display matchgroup=rpgleDclKeywords
+" These this syntax regions cannot be "display", even though it is on one line,
+" as the rule above could be matched wrongly then.
+syntax region  rpgleDclSpec matchgroup=rpgleDclKeywords
                           \ start=/\<DCL-DS\>\ze.*LIKEDS/
-                          \ end=/$/
-                          \ contains=rpgleDclProp
-
-syntax region  rpgleDclSpec display matchgroup=rpgleDclKeywords
                           \ start=/\<DCL-DS\>\ze.*LIKEREC/
                           \ end=/$/
                           \ contains=rpgleDclProp
