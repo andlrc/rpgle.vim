@@ -3,6 +3,14 @@ x  '' world
 world
 hello';
 
+'error
+here';
+
+but not here, oh you didn't do it!
+
+a = 'and error here
+'
+
 a = 'hello -
      hello -
 world';

@@ -1,8 +1,8 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Oct 07, 2019
-" Version:              80
+" Last Change:          Oct 21, 2019
+" Version:              81
 " URL:                  https://github.com/andlrc/rpgle.vim
 
 if exists('b:current_syntax')
@@ -77,14 +77,12 @@ syntax keyword rpgleCtlKeywords contained
 syntax match   rpgleNumber display
                          \ /\<\%(\d\+\.\d\+\|\.\d\+\|\d\+\.\|\d\+\)\>/
 
-syntax match   rpgleError  /'\_.\{-}'/
-syntax match   rpgleString /'\([+-]\n\|''\|[^']\)*'/
+syntax match   rpgleError  /\%(^\|\W\)\@1<='\_.\{-}'\W\@=/
+syntax match   rpgleString /'\([+-]\n\|''\|[^']\)*'/ contains=rpgleStringProps
 syntax cluster rpgleString contains=rpgleString
 
 if get(g:, 'rpgle_spellString', 1)
-  syntax cluster rpgleStringProps contains=@Spell,rpgleStringTermError
-else
-  syntax cluster rpgleStringProps contains=rpgleStringTermError
+  syntax cluster rpgleStringProps contains=@Spell
 endif
 
 " Constants
