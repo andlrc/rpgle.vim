@@ -1,9 +1,8 @@
 " Vim indent file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Nov 10, 2017
-" Version:              18
-" URL:                  https://github.com/andlrc/rpgle.vim
+" Last Change:          Mar 14, 2023
+" Version:              1
 
 if exists('b:did_indent')
   finish
@@ -40,8 +39,7 @@ function! GetRpgleIndent()
   let pnum = prevnonblank(cnum - 1)
 
   " There is no lines to determinate indent, so use what is set in
-  " ``g:rpgle_indentStart'', check if ``**FREE'' is present or default to
-  " ``7''.
+  " "g:rpgle_indentStart", check if "**FREE" is present or default to "7".
   if pnum == 0
     if exists('g:rpgle_indentStart')
       return g:rpgle_indentStart
@@ -57,7 +55,7 @@ function! GetRpgleIndent()
   let pline = getline(pnum)
   let cline = getline(cnum)
 
-  " Continues comments should indent the ``*'' one space
+  " Continues comments should indent the "*" one space
   if cline =~# '^\s*\*' && pline =~# '^\s*/\*' && pline !~# '\*/'
     return pind + 1
   endif
@@ -67,24 +65,24 @@ function! GetRpgleIndent()
     return pind - 1
   endif
 
-  " A ``when'' which follows a ``select'' should be indented:
-  " All other ``when'' should be de indented
+  " A "when" which follows a "select" should be indented:
+  " All other "when" should be dedented
   if cline =~? '^\s*\<when\>'
     return pline =~? '^\s*\<select\>;' ?
       \ pind + shiftwidth() : pind - shiftwidth()
   endif
 
-  " ``dcl-pi'', ``dcl-pr'', and ``dcl-ds'' with no parameters should not
-  " indent the ``end-xx'':
+  " "dcl-pi", "dcl-pr", and "dcl-ds" with no parameters should not
+  " indent the "end-xx":
   if pline =~? '^\s*\<dcl-pi\>' && cline =~? '^\s*\<end-pi\>'
   \ || pline =~? '^\s*\<dcl-pr\>' && cline =~? '^\s*\<end-pr\>'
   \ || pline =~? '^\s*\<dcl-ds\>' && cline =~? '^\s*\<end-ds\>'
     return pind
   endif
 
-  " ``dcl-ds'' with ``likeds'' on the same line doesn't take a definition and
-  " should not do any indent:
-  if pline =~? '^\s*\<dcl-ds\>' && pline =~? '\<likeds\>'
+  " "dcl-ds" with "likeds" or "likerec" on the same line doesn't take a
+  " definition and should not do any indent:
+  if pline =~? '^\s*\<dcl-ds\>' && pline =~? '\<likeds\>\|\<likerec\>'
     return pind
   endif
 
@@ -100,7 +98,7 @@ function! GetRpgleIndent()
     return pind - shiftwidth()
   endif
 
-  " ``endsl'' have to de indent two levels:
+  " "endsl" have to dedent two levels, to handle the extra indent from "when"
   if cline =~? '^\s*\<endsl\>'
     return pind - shiftwidth() * 2
   endif

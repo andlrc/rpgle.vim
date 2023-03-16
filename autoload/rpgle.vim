@@ -1,12 +1,10 @@
-" Vim autoload file
+" Vim rpgle autoload file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 04, 2018
-" Version:              10
-" URL:                  https://github.com/andlrc/rpgle.vim
+" Last Change:          Mar 14, 2023
+" Version:              1
 
-function! rpgle#movement#NextSection(motion, flags, mode) range abort
-
+function rpgle#NextSection(motion, flags, mode) range abort
   let cnt = v:count1
   let old_pos = line('.')
 
@@ -14,9 +12,8 @@ function! rpgle#movement#NextSection(motion, flags, mode) range abort
     normal! gv
   endif
 
-  normal! 0
+  normal! m`0
 
-  mark '
   while cnt > 0
     call search(a:motion, a:flags . 'W')
     if old_pos == line('.')
@@ -29,16 +26,14 @@ function! rpgle#movement#NextSection(motion, flags, mode) range abort
   normal! ^
 endfunction
 
-function! rpgle#movement#NextNest(flags) abort
+function rpgle#NextNest(flags) abort
   let flags = a:flags
-  let fn    = a:flags ==# 'b' ? 'max' : 'min'
+  let fn = a:flags ==# 'b' ? 'max' : 'min'
 
-  " We can get the list from ``b:match_words'' and just use first and last of
-  " each group
-  let poss = filter(map(split(b:match_words, ','),
-                      \ { key, val ->
-                        \ s:nextNestSearch(split(val, ':'), flags) }),
-                  \ { key, val -> val > 0 })
+  " We can get the list from "b:match_words" and just use first and last of each group
+  let poss = split(b:match_words, ',')
+           \ ->map({ key, val -> s:nextNestSearch(split(val, ':'), flags) })
+           \ ->filter({ key, val -> val > 0 })
 
   let new_pos = call(fn, [poss])
 
@@ -47,7 +42,7 @@ function! rpgle#movement#NextNest(flags) abort
   endif
 endfunction
 
-function! s:nextNestSearch(kw, flags) abort
+function s:nextNestSearch(kw, flags) abort
   if a:kw[0] =~? 'if'
     let middle = '\<\(else\|elseif\)\>'
   elseif a:kw[0] =~? 'select'
@@ -59,21 +54,20 @@ function! s:nextNestSearch(kw, flags) abort
   return s:findpair(a:kw[0], middle, a:kw[-1], a:flags)
 endfunction
 
-function! s:findpair(start, middle, end, flags) abort
+function s:findpair(start, middle, end, flags) abort
   " Find a pair which isn't inside a string nor comment
   return searchpair(a:start, a:middle, a:end, a:flags . 'nW',
                   \ 'synIDattr(synID(line("."), col("."), 1), "name") =~? "string\\|comment"')
 endfunction
 
-function! rpgle#movement#Operator(ai) abort
-  let pairs = map(split(b:match_words, ','), { key, val ->
-            \ [split(val, ':')[0], split(val, ':')[-1]] })
+function rpgle#Operator(ai) abort
+  let pairs = split(b:match_words, ',')
+            \ ->map({ key, val -> [split(val, ':')[0], split(val, ':')[-1]] })
 
   " Find a pair which isn't inside a string nor comment
-
-  let poss = filter(map(pairs,
-                      \ { key, val -> {"pair": val, "pos": s:findpair(val[0], '', val[1], 'b')} }),
-                  \ { key, val -> val.pos > 0 })
+  let poss = pairs
+           \ ->map({ key, val -> {"pair": val, "pos": s:findpair(val[0], '', val[1], 'b')} })
+           \ ->filter({ key, val -> val.pos > 0 })
 
   let closest = { "index": 0, "pos": -1 }
   let index = 0

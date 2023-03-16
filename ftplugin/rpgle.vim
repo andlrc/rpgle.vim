@@ -1,9 +1,8 @@
 " Vim ftplugin file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Dec 19, 2018
-" Version:              22
-" URL:                  https://github.com/andlrc/rpgle.vim
+" Last Change:          Mar 14, 2023
+" Version:              1
 
 if exists('b:did_ftplugin')
   finish
@@ -15,7 +14,6 @@ setlocal iskeyword+=-,%
 
 setlocal suffixesadd=.rpgle,.rpgleinc
 setlocal include=^\\s*/\\%(include\\\|copy\\)
-setlocal includeexpr=substitute(v:fname,',','.file/','')
 
 setlocal comments=s1:/*,mb:*,ex:*/,://,:*
 
@@ -33,28 +31,45 @@ let b:match_words = '\<select\>:\<when\>:\<other\>:\<endsl\>'
                 \ . ',\<monitor\>:\<on-error\>:\<endmon\>'
                 \ . ',\<dcl-ds\>:\<\%(likeds\|extname\|end-ds\)\>'
 
-" section jumping {{{
+function s:GoToDecl(curword) abort
+  keepj call rpgle#NextSection('^\s*dcl-proc', 'b', '')
+  call setreg('/', '\<' .. a:curword .. '\>', 'c')
+  keepj norm! n
+endfunction
 
+" section jumping
 nnoremap <script> <buffer> <silent> <Plug>RpgleGoToDeclaration
-       \ :<C-U>execute 'keepj normal [[/\<<C-r><C-w>\>/' . "\r"<CR>
+       \ :<C-U>call <Sid>GoToDecl(expand('<cword>'))<Cr>
 nnoremap <script> <buffer> <silent> <Plug>RpgleNextProcStart
-       \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', '', '')<CR>
+       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', '', '')<CR>
 nnoremap <script> <buffer> <silent> <Plug>RpgleNextProcEnd
-       \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', '', '')<CR>
+       \ :<C-U>call rpgle#NextSection('^\s*end-proc', '', '')<CR>
 nnoremap <script> <buffer> <silent> <Plug>RpglePrevProcStart
-       \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', 'b', '')<CR>
+       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', 'b', '')<CR>
 nnoremap <script> <buffer> <silent> <Plug>RpglePrevProcEnd
-       \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', 'b', '')<CR>
+       \ :<C-U>call rpgle#NextSection('^\s*end-proc', 'b', '')<CR>
 xnoremap <script> <buffer> <silent> <Plug>XRpgleNextProcStart
-       \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', '', 'x')<CR>
+       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', '', 'x')<CR>
 xnoremap <script> <buffer> <silent> <Plug>XRpgleNextProcEnd
-       \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', '', 'x')<CR>
+       \ :<C-U>call rpgle#NextSection('^\s*end-proc', '', 'x')<CR>
 xnoremap <script> <buffer> <silent> <Plug>XRpglePrevProcStart
-       \ :<C-U>call rpgle#movement#NextSection('^\s*dcl-proc', 'b', 'x')<CR>
+       \ :<C-U>call rpgle#NextSection('^\s*dcl-proc', 'b', 'x')<CR>
 xnoremap <script> <buffer> <silent> <Plug>XRpglePrevProcEnd
-       \ :<C-U>call rpgle#movement#NextSection('^\s*end-proc', 'b', 'x')<CR>
+       \ :<C-U>call rpgle#NextSection('^\s*end-proc', 'b', 'x')<CR>
 
-if get(g:, 'rpgle_skipMapping', 0) == v:false
+" Nest jumping
+nnoremap <script> <buffer> <silent> <Plug>RpglePrevBlock
+       \ :call rpgle#NextNest('b')<CR>
+nnoremap <script> <buffer> <silent> <Plug>RpgleNextBlock
+       \ :call rpgle#NextNest('')<CR>
+
+" Operator Pending brackets
+noremap <script> <buffer> <silent> <Plug>RpgleAroundBlock
+       \ :<C-U>call rpgle#Operator('a')<CR>
+noremap <script> <buffer> <silent> <Plug>RpgleInnerBlock
+       \ :<C-U>call rpgle#Operator('i')<CR>
+
+if !exists("g:no_plugin_maps") && !exists("g:no_rpgle_maps")
   nmap <buffer> <silent> gd <Plug>RpgleGoToDeclaration
   nmap <buffer> <silent> ]] <Plug>RpgleNextProcStart
   nmap <buffer> <silent> ][ <Plug>RpgleNextProcEnd
@@ -65,30 +80,10 @@ if get(g:, 'rpgle_skipMapping', 0) == v:false
   xmap <buffer> <silent> ][ <Plug>XRpgleNextProcEnd
   xmap <buffer> <silent> [[ <Plug>XRpglePrevProcStart
   xmap <buffer> <silent> [] <Plug>XRpglePrevProcEnd
-endif
 
-" }}}
-" Nest jumping {{{
-
-nnoremap <script> <buffer> <silent> <Plug>RpglePrevBlock
-       \ :call rpgle#movement#NextNest('b')<CR>
-nnoremap <script> <buffer> <silent> <Plug>RpgleNextBlock
-       \ :call rpgle#movement#NextNest('')<CR>
-
-if get(g:, 'rpgle_skipMapping', 0) == v:false
   nmap <buffer> [{ <Plug>RpglePrevBlock
   nmap <buffer> ]} <Plug>RpgleNextBlock
-endif
 
-" }}}
-" Operator Pending brackets {{{
-
-noremap <script> <buffer> <silent> <Plug>RpgleAroundBlock
-       \ :<C-U>call rpgle#movement#Operator('a')<CR>
-noremap <script> <buffer> <silent> <Plug>RpgleInnerBlock
-       \ :<C-U>call rpgle#movement#Operator('i')<CR>
-
-if get(g:, 'rpgle_skipMapping', 0) == v:false
   omap <buffer> a} <Plug>RpgleAroundBlock
   omap <buffer> a{ <Plug>RpgleAroundBlock
   omap <buffer> aB <Plug>RpgleAroundBlock
@@ -104,10 +99,34 @@ if get(g:, 'rpgle_skipMapping', 0) == v:false
   xmap <buffer> iB <Plug>RpgleInnerBlock
 endif
 
-" }}}
-" Set completion with CTRL-X CTRL-O {{{
-
-setlocal omnifunc=rpgle#omni#Complete
-
-" }}}
-" vim: fdm=marker
+let b:undo_ftplugin = 'setlocal iskeyword<'
+  \ . '|setlocal suffixesadd<'
+  \ . '|setlocal include<'
+  \ . '|setlocal comments<'
+  \ . '|setlocal tagcase<'
+  \ . '|setlocal nosmartcase<'
+  \ . '|setlocal ignorecase<'
+  \ . '|silent! nunmap <buffer> gd'
+  \ . '|silent! nunmap <buffer> ]]'
+  \ . '|silent! nunmap <buffer> ]['
+  \ . '|silent! nunmap <buffer> [['
+  \ . '|silent! nunmap <buffer> []'
+  \ . '|silent! xunmap <buffer> ]]'
+  \ . '|silent! xunmap <buffer> ]['
+  \ . '|silent! xunmap <buffer> [['
+  \ . '|silent! xunmap <buffer> []'
+  \ . '|silent! nunmap <buffer> [{'
+  \ . '|silent! nunmap <buffer> ]}'
+  \ . '|silent! ounmap <buffer> a}'
+  \ . '|silent! ounmap <buffer> a{'
+  \ . '|silent! ounmap <buffer> aB'
+  \ . '|silent! ounmap <buffer> i}'
+  \ . '|silent! ounmap <buffer> i{'
+  \ . '|silent! ounmap <buffer> iB'
+  \ . '|silent! xunmap <buffer> a}'
+  \ . '|silent! xunmap <buffer> a{'
+  \ . '|silent! xunmap <buffer> aB'
+  \ . '|silent! xunmap <buffer> i}'
+  \ . '|silent! xunmap <buffer> i{'
+  \ . '|silent! xunmap <buffer> iB'
+  \ . '|unlet! b:match_words'

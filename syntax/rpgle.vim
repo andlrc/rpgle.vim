@@ -1,9 +1,8 @@
 " Vim syntax file
 " Language:             Free-Form ILE RPG
 " Maintainer:           Andreas Louv <andreas@louv.dk>
-" Last Change:          Oct 21, 2019
-" Version:              81
-" URL:                  https://github.com/andlrc/rpgle.vim
+" Last Change:          Mar 14, 2023
+" Version:              1
 
 if exists('b:current_syntax')
   finish
@@ -11,12 +10,10 @@ endif
 
 let b:current_syntax = 'rpgle'
 
-syntax include @rpgleSql syntax/sqlanywhere.vim
-
 syntax case ignore
 syntax iskeyword @,48-57,192-255,-,%,*,/,_
 
-" Comments {{{
+" Comments
 
 syntax match   rpgleLineComment      '//.*'
                                    \ contains=@rpgleCommentProps
@@ -28,9 +25,7 @@ syntax cluster rpgleComment          contains=rpgleLineComment,rpgleBracketedCom
 syntax cluster rpgleCommentProps contains=rpgleTodo,@Spell
 syntax keyword rpgleTodo         contained TODO FIXME
 
-" }}}
-" Compiler directive {{{
-
+" Compiler directive
 syntax keyword rpglePreProc **FREE
 
 syntax keyword rpglePreProc /COPY /DEFINE /EJECT /ELSE /ELSEIF /END-FREE
@@ -40,9 +35,7 @@ syntax keyword rpglePreProc /COPY /DEFINE /EJECT /ELSE /ELSEIF /END-FREE
 
 syntax match rpglePreProcValue /.*/ contained display
 
-" }}}
-" Header Specs {{{
-
+" Header Specs
 " CTL-OPT ... ;
 syntax region rpgleCtlSpec   matchgroup=rpgleKeywords
                            \ start=/\<CTL-OPT\>/
@@ -52,7 +45,7 @@ syntax cluster rpgleCtlProps contains=rpgleCtlKeywords,rpgleNumber,
                                      \@rpgleString,rpgleConstant,rpgleError,
                                      \rpgleCtlParanBalance
 
-syntax region rpgleCtlParanBalance matchgroup=xxx
+syntax region rpgleCtlParanBalance matchgroup=rpgleParen
                                  \ start=/(/
                                  \ end=/)/
                                  \ contains=@rpgleCtlProps
@@ -69,16 +62,13 @@ syntax keyword rpgleCtlKeywords contained
                               \ SRTSEQ STGMDL TEXT THREAD  TIMFMT TRUNCNBR
                               \ USERPRF VALIDATE
 
-" }}}
-" Declaration Specs {{{
+" Declaration Specs
 
 " Numbers and Strings
-
 syntax match   rpgleNumber display
                          \ /\<\%(\d\+\.\d\+\|\.\d\+\|\d\+\.\|\d\+\)\>/
 
-syntax match   rpgleError  /\%(^\|\W\)\@1<='\_.\{-}'\W\@=/
-syntax match   rpgleString /'\([+-]\n\|''\|[^']\)*'/ contains=rpgleStringProps
+syntax match   rpgleString /'\([+-]\n\|''\|[^']\)*'/ contains=@rpgleStringProps
 syntax cluster rpgleString contains=rpgleString
 
 if get(g:, 'rpgle_spellString', 1)
@@ -163,7 +153,7 @@ syntax keyword rpgleDclKeywords contained
 syntax keyword rpgleDclSpecialKeys contained
                                \ *NOPASS *OMIT *VARSIZE *STRING *RIGHTADJ
 
-syntax region rpgleDclParenBalance matchgroup=xxx
+syntax region rpgleDclParenBalance matchgroup=rpgleParan
                                  \ start=/(/
                                  \ end=/)/
                                  \ contains=@rpgleComment,rpgleDclSpecialKeys,
@@ -179,8 +169,7 @@ syntax match rpgleDclPropTail /.\+/  contained
                                              \rpgleDclKeywords,rpgleError,
                                              \rpgleDclParenBalance
 
-" }}}
-" Calculation Specs {{{
+" Calculation Specs
 
 " IF ... ENDIF
 syntax keyword rpgleError ENDIF
@@ -244,7 +233,6 @@ syntax keyword rpgleWhenOther contained WHEN OTHER
 syntax region rpgleSql matchgroup=rpgleKeywords
                      \ start=/\<EXEC\_s\+SQL\>/
                      \ end=/;/
-                     \ contains=@rpgleSql
 
 " Build In Functions
 syntax match rpgleError /%\w\+/
@@ -328,10 +316,9 @@ syntax keyword rpgleBIF %ABS
                       \ %XML
                       \ %YEARS
 
-" Procedures, the match group is to avoid infinite recursion as a
-" ``rpgleProcCall'' can be within another ``rpgleProcCall''
+" Procedures
 syntax match rpgleError /)/
-syntax region  rpgleProcCall matchgroup=xxx
+syntax region  rpgleProcCall matchgroup=rpgleParan
                            \ start=/%\@1<!\<\w\+(/
                            \ end=/)/
                            \ contains=@rpgleProcArgs
@@ -354,8 +341,7 @@ syntax region rpgleSub matchgroup=rpgleKeywords
 " EXSR
 syntax keyword rpgleKeywords EXSR
 
-" }}}
-" Procedure Specs {{{
+" Procedure Specs
 
 syntax region  rpgleDclProcBody   matchgroup=rpgleDclProc
                                 \ start=/\<DCL-PROC\>/
@@ -371,12 +357,12 @@ syntax match   rpgleDclProcName   display contained skipwhite
                                 \ /\%(DCL-PROC\s\+\)\@10<=\w\+/
                                 \ nextgroup=rpgleDclProcExport
 
+syntax keyword rpgleError END-PROC
+
 " Export
 syntax keyword rpgleDclProcExport contained EXPORT
 
-" }}}
-
-syntax region rpgleParenBalance matchgroup=xxx
+syntax region rpgleParenBalance matchgroup=rpgleParan
                               \ start=/(/
                               \ end=/)/
                               \ contains=@rpgleNest
@@ -390,39 +376,36 @@ syntax cluster rpgleNest contains=rpgleBIF,@rpgleComment,rpgleConditional,
                                  \rpgleSql,@rpgleString,rpgleError,
                                  \rpgleParenBalance
 
-syntax sync fromstart
+syntax sync ccomment rpgleBracketedComment
 
-highlight link rpgleError            Error
-highlight link rpglePreProc          PreProc
-highlight link rpgleProc             Function
-highlight link rpgleSpecialKey       SpecialKey
-highlight link rpgleNumber           Number
-highlight link rpgleString           String
-highlight link rpgleOperator         Operator
-highlight link rpgleComment          Comment
-highlight link rpgleTodo             Todo
-highlight link rpgleConstant         Constant
-highlight link rpgleConditional      Conditional
-highlight link rpgleRepeat           Repeat
-highlight link rpgleKeywords         Keyword
-highlight link rpgleSpecial          Special
-highlight link rpgleTypes            Type
+hi def link rpgleError            Error
+hi def link rpglePreProc          PreProc
+hi def link rpgleProc             Function
+hi def link rpgleSpecialKey       SpecialKey
+hi def link rpgleNumber           Number
+hi def link rpgleString           String
+hi def link rpgleOperator         Operator
+hi def link rpgleComment          Comment
+hi def link rpgleTodo             Todo
+hi def link rpgleConstant         Constant
+hi def link rpgleConditional      Conditional
+hi def link rpgleRepeat           Repeat
+hi def link rpgleKeywords         Keyword
+hi def link rpgleSpecial          Special
+hi def link rpgleTypes            Type
 
-highlight link rpgleLineComment      rpgleComment
-highlight link rpgleBracketedComment rpgleComment
+hi def link rpgleLineComment      rpgleComment
+hi def link rpgleBracketedComment rpgleComment
 
-highlight link rpgleProcOmit         rpgleSpecialKey
-highlight link rpgleCtlKeywords      rpgleKeywords
-highlight link rpgleDclTypes         rpgleTypes
-highlight link rpgleDclKeywords      rpgleKeywords
-highlight link rpgleDclProc          rpgleKeywords
-highlight link rpgleDclProcExport    rpgleKeywords
-highlight link rpgleDclProcName      rpgleProc
-highlight link rpgleDclPiName        rpgleSpecial
-highlight link rpgleDclSpecialKeys   rpgleSpecialKey
-highlight link rpgleElse             rpgleConditional
-highlight link rpgleOnError          rpgleKeywords
-highlight link rpgleWhenOther        rpgleKeywords
-highlight link rpgleBIF              rpgleSpecial
-
-" vim: foldmethod=marker
+hi def link rpgleProcOmit         rpgleSpecialKey
+hi def link rpgleCtlKeywords      rpgleKeywords
+hi def link rpgleDclTypes         rpgleTypes
+hi def link rpgleDclKeywords      rpgleKeywords
+hi def link rpgleDclProc          rpgleKeywords
+hi def link rpgleDclProcExport    rpgleKeywords
+hi def link rpgleDclPiName        rpgleSpecial
+hi def link rpgleDclSpecialKeys   rpgleSpecialKey
+hi def link rpgleElse             rpgleConditional
+hi def link rpgleOnError          rpgleKeywords
+hi def link rpgleWhenOther        rpgleKeywords
+hi def link rpgleBIF              rpgleSpecial
